@@ -4,10 +4,11 @@ import com.github.tadukoo.view.InsetsUtil;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.shapes.Shaped;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JButton;
 import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
-import java.awt.*;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 
 /**

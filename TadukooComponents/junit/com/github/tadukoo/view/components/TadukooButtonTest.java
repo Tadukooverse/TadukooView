@@ -4,10 +4,13 @@ import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TadukooButtonTest{
 	private String text = "Some Text";
