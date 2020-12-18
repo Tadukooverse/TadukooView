@@ -1,8 +1,10 @@
 package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.view.form.AbstractForm;
+import com.github.tadukoo.view.form.Form;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 /**
  * Form Form Field is a {@link FormField} used to have a {@link AbstractForm Form} inside of a form.
@@ -24,7 +26,7 @@ public class FormFormField extends FormField<AbstractForm>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>

@@ -2,7 +2,7 @@ package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.view.components.TadukooButton;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 import java.awt.event.ActionListener;
 
 /**

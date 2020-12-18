@@ -3,8 +3,13 @@ package com.github.tadukoo.view.form;
 import com.github.tadukoo.util.pojo.MappedPojo;
 import com.github.tadukoo.view.form.field.FormField;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;

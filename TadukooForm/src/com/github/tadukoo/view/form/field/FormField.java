@@ -1,9 +1,11 @@
 package com.github.tadukoo.view.form.field;
 
-import javax.swing.*;
+import com.github.tadukoo.view.form.Form;
+
+import javax.swing.JComponent;
 
 /**
- * Form Fields are fields used on {@link com.github.tadukoo.view.form.Form Forms}.
+ * Form Fields are fields used on {@link Form Forms}.
  *
  * @author Logan Ferree (Tadukoo)
  * @version Alpha v.0.2
@@ -25,7 +27,7 @@ public abstract class FormField<Type>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>
@@ -66,7 +68,7 @@ public abstract class FormField<Type>{
 	 * @param <Type> The type of value being stored in the field (used for default value)
 	 */
 	public static abstract class FormFieldBuilder<Type>{
-		/** The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms}) */
+		/** The name of the field (used as a key in {@link Form Forms}) */
 		protected String key;
 		/** The starting value of the field */
 		protected Type defaultValue = null;
@@ -87,7 +89,7 @@ public abstract class FormField<Type>{
 		protected FormFieldBuilder(){ }
 		
 		/**
-		 * @param key The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})
+		 * @param key The name of the field (used as a key in {@link Form Forms})
 		 * @return this, to continue building
 		 */
 		public FormFieldBuilder<Type> key(String key){
@@ -159,7 +161,7 @@ public abstract class FormField<Type>{
 	
 	/** The {@link FieldType} of this field */
 	private final FieldType type;
-	/** The name of this field (used as a key in {@link com.github.tadukoo.view.form.Form Forms}) */
+	/** The name of this field (used as a key in {@link Form Forms}) */
 	private final String key;
 	/** The starting value of the field */
 	private final Type defaultValue;
@@ -178,7 +180,7 @@ public abstract class FormField<Type>{
 	 * Creates a new FormField with the given parameters.
 	 *
 	 * @param type The {@link FieldType} of this field
-	 * @param key The name of this field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})
+	 * @param key The name of this field (used as a key in {@link Form Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param rowPos The row position of this field
@@ -206,7 +208,7 @@ public abstract class FormField<Type>{
 	}
 	
 	/**
-	 * @return The name of this field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})
+	 * @return The name of this field (used as a key in {@link Form Forms})
 	 */
 	public String getKey(){
 		return key;

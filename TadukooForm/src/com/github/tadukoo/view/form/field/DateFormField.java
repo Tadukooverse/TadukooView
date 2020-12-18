@@ -3,7 +3,7 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.view.form.components.DateForm;
 import com.github.tadukoo.view.form.Form;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 import java.util.Date;
 
 /**

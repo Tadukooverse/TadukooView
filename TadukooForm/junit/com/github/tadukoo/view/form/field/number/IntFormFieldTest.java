@@ -4,7 +4,8 @@ import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.LabelType;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

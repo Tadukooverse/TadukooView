@@ -3,10 +3,13 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.view.form.AbstractForm;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FormFormFieldTest{
 	private FormFormField field = FormFormField.builder().build();

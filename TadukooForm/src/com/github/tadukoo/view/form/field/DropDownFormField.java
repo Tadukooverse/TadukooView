@@ -2,7 +2,8 @@ package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.view.form.Form;
 
-import javax.swing.*;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 
 /**
  * Drop Down Form Field is a {@link FormField} used for drop-down menus.
@@ -24,7 +25,7 @@ public class DropDownFormField extends FormField<String>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>

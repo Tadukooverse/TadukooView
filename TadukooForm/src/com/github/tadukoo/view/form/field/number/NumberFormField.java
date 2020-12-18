@@ -5,7 +5,9 @@ import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.FormField;
 import com.github.tadukoo.view.form.field.LabelType;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 /**
  * Abstract {@link FormField} used for {@link Number}s using {@link JSpinner}.
@@ -30,7 +32,7 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>

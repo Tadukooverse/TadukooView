@@ -3,8 +3,9 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
 import com.github.tadukoo.util.pojo.Table;
 import com.github.tadukoo.view.components.TadukooTable;
+import com.github.tadukoo.view.form.Form;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 /**
  * Table Form Field is a {@link FormField} used to show a {@link Table} of {@link OrderedMappedPojo}s in a form
@@ -26,7 +27,7 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>

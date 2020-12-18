@@ -1,8 +1,12 @@
 package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.StringUtil;
+import com.github.tadukoo.view.form.Form;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
  * String Form Field is a {@link FormField} that uses a String. This could be an input prompt or a title
@@ -37,7 +41,7 @@ public class StringFormField extends FormField<String>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>

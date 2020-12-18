@@ -3,7 +3,7 @@ package com.github.tadukoo.view.form;
 import com.github.tadukoo.util.pojo.MappedPojo;
 import com.github.tadukoo.view.form.field.FormField;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 /**
  * Form represents a form used in a program that the user can fill out and interact with. It uses {@link FormField}s

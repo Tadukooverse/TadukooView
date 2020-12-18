@@ -7,10 +7,13 @@ import com.github.tadukoo.util.pojo.Table;
 import com.github.tadukoo.view.components.TadukooTable;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TableFormFieldTest{
 	private TableFormField field = TableFormField.builder().build();

@@ -5,12 +5,16 @@ import com.github.tadukoo.util.pojo.MappedPojo;
 import com.github.tadukoo.view.form.field.StringFormField;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JTextField;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FormTest{
 	private boolean weSetThoseFields = false;

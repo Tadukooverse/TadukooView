@@ -2,7 +2,8 @@ package com.github.tadukoo.view.form.field;
 
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

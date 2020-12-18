@@ -2,7 +2,8 @@ package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.BooleanUtil;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 
 /**
  * Boolean Form Field is a {@link FormField} used to show a boolean value.

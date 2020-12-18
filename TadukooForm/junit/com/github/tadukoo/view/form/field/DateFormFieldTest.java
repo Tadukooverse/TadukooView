@@ -4,11 +4,14 @@ import com.github.tadukoo.util.time.DateUtil;
 import com.github.tadukoo.view.form.components.DateForm;
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
 import java.time.Month;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DateFormFieldTest{
 	private DateFormField field = DateFormField.builder().build();
