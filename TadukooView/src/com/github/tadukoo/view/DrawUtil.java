@@ -1,6 +1,7 @@
 package com.github.tadukoo.view;
 
-import java.awt.*;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 
 /**
  * This class provides utility methods for drawing things to the screen.

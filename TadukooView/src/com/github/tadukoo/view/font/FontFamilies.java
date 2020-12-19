@@ -3,7 +3,7 @@ package com.github.tadukoo.view.font;
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.StringUtil;
 
-import java.awt.*;
+import java.awt.Font;
 
 /**
  * Contains an enumeration of {@link FontFamily FontFamilies} supported via use of the Tadukoo Fonts project.

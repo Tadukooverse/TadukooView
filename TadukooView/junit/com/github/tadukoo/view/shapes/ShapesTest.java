@@ -2,11 +2,15 @@ package com.github.tadukoo.view.shapes;
 
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Insets;
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ShapesTest{
 	

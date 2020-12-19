@@ -3,7 +3,7 @@ package com.github.tadukoo.view.shapes;
 import com.github.tadukoo.util.functional.NoException;
 import com.github.tadukoo.util.functional.consumer.ThrowingConsumer5;
 
-import java.awt.*;
+import java.awt.Graphics;
 
 /**
  * Shape Drawing Function is generally used to draw a shape or part of one using the given {@link Graphics} and the

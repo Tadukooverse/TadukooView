@@ -1,6 +1,7 @@
 package com.github.tadukoo.view.paint;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Paint;
 
 /**
  * Sizable Paints are used to create generic {@link Paint}s that can vary according to the given dimensions they're

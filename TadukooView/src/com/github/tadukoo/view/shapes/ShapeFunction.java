@@ -3,7 +3,7 @@ package com.github.tadukoo.view.shapes;
 import com.github.tadukoo.util.functional.NoException;
 import com.github.tadukoo.util.functional.function.ThrowingFunction4;
 
-import java.awt.*;
+import java.awt.Shape;
 
 /**
  * It's a {@link ThrowingFunction4} that throws {@link NoException} (just a way to avoid throwing stuff),

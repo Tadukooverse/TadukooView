@@ -2,7 +2,7 @@ package com.github.tadukoo.view;
 
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Insets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

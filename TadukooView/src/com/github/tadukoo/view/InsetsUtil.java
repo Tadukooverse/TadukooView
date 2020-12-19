@@ -1,6 +1,6 @@
 package com.github.tadukoo.view;
 
-import java.awt.*;
+import java.awt.Insets;
 
 /**
  * This class provides utility methods for dealing with {@link Insets}
