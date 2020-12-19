@@ -2,9 +2,9 @@ package com.github.tadukoo.view.lookandfeel;
 
 import com.github.tadukoo.view.lookandfeel.paintui.PaintUIResource;
 
-import javax.swing.*;
+import javax.swing.UIDefaults;
 import javax.swing.plaf.metal.MetalLookAndFeel;
-import java.awt.*;
+import java.awt.FontFormatException;
 import java.io.IOException;
 
 /**

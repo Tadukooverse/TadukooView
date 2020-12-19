@@ -1,18 +1,23 @@
 package com.github.tadukoo.view.lookandfeel.paintui;
 
+import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
+import com.github.tadukoo.view.lookandfeel.TadukooTheme;
 import com.github.tadukoo.view.paint.gradient.Gradient;
 import com.github.tadukoo.view.paint.gradient.LinearGradient;
 
 import javax.swing.plaf.ColorUIResource;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.MultipleGradientPaint;
+import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * GradientUIResource is simply a {@link LinearGradient} wrapped as a {@link PaintUIResource} so that it can be
- * used in {@link com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel TadukooLookAndFeel} by putting it
- * in a {@link com.github.tadukoo.view.lookandfeel.TadukooTheme TadukooTheme}.
+ * used in {@link TadukooLookAndFeel TadukooLookAndFeel} by putting it
+ * in a {@link TadukooTheme TadukooTheme}.
  *
  * @author Logan Ferree (Tadukoo)
  * @version Alpha v.0.2.1

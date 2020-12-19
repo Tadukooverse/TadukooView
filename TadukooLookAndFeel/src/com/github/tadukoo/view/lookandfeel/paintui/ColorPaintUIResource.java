@@ -1,13 +1,17 @@
 package com.github.tadukoo.view.lookandfeel.paintui;
 
+import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
+
 import javax.swing.plaf.ColorUIResource;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Paint;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * ColorPaintUIResource is a {@link PaintUIResource} to be used in
- * {@link com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel} for custom paints if you want a solid color.
+ * {@link TadukooLookAndFeel} for custom paints if you want a solid color.
  * Using this class allows supporting other component UI classes that may not allow a solid color. It extends
  * {@link ColorUIResource}.
  *
