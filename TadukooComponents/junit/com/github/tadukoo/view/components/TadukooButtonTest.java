@@ -1,5 +1,7 @@
 package com.github.tadukoo.view.components;
 
+import com.github.tadukoo.view.font.FontFamilies;
+import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -19,6 +22,9 @@ public class TadukooButtonTest{
 	private String text = "Some Text";
 	private final Icon icon = new ImageIcon("");
 	private final ActionListener actionListener = e -> text = "Some Other Text";
+	private final FontFamily fontFamily = FontFamilies.DIALOG.getFamily();
+	private final int fontStyle = Font.BOLD;
+	private final int fontSize = 12;
 	private final ShapeInfo shapeInfo = Shapes.ELLIPSE.getShapeInfo();
 	
 	private TadukooButton button;
@@ -28,6 +34,7 @@ public class TadukooButtonTest{
 		button = TadukooButton.builder()
 				.text(text).icon(icon)
 				.actionListener(actionListener)
+				.font(fontFamily, fontStyle, fontSize)
 				.shapeInfo(shapeInfo)
 				.build();
 	}
@@ -55,6 +62,14 @@ public class TadukooButtonTest{
 	@Test
 	public void testBuilderActionListener(){
 		assertEquals(actionListener, button.getActionListeners()[0]);
+	}
+	
+	@Test
+	public void testBuilderFont(){
+		Font font = button.getFont();
+		assertEquals(fontFamily.getName(), font.getName());
+		assertEquals(fontStyle, font.getStyle());
+		assertEquals(fontSize, font.getSize());
 	}
 	
 	@Test

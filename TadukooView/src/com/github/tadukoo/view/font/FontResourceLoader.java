@@ -16,7 +16,8 @@ import java.util.List;
  * Font Resource Loader is used to load {@link FontFamily Font Families}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2
  */
 public class FontResourceLoader implements FontConstants{
 	/** Whether to log warnings or not about unsupported font formats */
@@ -43,6 +44,34 @@ public class FontResourceLoader implements FontConstants{
 		this.logger = logger;
 		this.graphEnv = graphEnv;
 		this.fontDirectoryPath = fontDirectoryPath;
+	}
+	
+	/**
+	 * @return Whether to log warnings or not about unsupported font formats
+	 */
+	public boolean getLogWarnings(){
+		return logWarnings;
+	}
+	
+	/**
+	 * @return The {@link EasyLogger} to use in logging any problems
+	 */
+	public EasyLogger getLogger(){
+		return logger;
+	}
+	
+	/**
+	 * @return The {@link GraphicsEnvironment} to use for the {@link Font}s
+	 */
+	public GraphicsEnvironment getGraphEnv(){
+		return graphEnv;
+	}
+	
+	/**
+	 * @return The path to the directory where the fonts are stored
+	 */
+	public String getFontDirectoryPath(){
+		return fontDirectoryPath;
 	}
 	
 	/**

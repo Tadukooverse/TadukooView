@@ -1,7 +1,6 @@
 package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.logger.EasyLogger;
-import com.github.tadukoo.view.components.TadukooButton;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
