@@ -16,7 +16,8 @@ import java.util.Date;
  * Date Form is a {@link com.github.tadukoo.view.form.Form Form} used to store a {@link Date}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2.1
  */
 public class DateForm extends AbstractForm{
 	// Passed in default values
@@ -41,8 +42,9 @@ public class DateForm extends AbstractForm{
 	 * @param date The {@link Date} to have filled in, or null
 	 * @param minYear The minimum year to allow
 	 * @param maxYear The maximum year to allow
+	 * @throws Throwable If anything goes wrong in creating components - shouldn't in this case
 	 */
-	public DateForm(Date date, int minYear, int maxYear){
+	public DateForm(Date date, int minYear, int maxYear) throws Throwable{
 		super(MapUtil.createMap(Pair.of(DATE, date),
 				Pair.of(MIN_YEAR, minYear), Pair.of(MAX_YEAR, maxYear)));
 	}

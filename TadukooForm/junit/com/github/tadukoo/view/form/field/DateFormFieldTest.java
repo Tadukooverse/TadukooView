@@ -45,7 +45,7 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent(){
+	public void testGetComponent() throws Throwable{
 		Date date = DateUtil.createDate(Month.JULY, 4, 1776);
 		field = DateFormField.builder().defaultValue(date).minYear(120).maxYear(1920).build();
 		
@@ -61,7 +61,7 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValue() throws Throwable{
 		Date date = DateUtil.createDate(Month.JULY, 4, 1776);
 		Date otherDate = field.getValue(new DateForm(date, 120, 1920));
 		assertEquals(date, otherDate);

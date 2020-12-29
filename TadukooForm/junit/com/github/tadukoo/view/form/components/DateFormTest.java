@@ -1,6 +1,7 @@
 package com.github.tadukoo.view.form.components;
 
 import com.github.tadukoo.util.time.DateUtil;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.Month;
@@ -10,7 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class DateFormTest{
-	private DateForm dateForm = new DateForm(DateUtil.createDate(Month.JULY, 4, 1776), 1600, 2100);
+	private DateForm dateForm;
+	
+	@BeforeEach
+	public void setup() throws Throwable{
+		dateForm = new DateForm(DateUtil.createDate(Month.JULY, 4, 1776), 1600, 2100);
+	}
 	
 	@Test
 	public void testPassedInMonth(){
@@ -73,7 +79,7 @@ public class DateFormTest{
 	}
 	
 	@Test
-	public void testNullDate(){
+	public void testNullDate() throws Throwable{
 		dateForm = new DateForm(null, 100, 200);
 		assertNull(dateForm.getMonthString());
 		assertEquals(1, dateForm.getDay());

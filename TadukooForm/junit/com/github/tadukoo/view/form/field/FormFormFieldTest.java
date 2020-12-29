@@ -1,6 +1,7 @@
 package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.view.form.AbstractForm;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
@@ -14,19 +15,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FormFormFieldTest{
 	private FormFormField field = FormFormField.builder().build();
 	private boolean savedValues = false;
-	private final AbstractForm form = new AbstractForm(new HashMap<>()){
-		
-		@Override
-		public void saveValues(){
-			super.saveValues();
-			savedValues = true;
-		}
-		
-		@Override
-		public void setDefaultFields(){
-		
-		}
-	};
+	private AbstractForm form;
+	
+	@BeforeEach
+	public void setup() throws Throwable{
+		form = new AbstractForm(new HashMap<>()){
+			
+			@Override
+			public void saveValues(){
+				super.saveValues();
+				savedValues = true;
+			}
+			
+			@Override
+			public void setDefaultFields(){
+			
+			}
+		};
+	}
 	
 	@Test
 	public void testDefaults(){

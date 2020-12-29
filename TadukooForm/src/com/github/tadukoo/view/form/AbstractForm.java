@@ -18,7 +18,7 @@ import java.util.Set;
  * Abstract Form is the default implementation of {@link Form}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
 public abstract class AbstractForm extends JPanel implements Form{
@@ -36,8 +36,9 @@ public abstract class AbstractForm extends JPanel implements Form{
 	 * {@link #setDefaultFields()} and {@link #createComponents()} are then called.
 	 *
 	 * @param defaultValues The default values map, used for forms that need them during {@link #setDefaultFields()}
+	 * @throws Throwable If anything goes wrong in creating components
 	 */
-	protected AbstractForm(Map<String, Object> defaultValues){
+	protected AbstractForm(Map<String, Object> defaultValues) throws Throwable{
 		// Initialize the maps
 		valueMap = defaultValues;
 		fields = new HashMap<>();
@@ -57,8 +58,9 @@ public abstract class AbstractForm extends JPanel implements Form{
 	 *
 	 * @param pojo The pojo containing a map, to be used for default values for forms
 	 *                that need them during {@link #setDefaultFields()}
+	 * @throws Throwable If anything goes wrong in creating components
 	 */
-	protected AbstractForm(MappedPojo pojo){
+	protected AbstractForm(MappedPojo pojo) throws Throwable{
 		// Initialize the maps
 		valueMap = pojo.getMap();
 		fields = new HashMap<>();
@@ -121,7 +123,7 @@ public abstract class AbstractForm extends JPanel implements Form{
 	
 	/** {@inheritDoc} */
 	@Override
-	public void createComponents(){
+	public void createComponents() throws Throwable{
 		// Use GridBayLayout for this panel
 		setLayout(new GridBagLayout());
 		

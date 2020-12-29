@@ -21,7 +21,8 @@ public class NumberFormFieldTest{
 		private TestFormField(FieldType type, String key, Integer defaultValue, LabelType labelType,
 		                      int rowPos, int colPos, int rowSpan, int colSpan,
 		                      Integer minValue, Integer maxValue, Integer stepSize){
-			super(type, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan, minValue, maxValue, stepSize);
+			super(type, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan, null,
+					minValue, maxValue, stepSize);
 		}
 		
 		@Override
@@ -54,7 +55,7 @@ public class NumberFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent(){
+	public void testGetComponent() throws Throwable{
 		field = (NumberFormField<Integer>) new TestFormFieldBuilder().minValue(20).maxValue(105)
 				.stepSize(54).defaultValue(42).build();
 		

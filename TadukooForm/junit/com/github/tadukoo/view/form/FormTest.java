@@ -3,6 +3,7 @@ package com.github.tadukoo.view.form;
 import com.github.tadukoo.util.pojo.AbstractMappedPojo;
 import com.github.tadukoo.util.pojo.MappedPojo;
 import com.github.tadukoo.view.form.field.StringFormField;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
@@ -19,16 +20,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FormTest{
 	private boolean weSetThoseFields = false;
 	
-	private final Form form = new AbstractForm(new HashMap<>()){
-		
-		@Override
-		public void setDefaultFields(){
-			weSetThoseFields = true;
-			addField(StringFormField.builder()
-					.key("Derp").defaultValue("No")
-					.build());
-		}
-	};
+	private Form form;
+	
+	@BeforeEach
+	public void setup() throws Throwable{
+		form = new AbstractForm(new HashMap<>()){
+			
+			@Override
+			public void setDefaultFields(){
+				weSetThoseFields = true;
+				addField(StringFormField.builder()
+						.key("Derp").defaultValue("No")
+						.build());
+			}
+		};
+	}
 	
 	@Test
 	public void testConstructor(){
@@ -39,7 +45,7 @@ public class FormTest{
 	}
 	
 	@Test
-	public void testFormConstructor(){
+	public void testFormConstructor() throws Throwable{
 		MappedPojo pojo = new AbstractMappedPojo(){
 			@Override
 			public Map<String, Object> getMap(){

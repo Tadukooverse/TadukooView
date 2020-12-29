@@ -10,7 +10,8 @@ import javax.swing.JComponent;
  * for the fields and buttons and such to be displayed.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2
  */
 public interface Form extends MappedPojo{
 	
@@ -37,8 +38,10 @@ public interface Form extends MappedPojo{
 	/**
 	 * This method should be called by the constructor (after calling {@link #setDefaultFields()}), and will
 	 * create the components to be used on this Form
+	 *
+	 * @throws Throwable If anything goes wrong in creating the components
 	 */
-	void createComponents();
+	void createComponents() throws Throwable;
 	
 	/**
 	 * This method can be called by subclasses to update the values present in the form from the Component values
