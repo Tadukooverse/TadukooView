@@ -77,6 +77,11 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 	 *         <td>The {@link ShapeInfo} to use on the Button</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button shape, if supported)</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>border</td>
+	 *         <td>The {@link Border} to use on the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button border)</td>
+	 *     </tr>
 	 * </table>
 	 *
 	 * There are also parameters for loading the font using a {@link FontResourceLoader}, which can be ignored if
@@ -126,6 +131,9 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 	 * @since Alpha v.0.2
 	 */
 	public static class TadukooButtonBuilder{
+		/*
+		 * The Basics
+		 */
 		/** The text to use on the Button */
 		private String text = null;
 		/** The icon to use on the Button */
@@ -133,11 +141,17 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 		/** The action to perform on click of the Button */
 		private ActionListener actionListener = null;
 		
+		/*
+		 * The Paints
+		 */
 		/** The {@link SizablePaint} to use for when the Button is selected */
 		private SizablePaint selectPaint = null;
 		/** The {@link SizablePaint} to use for when the Button is focused */
 		private SizablePaint focusPaint = null;
 		
+		/*
+		 * Other Customizations
+		 */
 		/** The {@link FontFamily} to use on the font of the Button */
 		private FontFamily fontFamily = null;
 		/** The font style to use on the font of the Button */
@@ -146,6 +160,8 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 		private int fontSize = -1;
 		/** The {@link ShapeInfo} to use on the Button */
 		private ShapeInfo shapeInfo = null;
+		/** The {@link Border} to use on the Button */
+		private Border border = null;
 		
 		/*
 		 * Font Resource Loading
@@ -168,6 +184,10 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 		
 		// Can't create outside of Tadukoo Button
 		private TadukooButtonBuilder(){ }
+		
+		/*
+		 * The Basics
+		 */
 		
 		/**
 		 * @param text The text to use on the Button
@@ -196,6 +216,10 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 			return this;
 		}
 		
+		/*
+		 * The Paints
+		 */
+		
 		/**
 		 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
 		 * @return this, to continue building
@@ -213,6 +237,10 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 			this.focusPaint = focusPaint;
 			return this;
 		}
+		
+		/*
+		 * Other Customizations
+		 */
 		
 		/**
 		 * Specifies the font to use on the Button
@@ -235,6 +263,15 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 		 */
 		public TadukooButtonBuilder shapeInfo(ShapeInfo shapeInfo){
 			this.shapeInfo = shapeInfo;
+			return this;
+		}
+		
+		/**
+		 * @param border The {@link Border} to use on the Button
+		 * @return this, to continue building
+		 */
+		public TadukooButtonBuilder border(Border border){
+			this.border = border;
 			return this;
 		}
 		
@@ -316,7 +353,7 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 			
 			return new TadukooButton(text, icon, actionListener,
 					selectPaint, focusPaint,
-					font, shapeInfo);
+					font, shapeInfo, border);
 		}
 	}
 	
@@ -337,10 +374,11 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 	 * @param focusPaint The {@link SizablePaint} to use for when this Button is focused
 	 * @param font The {@link Font} to use on the Button
 	 * @param shapeInfo The {@link ShapeInfo} to use on the Button
+	 * @param border The {@link Border} to use on the Button
 	 */
 	private TadukooButton(String text, Icon icon, ActionListener actionListener,
 	                      SizablePaint selectPaint, SizablePaint focusPaint,
-	                      Font font, ShapeInfo shapeInfo){
+	                      Font font, ShapeInfo shapeInfo, Border border){
 		super(text, icon);
 		
 		// Set action listener if present
@@ -356,14 +394,15 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 			setFocusPaint(focusPaint);
 		}
 		
-		// Set font
+		// Set other customizations
 		if(font != null){
 			setFont(font);
 		}
-		
-		// Set Shape Info
 		if(shapeInfo != null){
 			setShapeInfo(shapeInfo);
+		}
+		if(border != null){
+			setBorder(border);
 		}
 	}
 	

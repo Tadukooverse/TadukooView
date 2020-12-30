@@ -1,5 +1,6 @@
 package com.github.tadukoo.view.components;
 
+import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.paint.SizableColor;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.border.Border;
 import javax.swing.plaf.UIResource;
 import java.awt.Color;
 import java.awt.Font;
@@ -32,6 +34,7 @@ public class TadukooButtonTest{
 	private final int fontStyle = Font.BOLD;
 	private final int fontSize = 12;
 	private final ShapeInfo shapeInfo = Shapes.ELLIPSE.getShapeInfo();
+	private final Border border = ShapedLineBorder.builder().build();
 	
 	private TadukooButton button;
 	
@@ -43,6 +46,7 @@ public class TadukooButtonTest{
 				.selectPaint(selectPaint).focusPaint(focusPaint)
 				.font(fontFamily, fontStyle, fontSize)
 				.shapeInfo(shapeInfo)
+				.border(border)
 				.build();
 	}
 	
@@ -57,6 +61,7 @@ public class TadukooButtonTest{
 		assertTrue(simpleButton.getFocusPaint() instanceof UIResource || simpleButton.getFocusPaint() == null);
 		assertTrue(simpleButton.getFont() instanceof UIResource || simpleButton.getFont() == null);
 		assertNull(simpleButton.getShapeInfo());
+		assertTrue(simpleButton.getBorder() instanceof UIResource || simpleButton.getBorder() == null);
 	}
 	
 	@Test
@@ -95,6 +100,11 @@ public class TadukooButtonTest{
 	@Test
 	public void testBuilderShapeInfo(){
 		assertEquals(shapeInfo, button.getShapeInfo());
+	}
+	
+	@Test
+	public void testBuilderBorder(){
+		assertEquals(border, button.getBorder());
 	}
 	
 	@Test

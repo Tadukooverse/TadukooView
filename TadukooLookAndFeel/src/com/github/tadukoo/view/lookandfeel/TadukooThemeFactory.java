@@ -22,7 +22,8 @@ import java.util.Objects;
  * {@link TadukooTheme}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2
  */
 public class TadukooThemeFactory{
 	
@@ -127,13 +128,15 @@ public class TadukooThemeFactory{
 		Font controlTextFont = metalTheme.getControlTextFont();
 		FontFamily controlTextFontFamily = Objects.requireNonNull(
 				FontFamilies.fromName(controlTextFont.getFontName())).getFamily();
+		int controlTextFontStyle = controlTextFont.getStyle();
+		int controlTextFontSize = controlTextFont.getSize();
 		
 		return themeBuilder.buttonFocusPaint(new ColorPaintUIResource(metalTheme.getFocusColor()))
 					.buttonSelectPaint(new ColorPaintUIResource(metalTheme.getControlShadow()))
-					.buttonFont(controlTextFontFamily, controlTextFont.getStyle(), controlTextFont.getSize())
+					.buttonFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
 					.titledBorderBorder(new BorderUIResource(
 							new BorderUIResource.LineBorderUIResource(metalTheme.getControlShadow())))
-					.titledBorderFont(controlTextFontFamily, controlTextFont.getStyle(), controlTextFont.getSize())
+					.titledBorderFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
 					.titledBorderColor(metalTheme.getSystemTextColor());
 	}
 }

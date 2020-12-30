@@ -8,6 +8,7 @@ import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComponent;
+import javax.swing.border.Border;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
@@ -89,6 +90,11 @@ public class ButtonFormField extends FormField<String>{
 	 *         and font size</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button font)</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>buttonBorder</td>
+	 *         <td>The {@link Border} to use on the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button border)</td>
+	 *     </tr>
 	 * </table>
 	 * This builder also provides methods and parameters for {@link FontResourceLoader font resource loading}:
 	 * <table>
@@ -149,6 +155,8 @@ public class ButtonFormField extends FormField<String>{
 		private int buttonFontStyle = -1;
 		/** The font size to use on the font of the Button */
 		private int buttonFontSize = -1;
+		/** The {@link Border} to use on the Button */
+		private Border buttonBorder = null;
 		
 		// Not allowed to create ButtonFormFieldBuilder outside of ButtonFormField
 		private ButtonFormFieldBuilder(){
@@ -286,6 +294,15 @@ public class ButtonFormField extends FormField<String>{
 			return this;
 		}
 		
+		/**
+		 * @param buttonBorder The {@link Border} to use on the Button
+		 * @return this, to continue building
+		 */
+		public ButtonFormFieldBuilder buttonBorder(Border buttonBorder){
+			this.buttonBorder = buttonBorder;
+			return this;
+		}
+		
 		/** {@inheritDoc} */
 		@Override
 		public ButtonFormField build() throws IOException, FontFormatException{
@@ -299,7 +316,8 @@ public class ButtonFormField extends FormField<String>{
 					fontResourceLoader,
 					actionListener,
 					selectPaint, focusPaint,
-					buttonFontFamily, buttonFontStyle, buttonFontSize);
+					buttonFontFamily, buttonFontStyle, buttonFontSize,
+					buttonBorder);
 		}
 	}
 	
@@ -315,6 +333,8 @@ public class ButtonFormField extends FormField<String>{
 	private final int buttonFontStyle;
 	/** The font size to use on the font of the Button */
 	private final int buttonFontSize;
+	/** The {@link Border} to use on the Button */
+	private final Border buttonBorder;
 	
 	/**
 	 * Creates a new ButtonFormField with the given parameters
@@ -333,13 +353,15 @@ public class ButtonFormField extends FormField<String>{
 	 * @param buttonFontFamily The {@link FontFamily} to use on the font of the Button
 	 * @param buttonFontStyle The font style to use on the font of the Button
 	 * @param buttonFontSize The font size to use on the font of the Button
+	 * @param buttonBorder The {@link Border} to use on the Button
 	 */
 	private ButtonFormField(String key, String defaultValue, LabelType labelType,
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        ActionListener actionListener,
 	                        SizablePaint selectPaint, SizablePaint focusPaint,
-	                        FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize){
+	                        FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize,
+	                        Border buttonBorder){
 		super(FieldType.BUTTON, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.actionListener = actionListener;
@@ -348,6 +370,7 @@ public class ButtonFormField extends FormField<String>{
 		this.buttonFontFamily = buttonFontFamily;
 		this.buttonFontStyle = buttonFontStyle;
 		this.buttonFontSize = buttonFontSize;
+		this.buttonBorder = buttonBorder;
 	}
 	
 	/**
@@ -399,6 +422,13 @@ public class ButtonFormField extends FormField<String>{
 		return buttonFontSize;
 	}
 	
+	/**
+	 * @return The {@link Border} to use on the Button
+	 */
+	public Border getButtonBorder(){
+		return buttonBorder;
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	public JComponent getComponent() throws IOException, FontFormatException{
@@ -408,6 +438,7 @@ public class ButtonFormField extends FormField<String>{
 				.actionListener(actionListener)
 				.selectPaint(selectPaint).focusPaint(focusPaint)
 				.font(buttonFontFamily, buttonFontStyle, buttonFontSize)
+				.border(buttonBorder)
 				.build();
 	}
 	

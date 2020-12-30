@@ -2,6 +2,7 @@ package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.LoggerUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.components.TadukooButton;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontResourceLoader;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -198,16 +200,26 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testSetButtonBorder() throws IOException, FontFormatException{
+		Border border = ShapedLineBorder.builder().build();
+		field = ButtonFormField.builder().buttonBorder(border).build();
+		assertEquals(border, field.getButtonBorder());
+	}
+	
+	@Test
 	public void testAllSettings() throws IOException, FontFormatException{
 		SizableColor black = new SizableColor(Color.BLACK);
 		SizableColor yellow = new SizableColor(Color.YELLOW);
+		Border border = ShapedLineBorder.builder().build();
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
 				GraphicsEnvironment.getLocalGraphicsEnvironment(), "fonts/");
 		field = ButtonFormField.builder().key("Test").defaultValue("Yes").labelType(LabelType.TITLED_BORDER)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader)
 				.actionListener(testAction)
 				.selectPaint(black).focusPaint(yellow)
-				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12).build();
+				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
+				.buttonBorder(border)
+				.build();
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
 		assertEquals(LabelType.TITLED_BORDER, field.getLabelType());
@@ -222,6 +234,7 @@ public class ButtonFormFieldTest{
 		assertEquals(FontFamilies.DIALOG.getFamily(), field.getButtonFontFamily());
 		assertEquals(Font.BOLD, field.getButtonFontStyle());
 		assertEquals(12, field.getButtonFontSize());
+		assertEquals(border, field.getButtonBorder());
 	}
 	
 	@Test
@@ -282,13 +295,28 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testGetComponentButtonBorder() throws IOException, FontFormatException{
+		Border border = ShapedLineBorder.builder().build();
+		field = ButtonFormField.builder().key("Test")
+				.buttonBorder(border).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(border, button.getBorder());
+	}
+	
+	@Test
 	public void testGetComponentAllSettings() throws IOException, FontFormatException{
 		SizableColor black = new SizableColor(Color.BLACK);
 		SizableColor yellow = new SizableColor(Color.YELLOW);
+		Border border = ShapedLineBorder.builder().build();
 		field = ButtonFormField.builder().key("Test")
 				.actionListener(testAction)
 				.selectPaint(black).focusPaint(yellow)
-				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12).build();
+				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
+				.buttonBorder(border)
+				.build();
 		JComponent component = field.getComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
@@ -300,6 +328,7 @@ public class ButtonFormFieldTest{
 		assertEquals(FontFamilies.DIALOG.getFamily().getName(), font.getName());
 		assertEquals(Font.BOLD, font.getStyle());
 		assertEquals(12, font.getSize());
+		assertEquals(border, button.getBorder());
 	}
 	
 	@Test
