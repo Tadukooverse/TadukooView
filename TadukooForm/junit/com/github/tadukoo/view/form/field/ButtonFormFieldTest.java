@@ -5,11 +5,13 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.components.TadukooButton;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontResourceLoader;
+import com.github.tadukoo.view.paint.SizableColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics2D;
@@ -173,6 +175,20 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testSetSelectPaint() throws IOException, FontFormatException{
+		SizableColor yellow = new SizableColor(Color.YELLOW);
+		field = ButtonFormField.builder().selectPaint(yellow).build();
+		assertEquals(yellow, field.getSelectPaint());
+	}
+	
+	@Test
+	public void testSetFocusPaint() throws IOException, FontFormatException{
+		SizableColor black = new SizableColor(Color.BLACK);
+		field = ButtonFormField.builder().focusPaint(black).build();
+		assertEquals(black, field.getFocusPaint());
+	}
+	
+	@Test
 	public void testSetButtonFont() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.build();
@@ -183,11 +199,14 @@ public class ButtonFormFieldTest{
 	
 	@Test
 	public void testAllSettings() throws IOException, FontFormatException{
+		SizableColor black = new SizableColor(Color.BLACK);
+		SizableColor yellow = new SizableColor(Color.YELLOW);
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
 				GraphicsEnvironment.getLocalGraphicsEnvironment(), "fonts/");
 		field = ButtonFormField.builder().key("Test").defaultValue("Yes").labelType(LabelType.TITLED_BORDER)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader)
 				.actionListener(testAction)
+				.selectPaint(black).focusPaint(yellow)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12).build();
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
@@ -198,6 +217,8 @@ public class ButtonFormFieldTest{
 		assertEquals(7, field.getColSpan());
 		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 		assertEquals(testAction, field.getActionListener());
+		assertEquals(black, field.getSelectPaint());
+		assertEquals(yellow, field.getFocusPaint());
 		assertEquals(FontFamilies.DIALOG.getFamily(), field.getButtonFontFamily());
 		assertEquals(Font.BOLD, field.getButtonFontStyle());
 		assertEquals(12, field.getButtonFontSize());
@@ -205,11 +226,80 @@ public class ButtonFormFieldTest{
 	
 	@Test
 	public void testGetComponent() throws IOException, FontFormatException{
-		field = ButtonFormField.builder().key("Test Key").actionListener(testAction).build();
+		field = ButtonFormField.builder().key("Test Key").build();
 		JComponent component = field.getComponent();
 		assertTrue(component instanceof TadukooButton);
 		assertEquals("Test Key", ((TadukooButton) component).getText());
-		assertEquals(testAction, ((TadukooButton) component).getActionListeners()[0]);
+	}
+	
+	@Test
+	public void testGetComponentActionListener() throws IOException, FontFormatException{
+		field = ButtonFormField.builder().key("Test")
+				.actionListener(testAction).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(testAction, button.getActionListeners()[0]);
+	}
+	
+	@Test
+	public void testGetComponentSelectPaint() throws IOException, FontFormatException{
+		SizableColor black = new SizableColor(Color.BLACK);
+		field = ButtonFormField.builder().key("Test")
+				.selectPaint(black).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(black, button.getSelectPaint());
+	}
+	
+	@Test
+	public void testGetComponentFocusPaint() throws IOException, FontFormatException{
+		SizableColor yellow = new SizableColor(Color.YELLOW);
+		field = ButtonFormField.builder().key("Test")
+				.focusPaint(yellow).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(yellow, button.getFocusPaint());
+	}
+	
+	@Test
+	public void testGetComponentButtonFont() throws IOException, FontFormatException{
+		field = ButtonFormField.builder().key("Test")
+				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		Font font = button.getFont();
+		assertEquals(FontFamilies.DIALOG.getFamily().getName(), font.getName());
+		assertEquals(Font.BOLD, font.getStyle());
+		assertEquals(12, font.getSize());
+	}
+	
+	@Test
+	public void testGetComponentAllSettings() throws IOException, FontFormatException{
+		SizableColor black = new SizableColor(Color.BLACK);
+		SizableColor yellow = new SizableColor(Color.YELLOW);
+		field = ButtonFormField.builder().key("Test")
+				.actionListener(testAction)
+				.selectPaint(black).focusPaint(yellow)
+				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(testAction, button.getActionListeners()[0]);
+		assertEquals(black, button.getSelectPaint());
+		assertEquals(yellow, button.getFocusPaint());
+		Font font = button.getFont();
+		assertEquals(FontFamilies.DIALOG.getFamily().getName(), font.getName());
+		assertEquals(Font.BOLD, font.getStyle());
+		assertEquals(12, font.getSize());
 	}
 	
 	@Test

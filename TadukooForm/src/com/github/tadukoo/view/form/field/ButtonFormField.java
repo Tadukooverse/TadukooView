@@ -5,6 +5,7 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.components.TadukooButton;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComponent;
 import java.awt.Font;
@@ -73,6 +74,16 @@ public class ButtonFormField extends FormField<String>{
 	 *         <td>Defaults to null (no action)</td>
 	 *     </tr>
 	 *     <tr>
+	 *         <td>selectPaint</td>
+	 *         <td>The {@link SizablePaint} to use for when the Button is selected</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button select paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>focusPaint</td>
+	 *         <td>The {@link SizablePaint} to use for when the Button is focused</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button focus paint)</td>
+	 *     </tr>
+	 *     <tr>
 	 *         <td>buttonFont</td>
 	 *         <td>The {@link Font} to use on the Button (specified via {@link FontFamily}, font style,
 	 *         and font size</td>
@@ -126,6 +137,12 @@ public class ButtonFormField extends FormField<String>{
 	public static class ButtonFormFieldBuilder extends FormFieldBuilder<String>{
 		/** The action to perform on click of the Button */
 		private ActionListener actionListener = null;
+		
+		/** The {@link SizablePaint} to use for when the Button is selected */
+		private SizablePaint selectPaint = null;
+		/** The {@link SizablePaint} to use for when the Button is focused */
+		private SizablePaint focusPaint = null;
+		
 		/** The {@link FontFamily} to use on the font of the Button */
 		private FontFamily buttonFontFamily = null;
 		/** The font style to use on the font of the Button */
@@ -237,6 +254,24 @@ public class ButtonFormField extends FormField<String>{
 		}
 		
 		/**
+		 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
+		 * @return this, to continue building
+		 */
+		public ButtonFormFieldBuilder selectPaint(SizablePaint selectPaint){
+			this.selectPaint = selectPaint;
+			return this;
+		}
+		
+		/**
+		 * @param focusPaint The {@link SizablePaint} to use for when the Button is focused
+		 * @return this, to continue building
+		 */
+		public ButtonFormFieldBuilder focusPaint(SizablePaint focusPaint){
+			this.focusPaint = focusPaint;
+			return this;
+		}
+		
+		/**
 		 * Specifies the font to use on the Button
 		 *
 		 * @param buttonFontFamily The {@link FontFamily} to use
@@ -263,12 +298,17 @@ public class ButtonFormField extends FormField<String>{
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					actionListener,
+					selectPaint, focusPaint,
 					buttonFontFamily, buttonFontStyle, buttonFontSize);
 		}
 	}
 	
 	/** The action to perform on click of the Button */
 	private final ActionListener actionListener;
+	/** The {@link SizablePaint} to use for when the Button is selected */
+	private final SizablePaint selectPaint;
+	/** The {@link SizablePaint} to use for when the Button is focused */
+	private final SizablePaint focusPaint;
 	/** The {@link FontFamily} to use on the font of the Button */
 	private final FontFamily buttonFontFamily;
 	/** The font style to use on the font of the Button */
@@ -288,6 +328,8 @@ public class ButtonFormField extends FormField<String>{
 	 * @param colSpan The column span of this field
 	 * @param fontResourceLoader The {@link FontResourceLoader} to use for fonts on this field
 	 * @param actionListener The action to perform on click of the Button
+	 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
+	 * @param focusPaint The {@link SizablePaint} to use for when the Button is focused
 	 * @param buttonFontFamily The {@link FontFamily} to use on the font of the Button
 	 * @param buttonFontStyle The font style to use on the font of the Button
 	 * @param buttonFontSize The font size to use on the font of the Button
@@ -296,10 +338,13 @@ public class ButtonFormField extends FormField<String>{
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        ActionListener actionListener,
+	                        SizablePaint selectPaint, SizablePaint focusPaint,
 	                        FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize){
 		super(FieldType.BUTTON, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.actionListener = actionListener;
+		this.selectPaint = selectPaint;
+		this.focusPaint = focusPaint;
 		this.buttonFontFamily = buttonFontFamily;
 		this.buttonFontStyle = buttonFontStyle;
 		this.buttonFontSize = buttonFontSize;
@@ -317,6 +362,20 @@ public class ButtonFormField extends FormField<String>{
 	 */
 	public ActionListener getActionListener(){
 		return actionListener;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to use for when the Button is selected
+	 */
+	public SizablePaint getSelectPaint(){
+		return selectPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to use for when the Button is focused
+	 */
+	public SizablePaint getFocusPaint(){
+		return focusPaint;
 	}
 	
 	/**
@@ -347,6 +406,7 @@ public class ButtonFormField extends FormField<String>{
 				.text(getKey())
 				.fontResourceLoader(getFontResourceLoader())
 				.actionListener(actionListener)
+				.selectPaint(selectPaint).focusPaint(focusPaint)
 				.font(buttonFontFamily, buttonFontStyle, buttonFontSize)
 				.build();
 	}

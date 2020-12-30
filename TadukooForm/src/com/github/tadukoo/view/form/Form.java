@@ -32,8 +32,10 @@ public interface Form extends MappedPojo{
 	/**
 	 * This method should be called by the constructor to set default fields (this is where you should create new
 	 * {@link FormField}s by calling {@link #addField(FormField)})
+	 *
+	 * @throws Throwable If anything goes wrong in creating the fields
 	 */
-	void setDefaultFields();
+	void setDefaultFields() throws Throwable;
 	
 	/**
 	 * This method should be called by the constructor (after calling {@link #setDefaultFields()}), and will

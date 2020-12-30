@@ -4,6 +4,8 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.InsetsUtil;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
+import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
+import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.shapes.Shaped;
 
@@ -26,7 +28,7 @@ import java.io.IOException;
  * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
-public class TadukooButton extends JButton implements Shaped{
+public class TadukooButton extends JButton implements HasSelectAndFocusPaints, Shaped{
 	
 	/**
 	 * Builder to be used to create a {@link TadukooButton}. This is the abstract version to be extended
@@ -55,6 +57,16 @@ public class TadukooButton extends JButton implements Shaped{
 	 *         <td>Defaults to null</td>
 	 *     </tr>
 	 *     <tr>
+	 *         <td>selectPaint</td>
+	 *         <td>The {@link SizablePaint} to use for when the Button is selected</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button select paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>focusPaint</td>
+	 *         <td>The {@link SizablePaint} to use for when the Button is focused</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button focus paint)</td>
+	 *     </tr>
+	 *     <tr>
 	 *         <td>font</td>
 	 *         <td>The {@link Font} to use on the Button (specified via {@link FontFamily}, font style,
 	 *         and font size</td>
@@ -63,7 +75,7 @@ public class TadukooButton extends JButton implements Shaped{
 	 *     <tr>
 	 *         <td>shapeInfo</td>
 	 *         <td>The {@link ShapeInfo} to use on the Button</td>
-	 *         <td>Defaults to null</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button shape, if supported)</td>
 	 *     </tr>
 	 * </table>
 	 *
@@ -120,6 +132,12 @@ public class TadukooButton extends JButton implements Shaped{
 		private Icon icon = null;
 		/** The action to perform on click of the Button */
 		private ActionListener actionListener = null;
+		
+		/** The {@link SizablePaint} to use for when the Button is selected */
+		private SizablePaint selectPaint = null;
+		/** The {@link SizablePaint} to use for when the Button is focused */
+		private SizablePaint focusPaint = null;
+		
 		/** The {@link FontFamily} to use on the font of the Button */
 		private FontFamily fontFamily = null;
 		/** The font style to use on the font of the Button */
@@ -175,6 +193,24 @@ public class TadukooButton extends JButton implements Shaped{
 		 */
 		public TadukooButtonBuilder actionListener(ActionListener actionListener){
 			this.actionListener = actionListener;
+			return this;
+		}
+		
+		/**
+		 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
+		 * @return this, to continue building
+		 */
+		public TadukooButtonBuilder selectPaint(SizablePaint selectPaint){
+			this.selectPaint = selectPaint;
+			return this;
+		}
+		
+		/**
+		 * @param focusPaint The {@link SizablePaint} to use for when the Button is focused
+		 * @return this, to continue building
+		 */
+		public TadukooButtonBuilder focusPaint(SizablePaint focusPaint){
+			this.focusPaint = focusPaint;
 			return this;
 		}
 		
@@ -278,10 +314,16 @@ public class TadukooButton extends JButton implements Shaped{
 				font = new Font(foundFont, fontStyle, fontSize);
 			}
 			
-			return new TadukooButton(text, icon, actionListener, font, shapeInfo);
+			return new TadukooButton(text, icon, actionListener,
+					selectPaint, focusPaint,
+					font, shapeInfo);
 		}
 	}
 	
+	/** The {@link SizablePaint} to use for when this Button is selected */
+	private SizablePaint selectPaint;
+	/** The {@link SizablePaint} to use for when this Button is focused */
+	private SizablePaint focusPaint;
 	/** The {@link ShapeInfo} to use on the Button */
 	private ShapeInfo shapeInfo;
 	
@@ -291,18 +333,35 @@ public class TadukooButton extends JButton implements Shaped{
 	 * @param text The text to use on the Button
 	 * @param icon The icon to use on the Button
 	 * @param actionListener The action to perform on click of the Button
+	 * @param selectPaint The {@link SizablePaint} to use for when this Button is selected
+	 * @param focusPaint The {@link SizablePaint} to use for when this Button is focused
 	 * @param font The {@link Font} to use on the Button
 	 * @param shapeInfo The {@link ShapeInfo} to use on the Button
 	 */
-	private TadukooButton(String text, Icon icon, ActionListener actionListener, Font font, ShapeInfo shapeInfo){
+	private TadukooButton(String text, Icon icon, ActionListener actionListener,
+	                      SizablePaint selectPaint, SizablePaint focusPaint,
+	                      Font font, ShapeInfo shapeInfo){
 		super(text, icon);
+		
+		// Set action listener if present
 		if(actionListener != null){
 			addActionListener(actionListener);
 		}
+		
+		// Set paints
+		if(selectPaint != null){
+			setSelectPaint(selectPaint);
+		}
+		if(focusPaint != null){
+			setFocusPaint(focusPaint);
+		}
+		
+		// Set font
 		if(font != null){
 			setFont(font);
 		}
-		// We do it this way because in the parent constructor, this is set via installDefaults in the Tadukoo button UI
+		
+		// Set Shape Info
 		if(shapeInfo != null){
 			setShapeInfo(shapeInfo);
 		}
@@ -313,6 +372,30 @@ public class TadukooButton extends JButton implements Shaped{
 	 */
 	public static TadukooButtonBuilder builder(){
 		return new TadukooButtonBuilder();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public SizablePaint getSelectPaint(){
+		return selectPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void setSelectPaint(SizablePaint selectPaint){
+		this.selectPaint = selectPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public SizablePaint getFocusPaint(){
+		return focusPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void setFocusPaint(SizablePaint focusPaint){
+		this.focusPaint = focusPaint;
 	}
 	
 	/** {@inheritDoc} */
