@@ -177,17 +177,31 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testSetSelectPaint() throws IOException, FontFormatException{
-		SizableColor yellow = new SizableColor(Color.YELLOW);
-		field = ButtonFormField.builder().selectPaint(yellow).build();
-		assertEquals(yellow, field.getSelectPaint());
+	public void testSetButtonForegroundPaint() throws IOException, FontFormatException{
+		SizableColor red = new SizableColor(Color.RED);
+		field = ButtonFormField.builder().buttonForegroundPaint(red).build();
+		assertEquals(red, field.getButtonForegroundPaint());
 	}
 	
 	@Test
-	public void testSetFocusPaint() throws IOException, FontFormatException{
+	public void testSetButtonBackgroundPaint() throws IOException, FontFormatException{
+		SizableColor blue = new SizableColor(Color.BLUE);
+		field = ButtonFormField.builder().buttonBackgroundPaint(blue).build();
+		assertEquals(blue, field.getButtonBackgroundPaint());
+	}
+	
+	@Test
+	public void testSetButtonSelectPaint() throws IOException, FontFormatException{
+		SizableColor yellow = new SizableColor(Color.YELLOW);
+		field = ButtonFormField.builder().buttonSelectPaint(yellow).build();
+		assertEquals(yellow, field.getButtonSelectPaint());
+	}
+	
+	@Test
+	public void testSetButtonFocusPaint() throws IOException, FontFormatException{
 		SizableColor black = new SizableColor(Color.BLACK);
-		field = ButtonFormField.builder().focusPaint(black).build();
-		assertEquals(black, field.getFocusPaint());
+		field = ButtonFormField.builder().buttonFocusPaint(black).build();
+		assertEquals(black, field.getButtonFocusPaint());
 	}
 	
 	@Test
@@ -208,6 +222,8 @@ public class ButtonFormFieldTest{
 	
 	@Test
 	public void testAllSettings() throws IOException, FontFormatException{
+		SizableColor red = new SizableColor(Color.RED);
+		SizableColor blue = new SizableColor(Color.BLUE);
 		SizableColor black = new SizableColor(Color.BLACK);
 		SizableColor yellow = new SizableColor(Color.YELLOW);
 		Border border = ShapedLineBorder.builder().build();
@@ -216,7 +232,8 @@ public class ButtonFormFieldTest{
 		field = ButtonFormField.builder().key("Test").defaultValue("Yes").labelType(LabelType.TITLED_BORDER)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader)
 				.actionListener(testAction)
-				.selectPaint(black).focusPaint(yellow)
+				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
+				.buttonSelectPaint(black).buttonFocusPaint(yellow)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.buttonBorder(border)
 				.build();
@@ -229,8 +246,10 @@ public class ButtonFormFieldTest{
 		assertEquals(7, field.getColSpan());
 		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 		assertEquals(testAction, field.getActionListener());
-		assertEquals(black, field.getSelectPaint());
-		assertEquals(yellow, field.getFocusPaint());
+		assertEquals(red, field.getButtonForegroundPaint());
+		assertEquals(blue, field.getButtonBackgroundPaint());
+		assertEquals(black, field.getButtonSelectPaint());
+		assertEquals(yellow, field.getButtonFocusPaint());
 		assertEquals(FontFamilies.DIALOG.getFamily(), field.getButtonFontFamily());
 		assertEquals(Font.BOLD, field.getButtonFontStyle());
 		assertEquals(12, field.getButtonFontSize());
@@ -257,10 +276,34 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentSelectPaint() throws IOException, FontFormatException{
+	public void testGetComponentButtonForegroundPaint() throws IOException, FontFormatException{
+		SizableColor red = new SizableColor(Color.RED);
+		field = ButtonFormField.builder().key("Test")
+				.buttonForegroundPaint(red).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(red, button.getForegroundPaint());
+	}
+	
+	@Test
+	public void testGetComponentButtonBackgroundPaint() throws IOException, FontFormatException{
+		SizableColor blue = new SizableColor(Color.BLUE);
+		field = ButtonFormField.builder().key("Test")
+				.buttonBackgroundPaint(blue).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(blue, button.getBackgroundPaint());
+	}
+	
+	@Test
+	public void testGetComponentButtonSelectPaint() throws IOException, FontFormatException{
 		SizableColor black = new SizableColor(Color.BLACK);
 		field = ButtonFormField.builder().key("Test")
-				.selectPaint(black).build();
+				.buttonSelectPaint(black).build();
 		JComponent component = field.getComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
@@ -269,10 +312,10 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentFocusPaint() throws IOException, FontFormatException{
+	public void testGetComponentButtonFocusPaint() throws IOException, FontFormatException{
 		SizableColor yellow = new SizableColor(Color.YELLOW);
 		field = ButtonFormField.builder().key("Test")
-				.focusPaint(yellow).build();
+				.buttonFocusPaint(yellow).build();
 		JComponent component = field.getComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
@@ -308,12 +351,15 @@ public class ButtonFormFieldTest{
 	
 	@Test
 	public void testGetComponentAllSettings() throws IOException, FontFormatException{
+		SizableColor red = new SizableColor(Color.RED);
+		SizableColor blue = new SizableColor(Color.BLUE);
 		SizableColor black = new SizableColor(Color.BLACK);
 		SizableColor yellow = new SizableColor(Color.YELLOW);
 		Border border = ShapedLineBorder.builder().build();
 		field = ButtonFormField.builder().key("Test")
 				.actionListener(testAction)
-				.selectPaint(black).focusPaint(yellow)
+				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
+				.buttonSelectPaint(black).buttonFocusPaint(yellow)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.buttonBorder(border)
 				.build();
@@ -322,6 +368,8 @@ public class ButtonFormFieldTest{
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
 		assertEquals(testAction, button.getActionListeners()[0]);
+		assertEquals(red, button.getForegroundPaint());
+		assertEquals(blue, button.getBackgroundPaint());
 		assertEquals(black, button.getSelectPaint());
 		assertEquals(yellow, button.getFocusPaint());
 		Font font = button.getFont();

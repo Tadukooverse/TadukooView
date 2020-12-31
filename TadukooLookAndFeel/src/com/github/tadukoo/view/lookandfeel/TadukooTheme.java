@@ -32,7 +32,8 @@ import java.util.Map;
  * {@link #builder()} method to construct it and specify whatever customizations you want.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2
  */
 public class TadukooTheme{
 	
@@ -101,6 +102,26 @@ public class TadukooTheme{
 	 *         <th>Field</th>
 	 *         <th>Description</th>
 	 *         <th>Default Value</th>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>defaultForegroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for all unspecified foreground paints</td>
+	 *         <td>new ColorPaintUIResource(Color.BLACK)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>buttonForegroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for the foreground on Buttons</td>
+	 *         <td>null (defaults to the {@code defaultForegroundPaint} value)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>defaultBackgroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for all unspecified background paints</td>
+	 *         <td>new ColorPaintUIResource(Color.WHITE)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>buttonBackgroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for the background on Buttons</td>
+	 *         <td>null (defaults to the {@code defaultBackgroundPaint} value)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>defaultFocusPaint</td>
@@ -275,7 +296,8 @@ public class TadukooTheme{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.2
+	 * @version Alpha v.0.3
+	 * @since Alpha v.0.2
 	 */
 	public static class TadukooThemeBuilder{
 		/*
@@ -286,18 +308,30 @@ public class TadukooTheme{
 		private Class<? extends ButtonUI> buttonUI = TadukooButtonUI.class;
 		
 		/*
-		 * Colors
+		 * Paints
 		 */
 		
 		// TODO: Set (actual) defaults for colors
 		
-		// Focus Colors
+		// Foreground Paints
+		/** The {@link PaintUIResource} to use for all unspecified foreground paints */
+		private PaintUIResource defaultForegroundPaint = new ColorPaintUIResource(Color.BLACK);
+		/** The {@link PaintUIResource} to use for the foreground on Buttons */
+		private PaintUIResource buttonForegroundPaint = null;
+		
+		// Background Paints
+		/** The {@link PaintUIResource} to use for all unspecified background paints */
+		private PaintUIResource defaultBackgroundPaint = new ColorPaintUIResource(Color.WHITE);
+		/** The {@link PaintUIResource} to use for the background on Buttons */
+		private PaintUIResource buttonBackgroundPaint = null;
+		
+		// Focus Paints
 		/** The {@link PaintUIResource} to use for all unspecified focus paints */
 		private PaintUIResource defaultFocusPaint = new ColorPaintUIResource(Color.YELLOW);
 		/** The {@link PaintUIResource} to use for focus on Buttons */
 		private PaintUIResource buttonFocusPaint = null;
 		
-		// Select Colors
+		// Select Paints
 		/** The {@link PaintUIResource} to use for all unspecified select paints */
 		private PaintUIResource defaultSelectPaint = new ColorPaintUIResource(Color.RED);
 		/** The {@link PaintUIResource} to use for select on Buttons */
@@ -400,7 +434,51 @@ public class TadukooTheme{
 		}
 		
 		/*
-		 * Focus Color Methods
+		 * Foreground Paint Methods
+		 */
+		
+		/**
+		 * @param defaultForegroundPaint The {@link PaintUIResource} to use for all unspecified foreground paints
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder defaultForegroundPaint(PaintUIResource defaultForegroundPaint){
+			this.defaultForegroundPaint = defaultForegroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param buttonForegroundPaint The {@link PaintUIResource} to use for the foreground on Buttons
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder buttonForegroundPaint(PaintUIResource buttonForegroundPaint){
+			this.buttonForegroundPaint = buttonForegroundPaint;
+			return this;
+		}
+		
+		/*
+		 * Background Paint Methods
+		 */
+		
+		/**
+		 * @param defaultBackgroundPaint The {@link PaintUIResource} to use for all unspecified background paints
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder defaultBackgroundPaint(PaintUIResource defaultBackgroundPaint){
+			this.defaultBackgroundPaint = defaultBackgroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param buttonBackgroundPaint The {@link PaintUIResource} to use for the background on Buttons
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder buttonBackgroundPaint(PaintUIResource buttonBackgroundPaint){
+			this.buttonBackgroundPaint = buttonBackgroundPaint;
+			return this;
+		}
+		
+		/*
+		 * Focus Paint Methods
 		 */
 		
 		/**
@@ -422,7 +500,7 @@ public class TadukooTheme{
 		}
 		
 		/*
-		 * Select Color Methods
+		 * Select Paint Methods
 		 */
 		
 		/**
@@ -711,12 +789,25 @@ public class TadukooTheme{
 			checkForErrors();
 			
 			/*
-			 * Handle Default Colors
+			 * Handle Default Paints
 			 */
+			
+			// Foreground Paints
+			if(buttonForegroundPaint == null){
+				buttonForegroundPaint = defaultForegroundPaint;
+			}
+			
+			// Background Paints
+			if(buttonBackgroundPaint == null){
+				buttonBackgroundPaint = defaultBackgroundPaint;
+			}
+			
+			// Focus Paints
 			if(buttonFocusPaint == null){
 				buttonFocusPaint = defaultFocusPaint;
 			}
 			
+			// Select Paints
 			if(buttonSelectPaint == null){
 				buttonSelectPaint = defaultSelectPaint;
 			}
@@ -804,6 +895,7 @@ public class TadukooTheme{
 			}
 			
 			return new TadukooTheme(buttonUI.getCanonicalName(),
+					buttonForegroundPaint, buttonBackgroundPaint,
 					buttonFocusPaint, buttonSelectPaint, buttonFont,
 					buttonShapeInfo, buttonBorder,
 					titledBorderBorder, titledBorderFont, titledBorderColor, titledBorderPosition.getValue(),
@@ -813,6 +905,10 @@ public class TadukooTheme{
 	
 	/** The {@link ButtonUI} class to use */
 	private final String buttonUI;
+	/** The {@link PaintUIResource} to use for the foreground on Buttons */
+	private final PaintUIResource buttonForegroundPaint;
+	/** The {@link PaintUIResource} to use for the background on Buttons */
+	private final PaintUIResource buttonBackgroundPaint;
 	/** The {@link PaintUIResource} to use for focus on Buttons */
 	private final PaintUIResource buttonFocusPaint;
 	/** The {@link PaintUIResource} to use for select on Buttons */
@@ -842,6 +938,8 @@ public class TadukooTheme{
 	 * Constructs a new TadukooTheme with the given customizations.
 	 *
 	 * @param buttonUI The {@link ButtonUI} class to use
+	 * @param buttonForegroundPaint The {@link PaintUIResource} to use for the foreground on Buttons
+	 * @param buttonBackgroundPaint The {@link PaintUIResource} to use for the background on Buttons
 	 * @param buttonFocusPaint The {@link PaintUIResource} to use for focus on Buttons
 	 * @param buttonSelectPaint The {@link PaintUIResource} to use for select on Buttons
 	 * @param buttonFont The {@link FontUIResource} to use for Buttons
@@ -856,12 +954,15 @@ public class TadukooTheme{
 	 * @param componentDefaults Component defaults beyond those specified in the other sections
 	 */
 	private TadukooTheme(String buttonUI,
+	                     PaintUIResource buttonForegroundPaint, PaintUIResource buttonBackgroundPaint,
 	                     PaintUIResource buttonFocusPaint, PaintUIResource buttonSelectPaint, FontUIResource buttonFont,
 	                     ShapeInfo buttonShapeInfo, BorderUIResource buttonBorder,
 	                     BorderUIResource titledBorderBorder, FontUIResource titledBorderFont,
 	                     ColorUIResource titledBorderColor, int titledBorderPosition,
 	                     Object[] classDefaults, Object[] systemColorDefaults, Object[] componentDefaults){
 		this.buttonUI = buttonUI;
+		this.buttonForegroundPaint = buttonForegroundPaint;
+		this.buttonBackgroundPaint = buttonBackgroundPaint;
 		this.buttonFocusPaint = buttonFocusPaint;
 		this.buttonSelectPaint = buttonSelectPaint;
 		this.buttonFont = buttonFont;
@@ -888,6 +989,20 @@ public class TadukooTheme{
 	 */
 	public String getButtonUI(){
 		return buttonUI;
+	}
+	
+	/**
+	 * @return The {@link PaintUIResource} to use for the foreground on Buttons
+	 */
+	public PaintUIResource getButtonForegroundPaint(){
+		return buttonForegroundPaint;
+	}
+	
+	/**
+	 * @return The {@link PaintUIResource} to use for the background on Buttons
+	 */
+	public PaintUIResource getButtonBackgroundPaint(){
+		return buttonBackgroundPaint;
 	}
 	
 	/**

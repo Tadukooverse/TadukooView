@@ -2,19 +2,22 @@ package com.github.tadukoo.view.lookandfeel.componentui;
 
 import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
 import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
+import com.github.tadukoo.view.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
-import com.github.tadukoo.view.shapes.ShapeFunction;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.shapes.Shaped;
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.UIResource;
 import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.Button;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -39,22 +42,33 @@ public class TadukooButtonUI extends MetalButtonUI{
 		return new TadukooButtonUI();
 	}
 	
+	/*
+	 * Install/Uninstall Defaults
+	 */
+	
 	/** {@inheritDoc} */
 	@Override
 	public void installDefaults(AbstractButton b){
 		super.installDefaults(b);
 		
+		// Set the default foreground and background paints on the button if it's supported
+		if(b instanceof HasSizablePaints){
+			HasSizablePaints s = (HasSizablePaints) b;
+			s.setForegroundPaint(getForegroundPaint());
+			s.setBackgroundPaint(getBackgroundPaint());
+		}
+		
 		// Set the default focus and select paints on the button if it's supported
 		if(b instanceof HasSelectAndFocusPaints){
 			HasSelectAndFocusPaints s = (HasSelectAndFocusPaints) b;
-			s.setSelectPaint((SizablePaint) UIManager.get("Button.select.paint"));
-			s.setFocusPaint((SizablePaint) UIManager.get("Button.focus.paint"));
+			s.setSelectPaint(getSelectPaint());
+			s.setFocusPaint(getFocusPaint());
 		}
 		
 		// Set the default shape function on the button if it's a Shaped button
 		if(b instanceof Shaped){
 			Shaped s = (Shaped) b;
-			s.setShapeInfo((ShapeInfo) UIManager.get("Button.shape"));
+			s.setShapeInfo(getShape());
 		}
 	}
 	
@@ -63,7 +77,18 @@ public class TadukooButtonUI extends MetalButtonUI{
 	public void uninstallDefaults(AbstractButton b){
 		super.uninstallDefaults(b);
 		
-		// Remove the default focus and select paints on the button if it's supported + using them
+		// Remove the default foreground and background paints on the button if it's supported and using them
+		if(b instanceof HasSizablePaints){
+			HasSizablePaints s = (HasSizablePaints) b;
+			if(s.getForegroundPaint() instanceof UIResource){
+				s.setForegroundPaint(null);
+			}
+			if(s.getBackgroundPaint() instanceof UIResource){
+				s.setBackgroundPaint(null);
+			}
+		}
+		
+		// Remove the default focus and select paints on the button if it's supported and using them
 		if(b instanceof HasSelectAndFocusPaints){
 			HasSelectAndFocusPaints s = (HasSelectAndFocusPaints) b;
 			if(s.getSelectPaint() instanceof UIResource){
@@ -83,6 +108,142 @@ public class TadukooButtonUI extends MetalButtonUI{
 		}
 	}
 	
+	/*
+	 * Accessor Methods
+	 */
+	
+	/**
+	 * @return The {@link SizablePaint} to be used for the foreground from the Look &amp; Feel
+	 */
+	protected SizablePaint getForegroundPaint(){
+		return (SizablePaint) UIManager.get(getPropertyPrefix() + "foreground.paint");
+	}
+	
+	/**
+	 * @param c A {@link Component} which may have the foreground paint on it
+	 * @return The foreground {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
+	 * Feel otherwise
+	 */
+	protected SizablePaint getForegroundPaint(Component c){
+		// Grab the foreground paint from the component if it has it
+		if(c instanceof HasSizablePaints){
+			return ((HasSizablePaints) c).getForegroundPaint();
+		}else{
+			// Default to the Look & Feel's setting
+			return getForegroundPaint();
+		}
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to be used for the background from the Look &amp; Feel
+	 */
+	protected SizablePaint getBackgroundPaint(){
+		return (SizablePaint) UIManager.get(getPropertyPrefix() + "background.paint");
+	}
+	
+	/**
+	 * @param c A {@link Component} which may have the background paint on it
+	 * @return The background {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
+	 * Feel otherwise
+	 */
+	protected SizablePaint getBackgroundPaint(Component c){
+		// Grab the background paint from the component if it has it
+		if(c instanceof HasSizablePaints){
+			return ((HasSizablePaints) c).getBackgroundPaint();
+		}else{
+			// Default to the Look & Feel's setting
+			return getBackgroundPaint();
+		}
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to be used for when the Button is selected from the Look &amp; Feel
+	 */
+	protected SizablePaint getSelectPaint(){
+		return (SizablePaint) UIManager.get(getPropertyPrefix() + "select.paint");
+	}
+	
+	/**
+	 * @param c A {@link Component} which may have the select paint on it
+	 * @return The select {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
+	 * Feel otherwise
+	 */
+	protected SizablePaint getSelectPaint(Component c){
+		// Grab the select paint from the component if it has it
+		if(c instanceof HasSelectAndFocusPaints){
+			return ((HasSelectAndFocusPaints) c).getSelectPaint();
+		}else{
+			// Default to the Look & Feel's setting
+			return getSelectPaint();
+		}
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to be used for when the Button is focused from the Look &amp; Feel
+	 */
+	protected SizablePaint getFocusPaint(){
+		return (SizablePaint) UIManager.get(getPropertyPrefix() + "focus.paint");
+	}
+	
+	/**
+	 * @param c A {@link Component} which may have the focus paint on it
+	 * @return The focus {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
+	 * Feel otherwise
+	 */
+	protected SizablePaint getFocusPaint(Component c){
+		// Grab the focus paint from the component if it has it
+		if(c instanceof HasSelectAndFocusPaints){
+			return ((HasSelectAndFocusPaints) c).getFocusPaint();
+		}else{
+			// Default to the Look & Feel's setting
+			return getFocusPaint();
+		}
+	}
+	
+	/**
+	 * @return The {@link ShapeInfo} to be used from the Look &amp; Feel
+	 */
+	protected ShapeInfo getShape(){
+		return (ShapeInfo) UIManager.get(getPropertyPrefix() + "shape");
+	}
+	
+	/**
+	 * @param c A {@link Component} which may be {@link Shaped}
+	 * @return The {@link ShapeInfo} from the {@link Component} if it has it, or from the Look &amp; Feel otherwise
+	 */
+	protected ShapeInfo getShape(Component c){
+		// Grab the shape info from the component if it has it
+		if(c instanceof Shaped){
+			return ((Shaped) c).getShapeInfo();
+		}else{
+			// Default to the Look & Feel's setting
+			return getShape();
+		}
+	}
+	
+	/*
+	 * Paint Methods
+	 */
+	
+	/** {@inheritDoc} */
+	@Override
+	public void update(Graphics g, JComponent c){
+		// If the Button is opaque, paint its background
+		if(c.isOpaque()){
+			// Cast Graphics to Graphics2D for our purposes
+			Graphics2D g2d = (Graphics2D) g;
+			
+			// Grab the background paint and set it
+			g2d.setPaint(getBackgroundPaint(c).getPaint(new Dimension(c.getWidth(), c.getHeight())));
+			
+			// Paint the background
+			g.fillRect(0, 0, c.getWidth(),c.getHeight());
+		}
+		
+		// Do the other painting
+		paint(g, c);
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	protected void paintButtonPressed(Graphics g, AbstractButton b){
@@ -94,25 +255,10 @@ public class TadukooButtonUI extends MetalButtonUI{
 			Dimension size = b.getSize();
 			
 			// Grab the paint to use and set it on the graphics
-			SizablePaint paint = null;
-			if(b instanceof HasSelectAndFocusPaints){
-				paint = ((HasSelectAndFocusPaints) b).getSelectPaint();
-			}
-			if(paint == null){
-				paint = (SizablePaint) UIManager.get("Button.select.paint");
-			}
-			g2d.setPaint(paint.getPaint(size));
+			g2d.setPaint(getSelectPaint(b).getPaint(size));
 			
-			// Grab the shape function to be used
-			ShapeFunction shapeFunc = null;
-			if(b instanceof Shaped){
-				shapeFunc = ((Shaped) b).getShapeInfo().getShapeFunc();
-			}
-			if(shapeFunc == null){
-				shapeFunc = ((ShapeInfo) UIManager.get("Button.shape")).getShapeFunc();
-			}
-			// Fill the shape
-			g2d.fill(shapeFunc.apply(0, 0, size.width, size.height));
+			// Grab the shape and fill it
+			g2d.fill(getShape(b).getShapeFunc().apply(0, 0, size.width, size.height));
 		}
 	}
 	
@@ -140,14 +286,7 @@ public class TadukooButtonUI extends MetalButtonUI{
 		}
 		
 		// Grab the paint to use and set it on the graphics
-		SizablePaint paint = null;
-		if(b instanceof HasSelectAndFocusPaints){
-			paint = ((HasSelectAndFocusPaints) b).getFocusPaint();
-		}
-		if(paint == null){
-			paint = (SizablePaint) UIManager.get("Button.focus.paint");
-		}
-		g2d.setPaint(paint.getPaint(focusRect.getSize()));
+		g2d.setPaint(getFocusPaint(b).getPaint(focusRect.getSize()));
 		
 		/* TODO: Potentially draw shape instead of rectangle (requires work on insets)
 		// Grab the shape function to be used
@@ -156,13 +295,40 @@ public class TadukooButtonUI extends MetalButtonUI{
 			shapeFunc = ((Shaped) b).getShapeInfo().getShapeFunc();
 		}
 		if(shapeFunc == null){
-			shapeFunc = ((ShapeInfo) UIManager.get("Button.shape")).getShapeFunc();
+			shapeFunc = getShape().getShapeFunc();
 		}
 		/**/
 		
 		// Draw the focus rectangle
 		g2d.drawRect((focusRect.x-1), (focusRect.y-1),
 				focusRect.width+1, focusRect.height+1);
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	protected void paintText(Graphics g, JComponent c, Rectangle textRect, String text){
+		// Cast Graphics to Graphics2D for our purposes
+		Graphics2D g2d = (Graphics2D) g;
 		
+		AbstractButton b = (AbstractButton) c;
+		ButtonModel model = b.getModel();
+		FontMetrics fm = c.getFontMetrics(g.getFont());
+		int mnemIndex = b.getDisplayedMnemonicIndex();
+		
+		// Draw the Text
+		if(model.isEnabled()){
+			// Paint the text normally using foreground paint
+			g2d.setPaint(getForegroundPaint(b).getPaint(new Dimension(fm.stringWidth(text), fm.getHeight())));
+		}else{
+			// Paint the text disabled
+			g.setColor(getDisabledTextColor());
+		}
+		
+		// Draw the actual text
+		g.drawString(text, textRect.x, textRect.y + fm.getAscent());
+		
+		// TODO: Implement more of this string drawing method to further support stuff
+		// SwingUtilities2.drawStringUnderlineCharAt(c, g,text,mnemIndex,
+		//		textRect.x, textRect.y + fm.getAscent());
 	}
 }

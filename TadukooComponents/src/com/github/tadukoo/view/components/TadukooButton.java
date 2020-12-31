@@ -5,6 +5,7 @@ import com.github.tadukoo.view.InsetsUtil;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
+import com.github.tadukoo.view.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.shapes.Shaped;
@@ -28,7 +29,7 @@ import java.io.IOException;
  * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
-public class TadukooButton extends JButton implements HasSelectAndFocusPaints, Shaped{
+public class TadukooButton extends JButton implements HasSizablePaints, HasSelectAndFocusPaints, Shaped{
 	
 	/**
 	 * Builder to be used to create a {@link TadukooButton}. This is the abstract version to be extended
@@ -55,6 +56,16 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 	 *         <td>actionListener</td>
 	 *         <td>The action to perform on click of the Button</td>
 	 *         <td>Defaults to null</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>foregroundPaint</td>
+	 *         <td>The {@link SizablePaint} to use for the foreground of the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>backgroundPaint</td>
+	 *         <td>The {@link SizablePaint} to use for the background of the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>selectPaint</td>
@@ -144,6 +155,10 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 		/*
 		 * The Paints
 		 */
+		/** The {@link SizablePaint} to use for the foreground of the Button */
+		private SizablePaint foregroundPaint = null;
+		/** The {@link SizablePaint} to use for the background of the Button */
+		private SizablePaint backgroundPaint = null;
 		/** The {@link SizablePaint} to use for when the Button is selected */
 		private SizablePaint selectPaint = null;
 		/** The {@link SizablePaint} to use for when the Button is focused */
@@ -219,6 +234,24 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 		/*
 		 * The Paints
 		 */
+		
+		/**
+		 * @param foregroundPaint The {@link SizablePaint} to use for the foreground of the Button
+		 * @return this, to continue building
+		 */
+		public TadukooButtonBuilder foregroundPaint(SizablePaint foregroundPaint){
+			this.foregroundPaint = foregroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param backgroundPaint The {@link SizablePaint} to use for the background of the Button
+		 * @return this, to continue building
+		 */
+		public TadukooButtonBuilder backgroundPaint(SizablePaint backgroundPaint){
+			this.backgroundPaint = backgroundPaint;
+			return this;
+		}
 		
 		/**
 		 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
@@ -352,11 +385,16 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 			}
 			
 			return new TadukooButton(text, icon, actionListener,
+					foregroundPaint, backgroundPaint,
 					selectPaint, focusPaint,
 					font, shapeInfo, border);
 		}
 	}
 	
+	/** The {@link SizablePaint} to use for the foreground of the Button */
+	private SizablePaint foregroundPaint;
+	/** The {@link SizablePaint} to use for the background of the Button */
+	private SizablePaint backgroundPaint;
 	/** The {@link SizablePaint} to use for when this Button is selected */
 	private SizablePaint selectPaint;
 	/** The {@link SizablePaint} to use for when this Button is focused */
@@ -370,6 +408,8 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 	 * @param text The text to use on the Button
 	 * @param icon The icon to use on the Button
 	 * @param actionListener The action to perform on click of the Button
+	 * @param foregroundPaint The {@link SizablePaint} to use for the foreground of the Button
+	 * @param backgroundPaint The {@link SizablePaint} to use for the background of the Button
 	 * @param selectPaint The {@link SizablePaint} to use for when this Button is selected
 	 * @param focusPaint The {@link SizablePaint} to use for when this Button is focused
 	 * @param font The {@link Font} to use on the Button
@@ -377,6 +417,7 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 	 * @param border The {@link Border} to use on the Button
 	 */
 	private TadukooButton(String text, Icon icon, ActionListener actionListener,
+	                      SizablePaint foregroundPaint, SizablePaint backgroundPaint,
 	                      SizablePaint selectPaint, SizablePaint focusPaint,
 	                      Font font, ShapeInfo shapeInfo, Border border){
 		super(text, icon);
@@ -387,6 +428,12 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 		}
 		
 		// Set paints
+		if(foregroundPaint != null){
+			setForegroundPaint(foregroundPaint);
+		}
+		if(backgroundPaint != null){
+			setBackgroundPaint(backgroundPaint);
+		}
 		if(selectPaint != null){
 			setSelectPaint(selectPaint);
 		}
@@ -411,6 +458,30 @@ public class TadukooButton extends JButton implements HasSelectAndFocusPaints, S
 	 */
 	public static TadukooButtonBuilder builder(){
 		return new TadukooButtonBuilder();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public SizablePaint getForegroundPaint(){
+		return foregroundPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void setForegroundPaint(SizablePaint foregroundPaint){
+		this.foregroundPaint = foregroundPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public SizablePaint getBackgroundPaint(){
+		return backgroundPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void setBackgroundPaint(SizablePaint backgroundPaint){
+		this.backgroundPaint = backgroundPaint;
 	}
 	
 	/** {@inheritDoc} */

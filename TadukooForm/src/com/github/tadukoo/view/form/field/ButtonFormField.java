@@ -75,12 +75,22 @@ public class ButtonFormField extends FormField<String>{
 	 *         <td>Defaults to null (no action)</td>
 	 *     </tr>
 	 *     <tr>
-	 *         <td>selectPaint</td>
+	 *         <td>buttonForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} to use for the foreground of the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>buttonBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} to use for the background of the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button background paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>buttonSelectPaint</td>
 	 *         <td>The {@link SizablePaint} to use for when the Button is selected</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button select paint)</td>
 	 *     </tr>
 	 *     <tr>
-	 *         <td>focusPaint</td>
+	 *         <td>buttonFocusPaint</td>
 	 *         <td>The {@link SizablePaint} to use for when the Button is focused</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button focus paint)</td>
 	 *     </tr>
@@ -144,10 +154,14 @@ public class ButtonFormField extends FormField<String>{
 		/** The action to perform on click of the Button */
 		private ActionListener actionListener = null;
 		
+		/** The {@link SizablePaint} to use for the foreground of the Button */
+		private SizablePaint buttonForegroundPaint = null;
+		/** The {@link SizablePaint} to use for the background of the Button */
+		private SizablePaint buttonBackgroundPaint = null;
 		/** The {@link SizablePaint} to use for when the Button is selected */
-		private SizablePaint selectPaint = null;
+		private SizablePaint buttonSelectPaint = null;
 		/** The {@link SizablePaint} to use for when the Button is focused */
-		private SizablePaint focusPaint = null;
+		private SizablePaint buttonFocusPaint = null;
 		
 		/** The {@link FontFamily} to use on the font of the Button */
 		private FontFamily buttonFontFamily = null;
@@ -262,20 +276,38 @@ public class ButtonFormField extends FormField<String>{
 		}
 		
 		/**
-		 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
+		 * @param buttonForegroundPaint The {@link SizablePaint} to use for the foreground of the Button
 		 * @return this, to continue building
 		 */
-		public ButtonFormFieldBuilder selectPaint(SizablePaint selectPaint){
-			this.selectPaint = selectPaint;
+		public ButtonFormFieldBuilder buttonForegroundPaint(SizablePaint buttonForegroundPaint){
+			this.buttonForegroundPaint = buttonForegroundPaint;
 			return this;
 		}
 		
 		/**
-		 * @param focusPaint The {@link SizablePaint} to use for when the Button is focused
+		 * @param buttonBackgroundPaint The {@link SizablePaint} to use for the background of the Button
 		 * @return this, to continue building
 		 */
-		public ButtonFormFieldBuilder focusPaint(SizablePaint focusPaint){
-			this.focusPaint = focusPaint;
+		public ButtonFormFieldBuilder buttonBackgroundPaint(SizablePaint buttonBackgroundPaint){
+			this.buttonBackgroundPaint = buttonBackgroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param buttonSelectPaint The {@link SizablePaint} to use for when the Button is selected
+		 * @return this, to continue building
+		 */
+		public ButtonFormFieldBuilder buttonSelectPaint(SizablePaint buttonSelectPaint){
+			this.buttonSelectPaint = buttonSelectPaint;
+			return this;
+		}
+		
+		/**
+		 * @param buttonFocusPaint The {@link SizablePaint} to use for when the Button is focused
+		 * @return this, to continue building
+		 */
+		public ButtonFormFieldBuilder buttonFocusPaint(SizablePaint buttonFocusPaint){
+			this.buttonFocusPaint = buttonFocusPaint;
 			return this;
 		}
 		
@@ -315,7 +347,8 @@ public class ButtonFormField extends FormField<String>{
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					actionListener,
-					selectPaint, focusPaint,
+					buttonForegroundPaint, buttonBackgroundPaint,
+					buttonSelectPaint, buttonFocusPaint,
 					buttonFontFamily, buttonFontStyle, buttonFontSize,
 					buttonBorder);
 		}
@@ -323,10 +356,14 @@ public class ButtonFormField extends FormField<String>{
 	
 	/** The action to perform on click of the Button */
 	private final ActionListener actionListener;
+	/** The {@link SizablePaint} to use for the foreground of the Button */
+	private final SizablePaint buttonForegroundPaint;
+	/** The {@link SizablePaint} to use for the background of the Button */
+	private final SizablePaint buttonBackgroundPaint;
 	/** The {@link SizablePaint} to use for when the Button is selected */
-	private final SizablePaint selectPaint;
+	private final SizablePaint buttonSelectPaint;
 	/** The {@link SizablePaint} to use for when the Button is focused */
-	private final SizablePaint focusPaint;
+	private final SizablePaint buttonFocusPaint;
 	/** The {@link FontFamily} to use on the font of the Button */
 	private final FontFamily buttonFontFamily;
 	/** The font style to use on the font of the Button */
@@ -348,8 +385,10 @@ public class ButtonFormField extends FormField<String>{
 	 * @param colSpan The column span of this field
 	 * @param fontResourceLoader The {@link FontResourceLoader} to use for fonts on this field
 	 * @param actionListener The action to perform on click of the Button
-	 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
-	 * @param focusPaint The {@link SizablePaint} to use for when the Button is focused
+	 * @param buttonForegroundPaint The {@link SizablePaint} to use for the foreground of the Button
+	 * @param buttonBackgroundPaint The {@link SizablePaint} to use for the background of the Button
+	 * @param buttonSelectPaint The {@link SizablePaint} to use for when the Button is selected
+	 * @param buttonFocusPaint The {@link SizablePaint} to use for when the Button is focused
 	 * @param buttonFontFamily The {@link FontFamily} to use on the font of the Button
 	 * @param buttonFontStyle The font style to use on the font of the Button
 	 * @param buttonFontSize The font size to use on the font of the Button
@@ -359,14 +398,17 @@ public class ButtonFormField extends FormField<String>{
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        ActionListener actionListener,
-	                        SizablePaint selectPaint, SizablePaint focusPaint,
+	                        SizablePaint buttonForegroundPaint, SizablePaint buttonBackgroundPaint,
+	                        SizablePaint buttonSelectPaint, SizablePaint buttonFocusPaint,
 	                        FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize,
 	                        Border buttonBorder){
 		super(FieldType.BUTTON, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.actionListener = actionListener;
-		this.selectPaint = selectPaint;
-		this.focusPaint = focusPaint;
+		this.buttonForegroundPaint = buttonForegroundPaint;
+		this.buttonBackgroundPaint = buttonBackgroundPaint;
+		this.buttonSelectPaint = buttonSelectPaint;
+		this.buttonFocusPaint = buttonFocusPaint;
 		this.buttonFontFamily = buttonFontFamily;
 		this.buttonFontStyle = buttonFontStyle;
 		this.buttonFontSize = buttonFontSize;
@@ -388,17 +430,31 @@ public class ButtonFormField extends FormField<String>{
 	}
 	
 	/**
+	 * @return The {@link SizablePaint} to use for the foreground of the Button
+	 */
+	public SizablePaint getButtonForegroundPaint(){
+		return buttonForegroundPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to use for the background of the Button
+	 */
+	public SizablePaint getButtonBackgroundPaint(){
+		return buttonBackgroundPaint;
+	}
+	
+	/**
 	 * @return The {@link SizablePaint} to use for when the Button is selected
 	 */
-	public SizablePaint getSelectPaint(){
-		return selectPaint;
+	public SizablePaint getButtonSelectPaint(){
+		return buttonSelectPaint;
 	}
 	
 	/**
 	 * @return The {@link SizablePaint} to use for when the Button is focused
 	 */
-	public SizablePaint getFocusPaint(){
-		return focusPaint;
+	public SizablePaint getButtonFocusPaint(){
+		return buttonFocusPaint;
 	}
 	
 	/**
@@ -436,7 +492,8 @@ public class ButtonFormField extends FormField<String>{
 				.text(getKey())
 				.fontResourceLoader(getFontResourceLoader())
 				.actionListener(actionListener)
-				.selectPaint(selectPaint).focusPaint(focusPaint)
+				.foregroundPaint(buttonForegroundPaint).backgroundPaint(buttonBackgroundPaint)
+				.selectPaint(buttonSelectPaint).focusPaint(buttonFocusPaint)
 				.font(buttonFontFamily, buttonFontStyle, buttonFontSize)
 				.border(buttonBorder)
 				.build();

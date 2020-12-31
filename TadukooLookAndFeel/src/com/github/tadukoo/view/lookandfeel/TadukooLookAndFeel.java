@@ -128,10 +128,17 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 	protected void initComponentDefaults(UIDefaults table){
 		super.initComponentDefaults(table);
 		
+		PaintUIResource buttonForegroundPaint = theme.getButtonForegroundPaint();
+		PaintUIResource buttonBackgroundPaint = theme.getButtonBackgroundPaint();
 		PaintUIResource buttonFocusPaint = theme.getButtonFocusPaint();
 		PaintUIResource buttonSelectPaint = theme.getButtonSelectPaint();
 		
 		Object[] defaults = new Object[]{
+				"Button.foreground", buttonForegroundPaint.getColorUIResource(),
+				"Button.foreground.paint", buttonForegroundPaint,
+				"Button.background", buttonBackgroundPaint.getColorUIResource(),
+				"Button.gradient", buttonBackgroundPaint.getMetalGradientList(),
+				"Button.background.paint", buttonBackgroundPaint,
 				"Button.focus", buttonFocusPaint.getColorUIResource(),
 				"Button.focus.paint", buttonFocusPaint,
 				"Button.select", buttonSelectPaint.getColorUIResource(),

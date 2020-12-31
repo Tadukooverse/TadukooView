@@ -124,6 +124,12 @@ public class TadukooThemeFactory{
 	 */
 	public static TadukooTheme.TadukooThemeBuilder copyMetalTheme(TadukooTheme.TadukooThemeBuilder themeBuilder,
 	                                                              MetalTheme metalTheme){
+		// Grab colors
+		ColorPaintUIResource controlPaint = new ColorPaintUIResource(metalTheme.getControl());
+		ColorPaintUIResource controlShadowPaint = new ColorPaintUIResource(metalTheme.getControlShadow());
+		ColorPaintUIResource controlTextPaint = new ColorPaintUIResource(metalTheme.getControlTextColor());
+		ColorPaintUIResource focusPaint = new ColorPaintUIResource(metalTheme.getFocusColor());
+		
 		// Sort out fonts
 		Font controlTextFont = metalTheme.getControlTextFont();
 		FontFamily controlTextFontFamily = Objects.requireNonNull(
@@ -131,12 +137,13 @@ public class TadukooThemeFactory{
 		int controlTextFontStyle = controlTextFont.getStyle();
 		int controlTextFontSize = controlTextFont.getSize();
 		
-		return themeBuilder.buttonFocusPaint(new ColorPaintUIResource(metalTheme.getFocusColor()))
-					.buttonSelectPaint(new ColorPaintUIResource(metalTheme.getControlShadow()))
-					.buttonFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
-					.titledBorderBorder(new BorderUIResource(
-							new BorderUIResource.LineBorderUIResource(metalTheme.getControlShadow())))
-					.titledBorderFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
-					.titledBorderColor(metalTheme.getSystemTextColor());
+		return themeBuilder
+				.buttonForegroundPaint(controlTextPaint).buttonBackgroundPaint(controlPaint)
+				.buttonSelectPaint(controlShadowPaint).buttonFocusPaint(focusPaint)
+				.buttonFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
+				.titledBorderBorder(new BorderUIResource(
+						new BorderUIResource.LineBorderUIResource(metalTheme.getControlShadow())))
+				.titledBorderFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
+				.titledBorderColor(metalTheme.getSystemTextColor());
 	}
 }

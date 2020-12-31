@@ -28,6 +28,8 @@ public class TadukooButtonTest{
 	private String text = "Some Text";
 	private final Icon icon = new ImageIcon("");
 	private final ActionListener actionListener = e -> text = "Some Other Text";
+	private final SizableColor foregroundPaint = new SizableColor(Color.ORANGE);
+	private final SizableColor backgroundPaint = new SizableColor(Color.PINK);
 	private final SizableColor selectPaint = new SizableColor(Color.BLACK);
 	private final SizableColor focusPaint = new SizableColor(Color.YELLOW);
 	private final FontFamily fontFamily = FontFamilies.DIALOG.getFamily();
@@ -43,6 +45,7 @@ public class TadukooButtonTest{
 		button = TadukooButton.builder()
 				.text(text).icon(icon)
 				.actionListener(actionListener)
+				.foregroundPaint(foregroundPaint).backgroundPaint(backgroundPaint)
 				.selectPaint(selectPaint).focusPaint(focusPaint)
 				.font(fontFamily, fontStyle, fontSize)
 				.shapeInfo(shapeInfo)
@@ -57,8 +60,14 @@ public class TadukooButtonTest{
 		assertEquals("", simpleButton.getText());
 		assertNull(simpleButton.getIcon());
 		assertEquals(0, simpleButton.getActionListeners().length);
-		assertTrue(simpleButton.getSelectPaint() instanceof UIResource || simpleButton.getSelectPaint() == null);
-		assertTrue(simpleButton.getFocusPaint() instanceof UIResource || simpleButton.getFocusPaint() == null);
+		assertTrue(simpleButton.getForegroundPaint() instanceof UIResource ||
+				simpleButton.getForegroundPaint() == null);
+		assertTrue(simpleButton.getBackgroundPaint() instanceof UIResource ||
+				simpleButton.getBackgroundPaint() == null);
+		assertTrue(simpleButton.getSelectPaint() instanceof UIResource ||
+				simpleButton.getSelectPaint() == null);
+		assertTrue(simpleButton.getFocusPaint() instanceof UIResource ||
+				simpleButton.getFocusPaint() == null);
 		assertTrue(simpleButton.getFont() instanceof UIResource || simpleButton.getFont() == null);
 		assertNull(simpleButton.getShapeInfo());
 		assertTrue(simpleButton.getBorder() instanceof UIResource || simpleButton.getBorder() == null);
@@ -77,6 +86,16 @@ public class TadukooButtonTest{
 	@Test
 	public void testBuilderActionListener(){
 		assertEquals(actionListener, button.getActionListeners()[0]);
+	}
+	
+	@Test
+	public void testBuilderForegroundPaint(){
+		assertEquals(foregroundPaint, button.getForegroundPaint());
+	}
+	
+	@Test
+	public void testBuilderBackgroundPaint(){
+		assertEquals(backgroundPaint, button.getBackgroundPaint());
 	}
 	
 	@Test
