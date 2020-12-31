@@ -4,6 +4,7 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.InsetsUtil;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
+import com.github.tadukoo.view.paint.HasDisabledTextPaint;
 import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
 import com.github.tadukoo.view.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
@@ -29,7 +30,8 @@ import java.io.IOException;
  * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
-public class TadukooButton extends JButton implements HasSizablePaints, HasSelectAndFocusPaints, Shaped{
+public class TadukooButton extends JButton implements HasSizablePaints, HasSelectAndFocusPaints, HasDisabledTextPaint,
+		Shaped{
 	
 	/**
 	 * Builder to be used to create a {@link TadukooButton}. This is the abstract version to be extended
@@ -76,6 +78,11 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 	 *         <td>focusPaint</td>
 	 *         <td>The {@link SizablePaint} to use for when the Button is focused</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button focus paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>disabledTextPaint</td>
+	 *         <td>The {@link SizablePaint} to use for disabled text on the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button disabled text paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>font</td>
@@ -163,6 +170,8 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 		private SizablePaint selectPaint = null;
 		/** The {@link SizablePaint} to use for when the Button is focused */
 		private SizablePaint focusPaint = null;
+		/** The {@link SizablePaint} to use for disabled text on the Button */
+		private SizablePaint disabledTextPaint = null;
 		
 		/*
 		 * Other Customizations
@@ -268,6 +277,15 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 		 */
 		public TadukooButtonBuilder focusPaint(SizablePaint focusPaint){
 			this.focusPaint = focusPaint;
+			return this;
+		}
+		
+		/**
+		 * @param disabledTextPaint The {@link SizablePaint} to use for disabled text on the Button
+		 * @return this, to continue building
+		 */
+		public TadukooButtonBuilder disabledTextPaint(SizablePaint disabledTextPaint){
+			this.disabledTextPaint = disabledTextPaint;
 			return this;
 		}
 		
@@ -386,7 +404,7 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 			
 			return new TadukooButton(text, icon, actionListener,
 					foregroundPaint, backgroundPaint,
-					selectPaint, focusPaint,
+					selectPaint, focusPaint, disabledTextPaint,
 					font, shapeInfo, border);
 		}
 	}
@@ -399,6 +417,8 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 	private SizablePaint selectPaint;
 	/** The {@link SizablePaint} to use for when this Button is focused */
 	private SizablePaint focusPaint;
+	/** The {@link SizablePaint} to use for disabled text on the Button */
+	private SizablePaint disabledTextPaint;
 	/** The {@link ShapeInfo} to use on the Button */
 	private ShapeInfo shapeInfo;
 	
@@ -412,13 +432,14 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 	 * @param backgroundPaint The {@link SizablePaint} to use for the background of the Button
 	 * @param selectPaint The {@link SizablePaint} to use for when this Button is selected
 	 * @param focusPaint The {@link SizablePaint} to use for when this Button is focused
+	 * @param disabledTextPaint The {@link SizablePaint} to use for disabled text on the Button
 	 * @param font The {@link Font} to use on the Button
 	 * @param shapeInfo The {@link ShapeInfo} to use on the Button
 	 * @param border The {@link Border} to use on the Button
 	 */
 	private TadukooButton(String text, Icon icon, ActionListener actionListener,
 	                      SizablePaint foregroundPaint, SizablePaint backgroundPaint,
-	                      SizablePaint selectPaint, SizablePaint focusPaint,
+	                      SizablePaint selectPaint, SizablePaint focusPaint, SizablePaint disabledTextPaint,
 	                      Font font, ShapeInfo shapeInfo, Border border){
 		super(text, icon);
 		
@@ -439,6 +460,9 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 		}
 		if(focusPaint != null){
 			setFocusPaint(focusPaint);
+		}
+		if(disabledTextPaint != null){
+			setDisabledTextPaint(disabledTextPaint);
 		}
 		
 		// Set other customizations
@@ -506,6 +530,18 @@ public class TadukooButton extends JButton implements HasSizablePaints, HasSelec
 	@Override
 	public void setFocusPaint(SizablePaint focusPaint){
 		this.focusPaint = focusPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public SizablePaint getDisabledTextPaint(){
+		return disabledTextPaint;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public void setDisabledTextPaint(SizablePaint disabledTextPaint){
+		this.disabledTextPaint = disabledTextPaint;
 	}
 	
 	/** {@inheritDoc} */

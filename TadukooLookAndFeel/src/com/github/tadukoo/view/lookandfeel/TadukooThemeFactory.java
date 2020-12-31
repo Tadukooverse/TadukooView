@@ -129,6 +129,8 @@ public class TadukooThemeFactory{
 		ColorPaintUIResource controlShadowPaint = new ColorPaintUIResource(metalTheme.getControlShadow());
 		ColorPaintUIResource controlTextPaint = new ColorPaintUIResource(metalTheme.getControlTextColor());
 		ColorPaintUIResource focusPaint = new ColorPaintUIResource(metalTheme.getFocusColor());
+		ColorPaintUIResource inactiveControlTextPaint =
+				new ColorPaintUIResource(metalTheme.getInactiveControlTextColor());
 		
 		// Sort out fonts
 		Font controlTextFont = metalTheme.getControlTextFont();
@@ -140,6 +142,7 @@ public class TadukooThemeFactory{
 		return themeBuilder
 				.buttonForegroundPaint(controlTextPaint).buttonBackgroundPaint(controlPaint)
 				.buttonSelectPaint(controlShadowPaint).buttonFocusPaint(focusPaint)
+				.buttonDisabledTextPaint(inactiveControlTextPaint)
 				.buttonFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
 				.titledBorderBorder(new BorderUIResource(
 						new BorderUIResource.LineBorderUIResource(metalTheme.getControlShadow())))

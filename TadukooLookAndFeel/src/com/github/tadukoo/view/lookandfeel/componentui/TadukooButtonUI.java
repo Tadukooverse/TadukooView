@@ -1,6 +1,7 @@
 package com.github.tadukoo.view.lookandfeel.componentui;
 
 import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
+import com.github.tadukoo.view.paint.HasDisabledTextPaint;
 import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
 import com.github.tadukoo.view.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
@@ -20,6 +21,7 @@ import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Paint;
 import java.awt.Rectangle;
 
 /**
@@ -121,17 +123,21 @@ public class TadukooButtonUI extends MetalButtonUI{
 	
 	/**
 	 * @param c A {@link Component} which may have the foreground paint on it
-	 * @return The foreground {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
-	 * Feel otherwise
+	 * @param size The {@link Dimension}s of the surface to be painted
+	 * @return The sized {@link Paint} for the foreground - the {@link SizablePaint} used may come from the
+	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
 	 */
-	protected SizablePaint getForegroundPaint(Component c){
+	protected Paint getForegroundPaint(Component c, Dimension size){
+		SizablePaint paint;
 		// Grab the foreground paint from the component if it has it
 		if(c instanceof HasSizablePaints){
-			return ((HasSizablePaints) c).getForegroundPaint();
+			paint = ((HasSizablePaints) c).getForegroundPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			return getForegroundPaint();
+			paint = getForegroundPaint();
 		}
+		// Return the paint based on the given size
+		return paint.getPaint(size);
 	}
 	
 	/**
@@ -143,17 +149,21 @@ public class TadukooButtonUI extends MetalButtonUI{
 	
 	/**
 	 * @param c A {@link Component} which may have the background paint on it
-	 * @return The background {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
-	 * Feel otherwise
+	 * @param size The {@link Dimension}s of the surface to be painted
+	 * @return The sized {@link Paint} for the background - the {@link SizablePaint} used may come from the
+	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
 	 */
-	protected SizablePaint getBackgroundPaint(Component c){
+	protected Paint getBackgroundPaint(Component c, Dimension size){
+		SizablePaint paint;
 		// Grab the background paint from the component if it has it
 		if(c instanceof HasSizablePaints){
-			return ((HasSizablePaints) c).getBackgroundPaint();
+			paint = ((HasSizablePaints) c).getBackgroundPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			return getBackgroundPaint();
+			paint = getBackgroundPaint();
 		}
+		// Return the paint based on the given size
+		return paint.getPaint(size);
 	}
 	
 	/**
@@ -165,17 +175,21 @@ public class TadukooButtonUI extends MetalButtonUI{
 	
 	/**
 	 * @param c A {@link Component} which may have the select paint on it
-	 * @return The select {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
-	 * Feel otherwise
+	 * @param size The {@link Dimension}s of the surface to be painted
+	 * @return The sized {@link Paint} for the select - the {@link SizablePaint} used may come from the
+	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
 	 */
-	protected SizablePaint getSelectPaint(Component c){
+	protected Paint getSelectPaint(Component c, Dimension size){
+		SizablePaint paint;
 		// Grab the select paint from the component if it has it
 		if(c instanceof HasSelectAndFocusPaints){
-			return ((HasSelectAndFocusPaints) c).getSelectPaint();
+			paint = ((HasSelectAndFocusPaints) c).getSelectPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			return getSelectPaint();
+			paint = getSelectPaint();
 		}
+		// Return the paint based on the given size
+		return paint.getPaint(size);
 	}
 	
 	/**
@@ -187,17 +201,47 @@ public class TadukooButtonUI extends MetalButtonUI{
 	
 	/**
 	 * @param c A {@link Component} which may have the focus paint on it
-	 * @return The focus {@link SizablePaint} from the {@link Component} if it has it, or from the Look &amp;
-	 * Feel otherwise
+	 * @param size The {@link Dimension}s of the surface to be painted
+	 * @return The sized {@link Paint} for the focus - the {@link SizablePaint} used may come from the
+	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
 	 */
-	protected SizablePaint getFocusPaint(Component c){
+	protected Paint getFocusPaint(Component c, Dimension size){
+		SizablePaint paint;
 		// Grab the focus paint from the component if it has it
 		if(c instanceof HasSelectAndFocusPaints){
-			return ((HasSelectAndFocusPaints) c).getFocusPaint();
+			paint = ((HasSelectAndFocusPaints) c).getFocusPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			return getFocusPaint();
+			paint = getFocusPaint();
 		}
+		// Return the paint based on the given size
+		return paint.getPaint(size);
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to be used for disabled text on the Button from the Look &amp; Feel
+	 */
+	protected SizablePaint getDisabledTextPaint(){
+		return (SizablePaint) UIManager.get(getPropertyPrefix() + "disabledText.paint");
+	}
+	
+	/**
+	 * @param c A {@link Component} which may have the disabled text paint on it
+	 * @param size The {@link Dimension}s of the surface to be painted
+	 * @return The sized {@link Paint} for the disabled text - the {@link SizablePaint} used may come from the
+	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
+	 */
+	protected Paint getDisabledTextPaint(Component c, Dimension size){
+		SizablePaint paint;
+		// Grab the disabled text paint from the component if it has it
+		if(c instanceof HasDisabledTextPaint){
+			paint = ((HasDisabledTextPaint) c).getDisabledTextPaint();
+		}else{
+			// Default to the Look & Feel's setting
+			paint = getDisabledTextPaint();
+		}
+		// Return the paint based on the given size
+		return paint.getPaint(size);
 	}
 	
 	/**
@@ -234,7 +278,7 @@ public class TadukooButtonUI extends MetalButtonUI{
 			Graphics2D g2d = (Graphics2D) g;
 			
 			// Grab the background paint and set it
-			g2d.setPaint(getBackgroundPaint(c).getPaint(new Dimension(c.getWidth(), c.getHeight())));
+			g2d.setPaint(getBackgroundPaint(c, new Dimension(c.getWidth(), c.getHeight())));
 			
 			// Paint the background
 			g.fillRect(0, 0, c.getWidth(),c.getHeight());
@@ -255,7 +299,7 @@ public class TadukooButtonUI extends MetalButtonUI{
 			Dimension size = b.getSize();
 			
 			// Grab the paint to use and set it on the graphics
-			g2d.setPaint(getSelectPaint(b).getPaint(size));
+			g2d.setPaint(getSelectPaint(b, size));
 			
 			// Grab the shape and fill it
 			g2d.fill(getShape(b).getShapeFunc().apply(0, 0, size.width, size.height));
@@ -286,7 +330,7 @@ public class TadukooButtonUI extends MetalButtonUI{
 		}
 		
 		// Grab the paint to use and set it on the graphics
-		g2d.setPaint(getFocusPaint(b).getPaint(focusRect.getSize()));
+		g2d.setPaint(getFocusPaint(b, focusRect.getSize()));
 		
 		/* TODO: Potentially draw shape instead of rectangle (requires work on insets)
 		// Grab the shape function to be used
@@ -315,13 +359,16 @@ public class TadukooButtonUI extends MetalButtonUI{
 		FontMetrics fm = c.getFontMetrics(g.getFont());
 		int mnemIndex = b.getDisplayedMnemonicIndex();
 		
-		// Draw the Text
+		// Determine the size to be painted
+		Dimension size = new Dimension(fm.stringWidth(text), fm.getHeight());
+		
+		// Determine the paint to use
 		if(model.isEnabled()){
 			// Paint the text normally using foreground paint
-			g2d.setPaint(getForegroundPaint(b).getPaint(new Dimension(fm.stringWidth(text), fm.getHeight())));
+			g2d.setPaint(getForegroundPaint(b, size));
 		}else{
 			// Paint the text disabled
-			g.setColor(getDisabledTextColor());
+			g2d.setPaint(getDisabledTextPaint(b, size));
 		}
 		
 		// Draw the actual text

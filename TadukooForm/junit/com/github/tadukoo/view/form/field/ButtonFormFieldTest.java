@@ -205,6 +205,13 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testSetButtonDisabledTextPaint() throws IOException, FontFormatException{
+		SizableColor gray = new SizableColor(Color.GRAY);
+		field = ButtonFormField.builder().buttonDisabledTextPaint(gray).build();
+		assertEquals(gray, field.getButtonDisabledTextPaint());
+	}
+	
+	@Test
 	public void testSetButtonFont() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.build();
@@ -226,6 +233,7 @@ public class ButtonFormFieldTest{
 		SizableColor blue = new SizableColor(Color.BLUE);
 		SizableColor black = new SizableColor(Color.BLACK);
 		SizableColor yellow = new SizableColor(Color.YELLOW);
+		SizableColor gray = new SizableColor(Color.GRAY);
 		Border border = ShapedLineBorder.builder().build();
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
 				GraphicsEnvironment.getLocalGraphicsEnvironment(), "fonts/");
@@ -233,7 +241,7 @@ public class ButtonFormFieldTest{
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader)
 				.actionListener(testAction)
 				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
-				.buttonSelectPaint(black).buttonFocusPaint(yellow)
+				.buttonSelectPaint(black).buttonFocusPaint(yellow).buttonDisabledTextPaint(gray)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.buttonBorder(border)
 				.build();
@@ -250,6 +258,7 @@ public class ButtonFormFieldTest{
 		assertEquals(blue, field.getButtonBackgroundPaint());
 		assertEquals(black, field.getButtonSelectPaint());
 		assertEquals(yellow, field.getButtonFocusPaint());
+		assertEquals(gray, field.getButtonDisabledTextPaint());
 		assertEquals(FontFamilies.DIALOG.getFamily(), field.getButtonFontFamily());
 		assertEquals(Font.BOLD, field.getButtonFontStyle());
 		assertEquals(12, field.getButtonFontSize());
@@ -324,6 +333,18 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testGetComponentButtonDisabledTextPaint() throws IOException, FontFormatException{
+		SizableColor gray = new SizableColor(Color.GRAY);
+		field = ButtonFormField.builder().key("Test")
+				.buttonDisabledTextPaint(gray).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(gray, button.getDisabledTextPaint());
+	}
+	
+	@Test
 	public void testGetComponentButtonFont() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().key("Test")
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12).build();
@@ -355,11 +376,12 @@ public class ButtonFormFieldTest{
 		SizableColor blue = new SizableColor(Color.BLUE);
 		SizableColor black = new SizableColor(Color.BLACK);
 		SizableColor yellow = new SizableColor(Color.YELLOW);
+		SizableColor gray = new SizableColor(Color.GRAY);
 		Border border = ShapedLineBorder.builder().build();
 		field = ButtonFormField.builder().key("Test")
 				.actionListener(testAction)
 				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
-				.buttonSelectPaint(black).buttonFocusPaint(yellow)
+				.buttonSelectPaint(black).buttonFocusPaint(yellow).buttonDisabledTextPaint(gray)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.buttonBorder(border)
 				.build();
@@ -372,6 +394,7 @@ public class ButtonFormFieldTest{
 		assertEquals(blue, button.getBackgroundPaint());
 		assertEquals(black, button.getSelectPaint());
 		assertEquals(yellow, button.getFocusPaint());
+		assertEquals(gray, button.getDisabledTextPaint());
 		Font font = button.getFont();
 		assertEquals(FontFamilies.DIALOG.getFamily().getName(), font.getName());
 		assertEquals(Font.BOLD, font.getStyle());

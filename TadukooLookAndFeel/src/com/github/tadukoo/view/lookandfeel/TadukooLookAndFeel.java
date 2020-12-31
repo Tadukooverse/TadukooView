@@ -14,7 +14,8 @@ import java.io.IOException;
  * that's not custom enough for you.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2
  */
 public class TadukooLookAndFeel extends MetalLookAndFeel{
 	/** The {@link TadukooTheme theme} to use in the Look &amp; Feel */
@@ -132,6 +133,7 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 		PaintUIResource buttonBackgroundPaint = theme.getButtonBackgroundPaint();
 		PaintUIResource buttonFocusPaint = theme.getButtonFocusPaint();
 		PaintUIResource buttonSelectPaint = theme.getButtonSelectPaint();
+		PaintUIResource buttonDisabledTextPaint = theme.getButtonDisabledTextPaint();
 		
 		Object[] defaults = new Object[]{
 				"Button.foreground", buttonForegroundPaint.getColorUIResource(),
@@ -143,6 +145,8 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 				"Button.focus.paint", buttonFocusPaint,
 				"Button.select", buttonSelectPaint.getColorUIResource(),
 				"Button.select.paint", buttonSelectPaint,
+				"Button.disabledText", buttonDisabledTextPaint.getColorUIResource(),
+				"Button.disabledText.paint", buttonDisabledTextPaint,
 				"Button.font", theme.getButtonFont(),
 				"Button.border", theme.getButtonBorder(),
 				"Button.shape", theme.getButtonShapeInfo(),

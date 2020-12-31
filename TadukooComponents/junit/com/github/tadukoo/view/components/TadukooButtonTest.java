@@ -32,6 +32,7 @@ public class TadukooButtonTest{
 	private final SizableColor backgroundPaint = new SizableColor(Color.PINK);
 	private final SizableColor selectPaint = new SizableColor(Color.BLACK);
 	private final SizableColor focusPaint = new SizableColor(Color.YELLOW);
+	private final SizableColor disabledTextPaint = new SizableColor(Color.GRAY);
 	private final FontFamily fontFamily = FontFamilies.DIALOG.getFamily();
 	private final int fontStyle = Font.BOLD;
 	private final int fontSize = 12;
@@ -46,7 +47,7 @@ public class TadukooButtonTest{
 				.text(text).icon(icon)
 				.actionListener(actionListener)
 				.foregroundPaint(foregroundPaint).backgroundPaint(backgroundPaint)
-				.selectPaint(selectPaint).focusPaint(focusPaint)
+				.selectPaint(selectPaint).focusPaint(focusPaint).disabledTextPaint(disabledTextPaint)
 				.font(fontFamily, fontStyle, fontSize)
 				.shapeInfo(shapeInfo)
 				.border(border)
@@ -68,6 +69,8 @@ public class TadukooButtonTest{
 				simpleButton.getSelectPaint() == null);
 		assertTrue(simpleButton.getFocusPaint() instanceof UIResource ||
 				simpleButton.getFocusPaint() == null);
+		assertTrue(simpleButton.getDisabledTextPaint() instanceof UIResource ||
+				simpleButton.getDisabledTextPaint() == null);
 		assertTrue(simpleButton.getFont() instanceof UIResource || simpleButton.getFont() == null);
 		assertNull(simpleButton.getShapeInfo());
 		assertTrue(simpleButton.getBorder() instanceof UIResource || simpleButton.getBorder() == null);
@@ -109,6 +112,11 @@ public class TadukooButtonTest{
 	}
 	
 	@Test
+	public void testBuilderDisabledTextPaint(){
+		assertEquals(disabledTextPaint, button.getDisabledTextPaint());
+	}
+	
+	@Test
 	public void testBuilderFont(){
 		Font font = button.getFont();
 		assertEquals(fontFamily.getName(), font.getName());
@@ -127,6 +135,22 @@ public class TadukooButtonTest{
 	}
 	
 	@Test
+	public void testSetForegroundPaint(){
+		assertEquals(foregroundPaint, button.getForegroundPaint());
+		SizableColor newPaint = new SizableColor(Color.DARK_GRAY);
+		button.setForegroundPaint(newPaint);
+		assertEquals(newPaint, button.getForegroundPaint());
+	}
+	
+	@Test
+	public void testSetBackgroundPaint(){
+		assertEquals(backgroundPaint, button.getBackgroundPaint());
+		SizableColor newPaint = new SizableColor(Color.DARK_GRAY);
+		button.setBackgroundPaint(newPaint);
+		assertEquals(newPaint, button.getBackgroundPaint());
+	}
+	
+	@Test
 	public void testSetSelectPaint(){
 		assertEquals(selectPaint, button.getSelectPaint());
 		SizableColor newPaint = new SizableColor(Color.RED);
@@ -140,6 +164,14 @@ public class TadukooButtonTest{
 		SizableColor newPaint = new SizableColor(Color.RED);
 		button.setFocusPaint(newPaint);
 		assertEquals(newPaint, button.getFocusPaint());
+	}
+	
+	@Test
+	public void testSetDisabledTextPaint(){
+		assertEquals(disabledTextPaint, button.getDisabledTextPaint());
+		SizableColor newPaint = new SizableColor(Color.YELLOW);
+		button.setDisabledTextPaint(newPaint);
+		assertEquals(newPaint, button.getDisabledTextPaint());
 	}
 	
 	@Test

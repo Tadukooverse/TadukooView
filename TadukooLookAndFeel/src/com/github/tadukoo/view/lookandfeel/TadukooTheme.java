@@ -143,6 +143,16 @@ public class TadukooTheme{
 	 *         <td>The {@link PaintUIResource} to use for select on Buttons</td>
 	 *         <td>null (defaults to the {@code defaultSelectPaint} value)</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>defaultDisabledTextPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for all unspecified disabled text paints</td>
+	 *         <td>new ColorPaintUIResource(Color.GRAY)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>buttonDisabledTextPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for disabled text on Buttons</td>
+	 *         <td>null (defaults to the {@code defaultDisabledTextPaint} value)</td>
+	 *     </tr>
 	 * </table>
 	 * <br>
 	 * <table>
@@ -337,6 +347,12 @@ public class TadukooTheme{
 		/** The {@link PaintUIResource} to use for select on Buttons */
 		private PaintUIResource buttonSelectPaint = null;
 		
+		// Disabled Text Paints
+		/** The {@link PaintUIResource} to use for all unspecified disabled text paints */
+		private PaintUIResource defaultDisabledTextPaint = new ColorPaintUIResource(Color.GRAY);
+		/** The {@link PaintUIResource} to use for disabled text on Buttons */
+		private PaintUIResource buttonDisabledTextPaint = null;
+		
 		/*
 		 * Fonts
 		 */
@@ -518,6 +534,28 @@ public class TadukooTheme{
 		 */
 		public TadukooThemeBuilder buttonSelectPaint(PaintUIResource buttonSelectPaint){
 			this.buttonSelectPaint = buttonSelectPaint;
+			return this;
+		}
+		
+		/*
+		 * Disabled Text Paint Methods
+		 */
+		
+		/**
+		 * @param defaultDisabledTextPaint The {@link PaintUIResource} to use for all unspecified disabled text paints
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder defaultDisabledTextPaint(PaintUIResource defaultDisabledTextPaint){
+			this.defaultDisabledTextPaint = defaultDisabledTextPaint;
+			return this;
+		}
+		
+		/**
+		 * @param buttonDisabledTextPaint The {@link PaintUIResource} to use for disabled text on Buttons
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder buttonDisabledTextPaint(PaintUIResource buttonDisabledTextPaint){
+			this.buttonDisabledTextPaint = buttonDisabledTextPaint;
 			return this;
 		}
 		
@@ -812,6 +850,11 @@ public class TadukooTheme{
 				buttonSelectPaint = defaultSelectPaint;
 			}
 			
+			// Disabled Text Paints
+			if(buttonDisabledTextPaint == null){
+				buttonDisabledTextPaint = defaultDisabledTextPaint;
+			}
+			
 			/*
 			 * Handle Default Fonts
 			 */
@@ -896,7 +939,7 @@ public class TadukooTheme{
 			
 			return new TadukooTheme(buttonUI.getCanonicalName(),
 					buttonForegroundPaint, buttonBackgroundPaint,
-					buttonFocusPaint, buttonSelectPaint, buttonFont,
+					buttonFocusPaint, buttonSelectPaint, buttonDisabledTextPaint, buttonFont,
 					buttonShapeInfo, buttonBorder,
 					titledBorderBorder, titledBorderFont, titledBorderColor, titledBorderPosition.getValue(),
 					classDefaultsArray, systemColorDefaultsArray, componentDefaultsArray);
@@ -913,6 +956,8 @@ public class TadukooTheme{
 	private final PaintUIResource buttonFocusPaint;
 	/** The {@link PaintUIResource} to use for select on Buttons */
 	private final PaintUIResource buttonSelectPaint;
+	/** The {@link PaintUIResource} to use for disabled text on Buttons */
+	private final PaintUIResource buttonDisabledTextPaint;
 	/** The {@link FontUIResource} to use for Buttons */
 	private final FontUIResource buttonFont;
 	/** The {@link ShapeInfo} to use on Buttons */
@@ -942,6 +987,7 @@ public class TadukooTheme{
 	 * @param buttonBackgroundPaint The {@link PaintUIResource} to use for the background on Buttons
 	 * @param buttonFocusPaint The {@link PaintUIResource} to use for focus on Buttons
 	 * @param buttonSelectPaint The {@link PaintUIResource} to use for select on Buttons
+	 * @param buttonDisabledTextPaint The {@link PaintUIResource} to use for disabled text on Buttons
 	 * @param buttonFont The {@link FontUIResource} to use for Buttons
 	 * @param buttonShapeInfo The {@link ShapeInfo} to use on Buttons
 	 * @param buttonBorder The {@link Border} to use on Buttons
@@ -955,7 +1001,8 @@ public class TadukooTheme{
 	 */
 	private TadukooTheme(String buttonUI,
 	                     PaintUIResource buttonForegroundPaint, PaintUIResource buttonBackgroundPaint,
-	                     PaintUIResource buttonFocusPaint, PaintUIResource buttonSelectPaint, FontUIResource buttonFont,
+	                     PaintUIResource buttonFocusPaint, PaintUIResource buttonSelectPaint,
+	                     PaintUIResource buttonDisabledTextPaint, FontUIResource buttonFont,
 	                     ShapeInfo buttonShapeInfo, BorderUIResource buttonBorder,
 	                     BorderUIResource titledBorderBorder, FontUIResource titledBorderFont,
 	                     ColorUIResource titledBorderColor, int titledBorderPosition,
@@ -965,6 +1012,7 @@ public class TadukooTheme{
 		this.buttonBackgroundPaint = buttonBackgroundPaint;
 		this.buttonFocusPaint = buttonFocusPaint;
 		this.buttonSelectPaint = buttonSelectPaint;
+		this.buttonDisabledTextPaint = buttonDisabledTextPaint;
 		this.buttonFont = buttonFont;
 		this.buttonShapeInfo = buttonShapeInfo;
 		this.buttonBorder = buttonBorder;
@@ -1017,6 +1065,13 @@ public class TadukooTheme{
 	 */
 	public PaintUIResource getButtonSelectPaint(){
 		return buttonSelectPaint;
+	}
+	
+	/**
+	 * @return The {@link PaintUIResource} to use for disabled text on Buttons
+	 */
+	public PaintUIResource getButtonDisabledTextPaint(){
+		return buttonDisabledTextPaint;
 	}
 	
 	/**

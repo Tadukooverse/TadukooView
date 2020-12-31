@@ -95,6 +95,11 @@ public class ButtonFormField extends FormField<String>{
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button focus paint)</td>
 	 *     </tr>
 	 *     <tr>
+	 *         <td>buttonDisabledTextPaint</td>
+	 *         <td>The {@link SizablePaint} to use for disabled text on the Button</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button disabled text paint)</td>
+	 *     </tr>
+	 *     <tr>
 	 *         <td>buttonFont</td>
 	 *         <td>The {@link Font} to use on the Button (specified via {@link FontFamily}, font style,
 	 *         and font size</td>
@@ -162,6 +167,8 @@ public class ButtonFormField extends FormField<String>{
 		private SizablePaint buttonSelectPaint = null;
 		/** The {@link SizablePaint} to use for when the Button is focused */
 		private SizablePaint buttonFocusPaint = null;
+		/** The {@link SizablePaint} to use for disabled text on the Button */
+		private SizablePaint buttonDisabledTextPaint = null;
 		
 		/** The {@link FontFamily} to use on the font of the Button */
 		private FontFamily buttonFontFamily = null;
@@ -312,6 +319,15 @@ public class ButtonFormField extends FormField<String>{
 		}
 		
 		/**
+		 * @param buttonDisabledTextPaint The {@link SizablePaint} to use for disabled text on the Button
+		 * @return this, to continue building
+		 */
+		public ButtonFormFieldBuilder buttonDisabledTextPaint(SizablePaint buttonDisabledTextPaint){
+			this.buttonDisabledTextPaint = buttonDisabledTextPaint;
+			return this;
+		}
+		
+		/**
 		 * Specifies the font to use on the Button
 		 *
 		 * @param buttonFontFamily The {@link FontFamily} to use
@@ -348,7 +364,7 @@ public class ButtonFormField extends FormField<String>{
 					fontResourceLoader,
 					actionListener,
 					buttonForegroundPaint, buttonBackgroundPaint,
-					buttonSelectPaint, buttonFocusPaint,
+					buttonSelectPaint, buttonFocusPaint, buttonDisabledTextPaint,
 					buttonFontFamily, buttonFontStyle, buttonFontSize,
 					buttonBorder);
 		}
@@ -364,6 +380,8 @@ public class ButtonFormField extends FormField<String>{
 	private final SizablePaint buttonSelectPaint;
 	/** The {@link SizablePaint} to use for when the Button is focused */
 	private final SizablePaint buttonFocusPaint;
+	/** The {@link SizablePaint} to use for disabled text on the Button */
+	private final SizablePaint buttonDisabledTextPaint;
 	/** The {@link FontFamily} to use on the font of the Button */
 	private final FontFamily buttonFontFamily;
 	/** The font style to use on the font of the Button */
@@ -389,6 +407,7 @@ public class ButtonFormField extends FormField<String>{
 	 * @param buttonBackgroundPaint The {@link SizablePaint} to use for the background of the Button
 	 * @param buttonSelectPaint The {@link SizablePaint} to use for when the Button is selected
 	 * @param buttonFocusPaint The {@link SizablePaint} to use for when the Button is focused
+	 * @param buttonDisabledTextPaint The {@link SizablePaint} to use for disabled text on the Button
 	 * @param buttonFontFamily The {@link FontFamily} to use on the font of the Button
 	 * @param buttonFontStyle The font style to use on the font of the Button
 	 * @param buttonFontSize The font size to use on the font of the Button
@@ -400,6 +419,7 @@ public class ButtonFormField extends FormField<String>{
 	                        ActionListener actionListener,
 	                        SizablePaint buttonForegroundPaint, SizablePaint buttonBackgroundPaint,
 	                        SizablePaint buttonSelectPaint, SizablePaint buttonFocusPaint,
+	                        SizablePaint buttonDisabledTextPaint,
 	                        FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize,
 	                        Border buttonBorder){
 		super(FieldType.BUTTON, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
@@ -409,6 +429,7 @@ public class ButtonFormField extends FormField<String>{
 		this.buttonBackgroundPaint = buttonBackgroundPaint;
 		this.buttonSelectPaint = buttonSelectPaint;
 		this.buttonFocusPaint = buttonFocusPaint;
+		this.buttonDisabledTextPaint = buttonDisabledTextPaint;
 		this.buttonFontFamily = buttonFontFamily;
 		this.buttonFontStyle = buttonFontStyle;
 		this.buttonFontSize = buttonFontSize;
@@ -458,6 +479,13 @@ public class ButtonFormField extends FormField<String>{
 	}
 	
 	/**
+	 * @return The {@link SizablePaint} to use for disabled text on the Button
+	 */
+	public SizablePaint getButtonDisabledTextPaint(){
+		return buttonDisabledTextPaint;
+	}
+	
+	/**
 	 * @return The {@link FontFamily} to use on the font of the Button
 	 */
 	public FontFamily getButtonFontFamily(){
@@ -493,7 +521,7 @@ public class ButtonFormField extends FormField<String>{
 				.fontResourceLoader(getFontResourceLoader())
 				.actionListener(actionListener)
 				.foregroundPaint(buttonForegroundPaint).backgroundPaint(buttonBackgroundPaint)
-				.selectPaint(buttonSelectPaint).focusPaint(buttonFocusPaint)
+				.selectPaint(buttonSelectPaint).focusPaint(buttonFocusPaint).disabledTextPaint(buttonDisabledTextPaint)
 				.font(buttonFontFamily, buttonFontStyle, buttonFontSize)
 				.border(buttonBorder)
 				.build();
