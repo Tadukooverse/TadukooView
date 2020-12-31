@@ -38,46 +38,6 @@ import java.util.Map;
 public class TadukooTheme{
 	
 	/**
-	 * An enum used for Title Position (for Titled Borders)
-	 *
-	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.2
-	 */
-	public enum TitlePosition{
-		/** Position the title above the border's top line. */
-		ABOVE_TOP(1),
-		/** Position the title in the middle of the border's top line. */
-		TOP(2),
-		/** Position the title below the border's top line. */
-		BELOW_TOP(3),
-		/** Position the title above the border's bottom line. */
-		ABOVE_BOTTOM(4),
-		/** Position the title in the middle of the border's bottom line. */
-		BOTTOM(5),
-		/** Position the title below the border's bottom line. */
-		BELOW_BOTTOM(6);
-		
-		/** The value of the Title Position (used in Titled Border class) */
-		private final int value;
-		
-		/**
-		 * Constructs a new Title Position with the given value
-		 *
-		 * @param value The value for this Title Position
-		 */
-		TitlePosition(int value){
-			this.value = value;
-		}
-		
-		/**
-		 * @return The value of the Title Position (used in Titled Border class)
-		 */
-		public int getValue(){
-			return value;
-		}
-	}
-	
-	/**
 	 * Builder for {@link TadukooTheme}. There are no required fields - all of them will be
 	 * defaulted based on the default Tadukoo Theme. The following fields may be specified:
 	 * <br><br>
