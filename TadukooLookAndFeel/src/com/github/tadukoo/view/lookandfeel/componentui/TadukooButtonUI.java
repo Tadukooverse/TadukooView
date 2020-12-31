@@ -67,6 +67,12 @@ public class TadukooButtonUI extends MetalButtonUI{
 			s.setFocusPaint(getFocusPaint());
 		}
 		
+		// Set the default disabled text paint on the button if it's supported
+		if(b instanceof HasDisabledTextPaint){
+			HasDisabledTextPaint s = (HasDisabledTextPaint) b;
+			s.setDisabledTextPaint(getDisabledTextPaint());
+		}
+		
 		// Set the default shape function on the button if it's a Shaped button
 		if(b instanceof Shaped){
 			Shaped s = (Shaped) b;
@@ -98,6 +104,14 @@ public class TadukooButtonUI extends MetalButtonUI{
 			}
 			if(s.getFocusPaint() instanceof UIResource){
 				s.setFocusPaint(null);
+			}
+		}
+		
+		// Remove the default disabled text paint on the button if it's supported and using it
+		if(b instanceof HasDisabledTextPaint){
+			HasDisabledTextPaint s = (HasDisabledTextPaint) b;
+			if(s.getDisabledTextPaint() instanceof UIResource){
+				s.setDisabledTextPaint(null);
 			}
 		}
 		
