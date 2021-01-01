@@ -27,6 +27,9 @@ import java.util.Objects;
  */
 public class TadukooThemeFactory{
 	
+	// Not allowed to build a Tadukoo Theme Factory
+	private TadukooThemeFactory(){ }
+	
 	/*
 	 * Themes and Theme Builders
 	 */
@@ -135,7 +138,7 @@ public class TadukooThemeFactory{
 		// Sort out fonts
 		Font controlTextFont = metalTheme.getControlTextFont();
 		FontFamily controlTextFontFamily = Objects.requireNonNull(
-				FontFamilies.fromName(controlTextFont.getFontName())).getFamily();
+				FontFamilies.fromName(controlTextFont.getName())).getFamily();
 		int controlTextFontStyle = controlTextFont.getStyle();
 		int controlTextFontSize = controlTextFont.getSize();
 		
