@@ -6,6 +6,7 @@ import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.shapes.ShapeInsetsFunction;
 
 import javax.swing.plaf.UIResource;
+import java.util.Objects;
 
 /**
  * A wrapper around {@link ShapeInfo} to turn it into a {@link UIResource} for use in the Look &amp; Feel.
@@ -30,5 +31,18 @@ public class ShapeInfoUIResource extends ShapeInfo implements UIResource{
 	public ShapeInfoUIResource(ShapeFunction shapeFunc, ShapeInsetsFunction shapeInsetsFunc,
 	                           ShapeDrawingFunction topLeftDrawFunc, ShapeDrawingFunction bottomRightDrawFunc){
 		super(shapeFunc, shapeInsetsFunc, topLeftDrawFunc, bottomRightDrawFunc);
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof ShapeInfoUIResource){
+			ShapeInfoUIResource resource = (ShapeInfoUIResource) obj;
+			return Objects.equals(getShapeFunc(), resource.getShapeFunc()) &&
+					Objects.equals(getShapeInsetsFunc(), resource.getShapeInsetsFunc()) &&
+					Objects.equals(getTopLeftDrawFunc(), resource.getTopLeftDrawFunc()) &&
+					Objects.equals(getBottomRightDrawFunc(), resource.getBottomRightDrawFunc());
+		}
+		return false;
 	}
 }

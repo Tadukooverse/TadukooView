@@ -53,6 +53,9 @@ public class TadukooButtonUI extends MetalButtonUI{
 	public void installDefaults(AbstractButton b){
 		super.installDefaults(b);
 		
+		// Most of the shapes do not cover the entire area, causing problems if we leave opaque set to true
+		b.setOpaque(false);
+		
 		// Set the default foreground and background paints on the button if it's supported
 		if(b instanceof HasSizablePaints){
 			HasSizablePaints s = (HasSizablePaints) b;
@@ -286,17 +289,18 @@ public class TadukooButtonUI extends MetalButtonUI{
 	/** {@inheritDoc} */
 	@Override
 	public void update(Graphics g, JComponent c){
-		// If the Button is opaque, paint its background
-		if(c.isOpaque()){
-			// Cast Graphics to Graphics2D for our purposes
-			Graphics2D g2d = (Graphics2D) g;
-			
-			// Grab the background paint and set it
-			g2d.setPaint(getBackgroundPaint(c, new Dimension(c.getWidth(), c.getHeight())));
-			
-			// Paint the background
-			g.fillRect(0, 0, c.getWidth(),c.getHeight());
-		}
+		// Cast Graphics to Graphics2D for our purposes
+		Graphics2D g2d = (Graphics2D) g;
+		
+		// Grab dimensions
+		int width = c.getWidth();
+		int height = c.getHeight();
+		
+		// Grab the background paint and set it
+		g2d.setPaint(getBackgroundPaint(c, new Dimension(width, height)));
+		
+		// Paint the background
+		g2d.fill(getShape(c).getShapeFunc().apply(0, 0, width, height));
 		
 		// Do the other painting
 		paint(g, c);
@@ -371,7 +375,7 @@ public class TadukooButtonUI extends MetalButtonUI{
 		AbstractButton b = (AbstractButton) c;
 		ButtonModel model = b.getModel();
 		FontMetrics fm = c.getFontMetrics(g.getFont());
-		int mnemIndex = b.getDisplayedMnemonicIndex();
+		//int mnemIndex = b.getDisplayedMnemonicIndex();
 		
 		// Determine the size to be painted
 		Dimension size = new Dimension(fm.stringWidth(text), fm.getHeight());

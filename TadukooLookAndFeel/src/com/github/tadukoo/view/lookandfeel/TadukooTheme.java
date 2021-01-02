@@ -9,7 +9,7 @@ import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.shapes.ShapeInfo;
+import com.github.tadukoo.view.lookandfeel.shapeui.ShapeInfoUIResource;
 import com.github.tadukoo.view.shapes.Shapes;
 
 import javax.swing.border.Border;
@@ -183,12 +183,12 @@ public class TadukooTheme{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>defaultShapeInfo</td>
-	 *         <td>The {@link ShapeInfo} to use for all unspecified shapes</td>
+	 *         <td>The {@link ShapeInfoUIResource} to use for all unspecified shapes</td>
 	 *         <td>{@link Shapes#RECTANGLE_WITH_CUT_CORNERS_TR_BL}</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>buttonShapeInfo</td>
-	 *         <td>The {@link ShapeInfo} to use for Buttons</td>
+	 *         <td>The {@link ShapeInfoUIResource} to use for Buttons</td>
 	 *         <td>null (defaults to the {@code defaultShapeInfo} value)</td>
 	 *     </tr>
 	 * </table>
@@ -356,10 +356,11 @@ public class TadukooTheme{
 		 * Shapes
 		 */
 		
-		/** The {@link ShapeInfo} to use for unspecified shapes */
-		private ShapeInfo defaultShapeInfo = Shapes.RECTANGLE_WITH_CUT_CORNERS_TR_BL.getShapeInfo();
-		/** The {@link ShapeInfo} to use for Buttons */
-		private ShapeInfo buttonShapeInfo = null;
+		/** The {@link ShapeInfoUIResource} to use for unspecified shapes */
+		private ShapeInfoUIResource defaultShapeInfo =
+				new ShapeInfoUIResource(Shapes.RECTANGLE_WITH_CUT_CORNERS_TR_BL.getShapeInfo());
+		/** The {@link ShapeInfoUIResource} to use for Buttons */
+		private ShapeInfoUIResource buttonShapeInfo = null;
 		
 		/*
 		 * Borders
@@ -612,19 +613,19 @@ public class TadukooTheme{
 		 */
 		
 		/**
-		 * @param defaultShapeInfo The {@link ShapeInfo} to use for unspecified shapes
+		 * @param defaultShapeInfo The {@link ShapeInfoUIResource} to use for unspecified shapes
 		 * @return this, to continue building
 		 */
-		public TadukooThemeBuilder defaultShapeInfo(ShapeInfo defaultShapeInfo){
+		public TadukooThemeBuilder defaultShapeInfo(ShapeInfoUIResource defaultShapeInfo){
 			this.defaultShapeInfo = defaultShapeInfo;
 			return this;
 		}
 		
 		/**
-		 * @param buttonShapeInfo The {@link ShapeInfo} to use for Buttons
+		 * @param buttonShapeInfo The {@link ShapeInfoUIResource} to use for Buttons
 		 * @return this, to continue building
 		 */
-		public TadukooThemeBuilder buttonShapeInfo(ShapeInfo buttonShapeInfo){
+		public TadukooThemeBuilder buttonShapeInfo(ShapeInfoUIResource buttonShapeInfo){
 			this.buttonShapeInfo = buttonShapeInfo;
 			return this;
 		}
@@ -920,8 +921,8 @@ public class TadukooTheme{
 	private final PaintUIResource buttonDisabledTextPaint;
 	/** The {@link FontUIResource} to use for Buttons */
 	private final FontUIResource buttonFont;
-	/** The {@link ShapeInfo} to use on Buttons */
-	private final ShapeInfo buttonShapeInfo;
+	/** The {@link ShapeInfoUIResource} to use on Buttons */
+	private final ShapeInfoUIResource buttonShapeInfo;
 	/** The {@link Border} to use on Buttons */
 	private final BorderUIResource buttonBorder;
 	/** The default {@link BorderUIResource} to use in Titled Borders */
@@ -949,7 +950,7 @@ public class TadukooTheme{
 	 * @param buttonSelectPaint The {@link PaintUIResource} to use for select on Buttons
 	 * @param buttonDisabledTextPaint The {@link PaintUIResource} to use for disabled text on Buttons
 	 * @param buttonFont The {@link FontUIResource} to use for Buttons
-	 * @param buttonShapeInfo The {@link ShapeInfo} to use on Buttons
+	 * @param buttonShapeInfo The {@link ShapeInfoUIResource} to use on Buttons
 	 * @param buttonBorder The {@link Border} to use on Buttons
 	 * @param titledBorderBorder The default {@link BorderUIResource} to use in Titled Borders
 	 * @param titledBorderFont The default {@link FontUIResource} to use in Titled Borders
@@ -963,7 +964,7 @@ public class TadukooTheme{
 	                     PaintUIResource buttonForegroundPaint, PaintUIResource buttonBackgroundPaint,
 	                     PaintUIResource buttonFocusPaint, PaintUIResource buttonSelectPaint,
 	                     PaintUIResource buttonDisabledTextPaint, FontUIResource buttonFont,
-	                     ShapeInfo buttonShapeInfo, BorderUIResource buttonBorder,
+	                     ShapeInfoUIResource buttonShapeInfo, BorderUIResource buttonBorder,
 	                     BorderUIResource titledBorderBorder, FontUIResource titledBorderFont,
 	                     ColorUIResource titledBorderColor, int titledBorderPosition,
 	                     Object[] classDefaults, Object[] systemColorDefaults, Object[] componentDefaults){
@@ -1042,9 +1043,9 @@ public class TadukooTheme{
 	}
 	
 	/**
-	 * @return The {@link ShapeInfo} to use on Buttons
+	 * @return The {@link ShapeInfoUIResource} to use on Buttons
 	 */
-	public ShapeInfo getButtonShapeInfo(){
+	public ShapeInfoUIResource getButtonShapeInfo(){
 		return buttonShapeInfo;
 	}
 	

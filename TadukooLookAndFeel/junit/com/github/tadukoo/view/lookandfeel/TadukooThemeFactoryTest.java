@@ -6,7 +6,7 @@ import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
 import com.github.tadukoo.view.lookandfeel.paintui.ColorPaintUIResource;
 import com.github.tadukoo.view.lookandfeel.paintui.PaintUIResource;
-import com.github.tadukoo.view.shapes.ShapeInfo;
+import com.github.tadukoo.view.lookandfeel.shapeui.ShapeInfoUIResource;
 import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.Test;
 
@@ -81,7 +81,8 @@ public class TadukooThemeFactoryTest{
 	private final FontFamily defaultFontFamily = FontFamilies.CALIBRI.getFamily();
 	private final int defaultFontStyle = Font.PLAIN;
 	private final int defaultFontSize = 12;
-	private final ShapeInfo defaultShapeInfo = Shapes.RECTANGLE_WITH_CUT_CORNERS_TR_BL.getShapeInfo();
+	private final ShapeInfoUIResource defaultShapeInfo =
+			new ShapeInfoUIResource(Shapes.RECTANGLE_WITH_CUT_CORNERS_TR_BL.getShapeInfo());
 	//private final BorderUIResource defaultBorder = new BorderUIResource(ShapedLineBorder.builder().build());
 	private final ColorUIResource defaultTitledBorderColor = new ColorUIResource(Color.BLACK);
 	private final TitlePosition defaultTitledBorderPosition = TitlePosition.TOP;
@@ -92,7 +93,7 @@ public class TadukooThemeFactoryTest{
 	                         PaintUIResource buttonFocusPaint, PaintUIResource buttonSelectPaint,
 	                         PaintUIResource buttonDisabledTextPaint,
 	                         FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize,
-	                         ShapeInfo buttonShapeInfo,
+	                         ShapeInfoUIResource buttonShapeInfo,
 	                         FontFamily titledBorderFontFamily, int titledBorderFontStyle, int titledBorderFontSize,
 	                         ColorUIResource titledBorderColor, TitlePosition titledBorderPosition){
 		// Check Component UI Classes
@@ -204,7 +205,7 @@ public class TadukooThemeFactoryTest{
 	 * @param theme The {@link TadukooTheme} which should contain the contents from the Metal Theme
 	 */
 	private void verifyMetalTheme(MetalTheme metalTheme, TadukooTheme theme, Class<? extends ButtonUI> buttonUIClass,
-	                              ShapeInfo buttonShapeInfo, TitlePosition titledBorderPosition){
+	                              ShapeInfoUIResource buttonShapeInfo, TitlePosition titledBorderPosition){
 		// Grab Paints
 		PaintUIResource controlPaint = new ColorPaintUIResource(metalTheme.getControl());
 		PaintUIResource controlTextPaint = new ColorPaintUIResource(metalTheme.getControlTextColor());

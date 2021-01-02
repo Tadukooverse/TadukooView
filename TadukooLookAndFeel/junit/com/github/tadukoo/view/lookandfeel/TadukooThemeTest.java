@@ -7,7 +7,7 @@ import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
 import com.github.tadukoo.view.lookandfeel.paintui.ColorPaintUIResource;
 import com.github.tadukoo.view.lookandfeel.paintui.PaintUIResource;
-import com.github.tadukoo.view.shapes.ShapeInfo;
+import com.github.tadukoo.view.lookandfeel.shapeui.ShapeInfoUIResource;
 import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,7 +42,8 @@ public class TadukooThemeTest{
 	private final FontFamily defaultFontFamily = FontFamilies.CALIBRI.getFamily();
 	private final int defaultFontStyle = Font.PLAIN;
 	private final int defaultFontSize = 12;
-	private final ShapeInfo defaultShapeInfo = Shapes.RECTANGLE_WITH_CUT_CORNERS_TR_BL.getShapeInfo();
+	private final ShapeInfoUIResource defaultShapeInfo =
+			new ShapeInfoUIResource(Shapes.RECTANGLE_WITH_CUT_CORNERS_TR_BL.getShapeInfo());
 	//private final BorderUIResource defaultBorder = new BorderUIResource(ShapedLineBorder.builder().build());
 	private final ColorUIResource defaultTitledBorderColor = new ColorUIResource(Color.BLACK);
 	private final TitlePosition defaultTitledBorderPosition = TitlePosition.TOP;
@@ -270,7 +271,7 @@ public class TadukooThemeTest{
 	
 	@Test
 	public void testSetDefaultShapeOnButton() throws IOException, FontFormatException{
-		ShapeInfo shape = Shapes.CIRCLE.getShapeInfo();
+		ShapeInfoUIResource shape = new ShapeInfoUIResource(Shapes.CIRCLE.getShapeInfo());
 		TadukooTheme theme = TadukooTheme.builder().defaultShapeInfo(shape).build();
 		assertEquals(shape, theme.getButtonShapeInfo());
 	}
@@ -281,7 +282,7 @@ public class TadukooThemeTest{
 	
 	@Test
 	public void testSetButtonShape() throws IOException, FontFormatException{
-		ShapeInfo shape = Shapes.CIRCLE.getShapeInfo();
+		ShapeInfoUIResource shape = new ShapeInfoUIResource(Shapes.CIRCLE.getShapeInfo());
 		TadukooTheme theme = TadukooTheme.builder().buttonShapeInfo(shape).build();
 		assertEquals(shape, theme.getButtonShapeInfo());
 	}
