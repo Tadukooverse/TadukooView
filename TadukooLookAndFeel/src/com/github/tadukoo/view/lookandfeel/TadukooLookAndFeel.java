@@ -41,6 +41,13 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 	}
 	
 	/**
+	 * @return The {@link TadukooTheme} to use in the Look &amp; Feel
+	 */
+	public TadukooTheme getTheme(){
+		return theme;
+	}
+	
+	/**
 	 * @return The name of this look and feel. This returns "Tadukoo"
 	 */
 	@Override

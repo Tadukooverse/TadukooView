@@ -350,17 +350,6 @@ public class TadukooButtonUI extends MetalButtonUI{
 		// Grab the paint to use and set it on the graphics
 		g2d.setPaint(getFocusPaint(b, focusRect.getSize()));
 		
-		/* TODO: Potentially draw shape instead of rectangle (requires work on insets)
-		// Grab the shape function to be used
-		ShapeFunction shapeFunc = null;
-		if(b instanceof Shaped){
-			shapeFunc = ((Shaped) b).getShapeInfo().getShapeFunc();
-		}
-		if(shapeFunc == null){
-			shapeFunc = getShape().getShapeFunc();
-		}
-		/**/
-		
 		// Draw the focus rectangle
 		g2d.drawRect((focusRect.x-1), (focusRect.y-1),
 				focusRect.width+1, focusRect.height+1);
