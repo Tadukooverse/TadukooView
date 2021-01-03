@@ -4,12 +4,8 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.InsetsUtil;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.paint.HasDisabledTextPaint;
-import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
-import com.github.tadukoo.view.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
-import com.github.tadukoo.view.shapes.Shaped;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -30,8 +26,7 @@ import java.io.IOException;
  * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
-public class TadukooButton extends JButton implements HasSizablePaints, HasSelectAndFocusPaints, HasDisabledTextPaint,
-		Shaped{
+public class TadukooButton extends JButton implements TButton{
 	
 	/**
 	 * Builder to be used to create a {@link TadukooButton}. This is the abstract version to be extended
