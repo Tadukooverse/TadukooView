@@ -1,27 +1,18 @@
 package com.github.tadukoo.view.lookandfeel.componentui;
 
+import com.github.tadukoo.view.components.TButton;
 import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
-import com.github.tadukoo.view.paint.HasDisabledTextPaint;
-import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
-import com.github.tadukoo.view.paint.HasSizablePaints;
-import com.github.tadukoo.view.paint.SizablePaint;
-import com.github.tadukoo.view.shapes.ShapeInfo;
-import com.github.tadukoo.view.shapes.Shaped;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.JComponent;
-import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.UIResource;
 import javax.swing.plaf.metal.MetalButtonUI;
 import java.awt.Button;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Paint;
 import java.awt.Rectangle;
 
 /**
@@ -32,7 +23,7 @@ import java.awt.Rectangle;
  * @version Alpha v.0.3
  * @since Alpha v.0.1
  */
-public class TadukooButtonUI extends MetalButtonUI{
+public class TadukooButtonUI extends MetalButtonUI implements TComponentUIUtil{
 	
 	/**
 	 * Returns an instance of {@code TadukooButtonUI}.
@@ -42,6 +33,12 @@ public class TadukooButtonUI extends MetalButtonUI{
 	 */
 	public static ComponentUI createUI(JComponent c){
 		return new TadukooButtonUI();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public String getPropertyPrefixString(){
+		return getPropertyPrefix();
 	}
 	
 	/*
@@ -56,30 +53,17 @@ public class TadukooButtonUI extends MetalButtonUI{
 		// Most of the shapes do not cover the entire area, causing problems if we leave opaque set to true
 		b.setOpaque(false);
 		
-		// Set the default foreground and background paints on the button if it's supported
-		if(b instanceof HasSizablePaints){
-			HasSizablePaints s = (HasSizablePaints) b;
-			s.setForegroundPaint(getForegroundPaint());
-			s.setBackgroundPaint(getBackgroundPaint());
-		}
-		
-		// Set the default focus and select paints on the button if it's supported
-		if(b instanceof HasSelectAndFocusPaints){
-			HasSelectAndFocusPaints s = (HasSelectAndFocusPaints) b;
-			s.setSelectPaint(getSelectPaint());
-			s.setFocusPaint(getFocusPaint());
-		}
-		
-		// Set the default disabled text paint on the button if it's supported
-		if(b instanceof HasDisabledTextPaint){
-			HasDisabledTextPaint s = (HasDisabledTextPaint) b;
-			s.setDisabledTextPaint(getDisabledTextPaint());
-		}
-		
-		// Set the default shape function on the button if it's a Shaped button
-		if(b instanceof Shaped){
-			Shaped s = (Shaped) b;
-			s.setShapeInfo(getShape());
+		// If we have a TButton, we can set everything easily
+		if(b instanceof TButton){
+			TButton t = (TButton) b;
+			installTComponent(t);
+			installHasSelectAndFocusPaints(t);
+			installHasDisabledTextPaint(t);
+		}else{
+			// If we don't have a TButton, we have to check the various smaller interfaces
+			installTComponentDefaults(b);
+			installHasSelectAndFocusPaintsDefaults(b);
+			installHasDisabledTextPaintDefaults(b);
 		}
 	}
 	
@@ -88,197 +72,17 @@ public class TadukooButtonUI extends MetalButtonUI{
 	public void uninstallDefaults(AbstractButton b){
 		super.uninstallDefaults(b);
 		
-		// Remove the default foreground and background paints on the button if it's supported and using them
-		if(b instanceof HasSizablePaints){
-			HasSizablePaints s = (HasSizablePaints) b;
-			if(s.getForegroundPaint() instanceof UIResource){
-				s.setForegroundPaint(null);
-			}
-			if(s.getBackgroundPaint() instanceof UIResource){
-				s.setBackgroundPaint(null);
-			}
-		}
-		
-		// Remove the default focus and select paints on the button if it's supported and using them
-		if(b instanceof HasSelectAndFocusPaints){
-			HasSelectAndFocusPaints s = (HasSelectAndFocusPaints) b;
-			if(s.getSelectPaint() instanceof UIResource){
-				s.setSelectPaint(null);
-			}
-			if(s.getFocusPaint() instanceof UIResource){
-				s.setFocusPaint(null);
-			}
-		}
-		
-		// Remove the default disabled text paint on the button if it's supported and using it
-		if(b instanceof HasDisabledTextPaint){
-			HasDisabledTextPaint s = (HasDisabledTextPaint) b;
-			if(s.getDisabledTextPaint() instanceof UIResource){
-				s.setDisabledTextPaint(null);
-			}
-		}
-		
-		// Remove shape function if it's a Shaped button and if it's using the default
-		if(b instanceof Shaped){
-			Shaped s = (Shaped) b;
-			if(s.getShapeInfo() instanceof UIResource){
-				s.setShapeInfo(null);
-			}
-		}
-	}
-	
-	/*
-	 * Accessor Methods
-	 */
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for the foreground from the Look &amp; Feel
-	 */
-	protected SizablePaint getForegroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefix() + "foreground.paint");
-	}
-	
-	/**
-	 * @param c A {@link Component} which may have the foreground paint on it
-	 * @param size The {@link Dimension}s of the surface to be painted
-	 * @return The sized {@link Paint} for the foreground - the {@link SizablePaint} used may come from the
-	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
-	 */
-	protected Paint getForegroundPaint(Component c, Dimension size){
-		SizablePaint paint;
-		// Grab the foreground paint from the component if it has it
-		if(c instanceof HasSizablePaints){
-			paint = ((HasSizablePaints) c).getForegroundPaint();
+		// If we have a TButton, we can uninstall everything easily
+		if(b instanceof TButton){
+			TButton t = (TButton) b;
+			uninstallTComponent(t);
+			uninstallHasSelectAndFocusPaints(t);
+			uninstallHasDisabledTextPaint(t);
 		}else{
-			// Default to the Look & Feel's setting
-			paint = getForegroundPaint();
-		}
-		// Return the paint based on the given size
-		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for the background from the Look &amp; Feel
-	 */
-	protected SizablePaint getBackgroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefix() + "background.paint");
-	}
-	
-	/**
-	 * @param c A {@link Component} which may have the background paint on it
-	 * @param size The {@link Dimension}s of the surface to be painted
-	 * @return The sized {@link Paint} for the background - the {@link SizablePaint} used may come from the
-	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
-	 */
-	protected Paint getBackgroundPaint(Component c, Dimension size){
-		SizablePaint paint;
-		// Grab the background paint from the component if it has it
-		if(c instanceof HasSizablePaints){
-			paint = ((HasSizablePaints) c).getBackgroundPaint();
-		}else{
-			// Default to the Look & Feel's setting
-			paint = getBackgroundPaint();
-		}
-		// Return the paint based on the given size
-		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for when the Button is selected from the Look &amp; Feel
-	 */
-	protected SizablePaint getSelectPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefix() + "select.paint");
-	}
-	
-	/**
-	 * @param c A {@link Component} which may have the select paint on it
-	 * @param size The {@link Dimension}s of the surface to be painted
-	 * @return The sized {@link Paint} for the select - the {@link SizablePaint} used may come from the
-	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
-	 */
-	protected Paint getSelectPaint(Component c, Dimension size){
-		SizablePaint paint;
-		// Grab the select paint from the component if it has it
-		if(c instanceof HasSelectAndFocusPaints){
-			paint = ((HasSelectAndFocusPaints) c).getSelectPaint();
-		}else{
-			// Default to the Look & Feel's setting
-			paint = getSelectPaint();
-		}
-		// Return the paint based on the given size
-		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for when the Button is focused from the Look &amp; Feel
-	 */
-	protected SizablePaint getFocusPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefix() + "focus.paint");
-	}
-	
-	/**
-	 * @param c A {@link Component} which may have the focus paint on it
-	 * @param size The {@link Dimension}s of the surface to be painted
-	 * @return The sized {@link Paint} for the focus - the {@link SizablePaint} used may come from the
-	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
-	 */
-	protected Paint getFocusPaint(Component c, Dimension size){
-		SizablePaint paint;
-		// Grab the focus paint from the component if it has it
-		if(c instanceof HasSelectAndFocusPaints){
-			paint = ((HasSelectAndFocusPaints) c).getFocusPaint();
-		}else{
-			// Default to the Look & Feel's setting
-			paint = getFocusPaint();
-		}
-		// Return the paint based on the given size
-		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for disabled text on the Button from the Look &amp; Feel
-	 */
-	protected SizablePaint getDisabledTextPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefix() + "disabledText.paint");
-	}
-	
-	/**
-	 * @param c A {@link Component} which may have the disabled text paint on it
-	 * @param size The {@link Dimension}s of the surface to be painted
-	 * @return The sized {@link Paint} for the disabled text - the {@link SizablePaint} used may come from the
-	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
-	 */
-	protected Paint getDisabledTextPaint(Component c, Dimension size){
-		SizablePaint paint;
-		// Grab the disabled text paint from the component if it has it
-		if(c instanceof HasDisabledTextPaint){
-			paint = ((HasDisabledTextPaint) c).getDisabledTextPaint();
-		}else{
-			// Default to the Look & Feel's setting
-			paint = getDisabledTextPaint();
-		}
-		// Return the paint based on the given size
-		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link ShapeInfo} to be used from the Look &amp; Feel
-	 */
-	protected ShapeInfo getShape(){
-		return (ShapeInfo) UIManager.get(getPropertyPrefix() + "shape");
-	}
-	
-	/**
-	 * @param c A {@link Component} which may be {@link Shaped}
-	 * @return The {@link ShapeInfo} from the {@link Component} if it has it, or from the Look &amp; Feel otherwise
-	 */
-	protected ShapeInfo getShape(Component c){
-		// Grab the shape info from the component if it has it
-		if(c instanceof Shaped){
-			return ((Shaped) c).getShapeInfo();
-		}else{
-			// Default to the Look & Feel's setting
-			return getShape();
+			// If we don't have a TButton, we have to check the various smaller interfaces
+			uninstallTComponentDefaults(b);
+			uninstallHasSelectAndFocusPaintsDefaults(b);
+			uninstallHasDisabledTextPaintDefaults(b);
 		}
 	}
 	

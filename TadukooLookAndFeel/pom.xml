@@ -12,7 +12,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>TadukooView</artifactId>
+			<artifactId>TadukooComponents</artifactId>
 		</dependency>
 		<!-- JUnit Dependencies -->
 		<dependency>
