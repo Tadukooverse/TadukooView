@@ -29,8 +29,7 @@ import java.io.IOException;
 public class TadukooButton extends JButton implements TButton{
 	
 	/**
-	 * Builder to be used to create a {@link TadukooButton}. This is the abstract version to be extended
-	 * in subclasses of FormField. It has the following parameters:
+	 * Builder to be used to create a {@link TadukooButton}. It has the following parameters:
 	 *
 	 * <table>
 	 *     <caption>TadukooButton Parameters</caption>
@@ -133,8 +132,8 @@ public class TadukooButton extends JButton implements TButton{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>fontResourceLoader</td>
-	 *        <td>The {@link FontResourceLoader} to use in loading a font and/or ensuring they're in the system</td>
-	 *        <td>a new FontResourceLoader with the specified values for {@link #logFontResourceLoaderWarnings},
+	 *         <td>The {@link FontResourceLoader} to use in loading a font and/or ensuring they're in the system</td>
+	 *         <td>a new FontResourceLoader with the specified values for {@link #logFontResourceLoaderWarnings},
 	 *         {@link #logger}, {@link #graphEnv}, and {@link #fontFolder}</td>
 	 *     </tr>
 	 * </table>
@@ -554,49 +553,12 @@ public class TadukooButton extends JButton implements TButton{
 	/** {@inheritDoc} */
 	@Override
 	public Insets getInsets(){
-		Insets insets;
-		Border border = getBorder();
-		if(border != null || shapeInfo != null){
-			insets = new Insets(0, 0, 0, 0);
-			
-			// Use border insets if we have one
-			if(border != null){
-				insets = border.getBorderInsets(this);
-			}
-			
-			// Use Shape insets if we have any
-			if(shapeInfo != null){
-				Insets shapeInsets = shapeInfo.getShapeInsetsFunc().apply(getX(), getY(), getWidth(), getHeight());
-				insets = InsetsUtil.addInsets(insets, shapeInsets);
-			}
-		}else{
-			insets = super.getInsets();
-		}
-		return insets;
+		return getProperInsets(this);
 	}
 	
 	/** {@inheritDoc} */
 	@Override
 	public Insets getInsets(Insets insets){
-		// Reset insets to 0 before starting
-		insets = InsetsUtil.zeroInsets(insets);
-		
-		// Add in border insets if we have one
-		Border border = getBorder();
-		if(border != null) {
-			if(border instanceof AbstractBorder){
-				insets = ((AbstractBorder)border).getBorderInsets(this, insets);
-			}else{
-				insets = border.getBorderInsets(this);
-			}
-		}
-		
-		// Add in Shape insets if we have any
-		if(shapeInfo != null){
-			Insets shapeInsets = shapeInfo.getShapeInsetsFunc().apply(getX(), getY(), getWidth(), getHeight());
-			insets = InsetsUtil.addInsets(insets, shapeInsets);
-		}
-		
-		return insets;
+		return getProperInsets(this, insets);
 	}
 }
