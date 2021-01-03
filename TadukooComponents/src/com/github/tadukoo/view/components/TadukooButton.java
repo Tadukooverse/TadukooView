@@ -1,7 +1,7 @@
 package com.github.tadukoo.view.components;
 
 import com.github.tadukoo.util.logger.EasyLogger;
-import com.github.tadukoo.view.InsetsUtil;
+import com.github.tadukoo.view.components.interfaces.TButton;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizablePaint;
@@ -9,7 +9,6 @@ import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.border.AbstractBorder;
 import javax.swing.border.Border;
 import java.awt.Font;
 import java.awt.FontFormatException;

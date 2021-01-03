@@ -1,7 +1,4 @@
-package com.github.tadukoo.view.components;
-
-import com.github.tadukoo.view.paint.HasDisabledTextPaint;
-import com.github.tadukoo.view.paint.HasSelectAndFocusPaints;
+package com.github.tadukoo.view.components.interfaces;
 
 import java.awt.Button;
 

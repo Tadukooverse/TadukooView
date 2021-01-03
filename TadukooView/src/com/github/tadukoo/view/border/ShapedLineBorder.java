@@ -4,7 +4,7 @@ import com.github.tadukoo.view.paint.SizableColor;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeFunction;
 import com.github.tadukoo.view.shapes.ShapeInfo;
-import com.github.tadukoo.view.shapes.Shaped;
+import com.github.tadukoo.view.components.interfaces.Shaped;
 import com.github.tadukoo.view.shapes.Shapes;
 
 import javax.swing.border.AbstractBorder;

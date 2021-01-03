@@ -2,7 +2,7 @@ package com.github.tadukoo.view.border;
 
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
-import com.github.tadukoo.view.shapes.Shaped;
+import com.github.tadukoo.view.components.interfaces.Shaped;
 import com.github.tadukoo.view.shapes.Shapes;
 
 import javax.swing.border.AbstractBorder;

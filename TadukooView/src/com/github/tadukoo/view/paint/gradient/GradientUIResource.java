@@ -1,5 +1,6 @@
-package com.github.tadukoo.view.paint;
+package com.github.tadukoo.view.paint.gradient;
 
+import com.github.tadukoo.view.paint.PaintUIResource;
 import com.github.tadukoo.view.paint.gradient.Gradient;
 import com.github.tadukoo.view.paint.gradient.LinearGradient;
 

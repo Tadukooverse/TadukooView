@@ -1,4 +1,6 @@
-package com.github.tadukoo.view.paint;
+package com.github.tadukoo.view.components.interfaces;
+
+import com.github.tadukoo.view.paint.SizablePaint;
 
 /**
  * Interface to be used on Components for them to contain a {@link SizablePaint} for disabled text.

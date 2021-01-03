@@ -1,6 +1,6 @@
 package com.github.tadukoo.view.lookandfeel.componentui;
 
-import com.github.tadukoo.view.components.TButton;
+import com.github.tadukoo.view.components.interfaces.TButton;
 import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
 
 import javax.swing.AbstractButton;
