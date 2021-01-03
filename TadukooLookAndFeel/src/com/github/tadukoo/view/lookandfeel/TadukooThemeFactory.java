@@ -1,6 +1,6 @@
 package com.github.tadukoo.view.lookandfeel;
 
-import com.github.tadukoo.view.lookandfeel.paintui.ColorPaintUIResource;
+import com.github.tadukoo.view.paint.ColorPaintUIResource;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
 

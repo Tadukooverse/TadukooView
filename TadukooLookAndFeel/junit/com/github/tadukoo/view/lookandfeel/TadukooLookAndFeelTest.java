@@ -1,6 +1,6 @@
 package com.github.tadukoo.view.lookandfeel;
 
-import com.github.tadukoo.view.lookandfeel.paintui.ColorPaintUIResource;
+import com.github.tadukoo.view.paint.ColorPaintUIResource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

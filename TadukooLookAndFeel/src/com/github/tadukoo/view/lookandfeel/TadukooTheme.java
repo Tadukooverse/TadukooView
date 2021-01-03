@@ -3,13 +3,13 @@ package com.github.tadukoo.view.lookandfeel;
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
-import com.github.tadukoo.view.lookandfeel.paintui.ColorPaintUIResource;
-import com.github.tadukoo.view.lookandfeel.paintui.PaintUIResource;
+import com.github.tadukoo.view.paint.ColorPaintUIResource;
+import com.github.tadukoo.view.paint.PaintUIResource;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.lookandfeel.shapeui.ShapeInfoUIResource;
+import com.github.tadukoo.view.shapes.ShapeInfoUIResource;
 import com.github.tadukoo.view.shapes.Shapes;
 
 import javax.swing.border.Border;

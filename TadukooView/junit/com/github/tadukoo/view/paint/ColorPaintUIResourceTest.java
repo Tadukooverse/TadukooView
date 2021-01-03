@@ -1,4 +1,4 @@
-package com.github.tadukoo.view.lookandfeel.paintui;
+package com.github.tadukoo.view.paint;
 
 import org.junit.jupiter.api.Test;
 

@@ -1,8 +1,4 @@
-package com.github.tadukoo.view.lookandfeel.paintui;
-
-import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
-import com.github.tadukoo.view.lookandfeel.TadukooTheme;
-import com.github.tadukoo.view.paint.SizablePaint;
+package com.github.tadukoo.view.paint;
 
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.UIResource;
@@ -12,13 +8,12 @@ import java.util.List;
 
 /**
  * PaintUIResource is a {@link UIResource} to be used for {@link Paint}s for in
- * {@link TadukooLookAndFeel TadukooLookAndFeel}, particularly for use in
- * {@link TadukooTheme themes}. It provides methods to get the actual
+ * Tadukoo Look &amp; Feel (or other custom Look &amp; Feels as desired). It provides methods to get the actual
  * {@link Paint} or to get a single {@link ColorUIResource} or a {@code List<Object>} for use in supporting
  * {@link MetalLookAndFeel} component UI classes.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
 public interface PaintUIResource extends SizablePaint, UIResource{

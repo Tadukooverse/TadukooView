@@ -1,7 +1,5 @@
-package com.github.tadukoo.view.lookandfeel.paintui;
+package com.github.tadukoo.view.paint;
 
-import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
-import com.github.tadukoo.view.lookandfeel.TadukooTheme;
 import com.github.tadukoo.view.paint.gradient.Gradient;
 import com.github.tadukoo.view.paint.gradient.LinearGradient;
 
@@ -16,11 +14,10 @@ import java.util.List;
 
 /**
  * GradientUIResource is simply a {@link LinearGradient} wrapped as a {@link PaintUIResource} so that it can be
- * used in {@link TadukooLookAndFeel TadukooLookAndFeel} by putting it
- * in a {@link TadukooTheme TadukooTheme}.
+ * used in Tadukoo Look &amp; Feel (or other custom Look &amp; Feels if desired).
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
 public class GradientUIResource implements PaintUIResource, Gradient{

@@ -1,9 +1,4 @@
-package com.github.tadukoo.view.lookandfeel.shapeui;
-
-import com.github.tadukoo.view.shapes.ShapeDrawingFunction;
-import com.github.tadukoo.view.shapes.ShapeFunction;
-import com.github.tadukoo.view.shapes.ShapeInfo;
-import com.github.tadukoo.view.shapes.ShapeInsetsFunction;
+package com.github.tadukoo.view.shapes;
 
 import javax.swing.plaf.UIResource;
 import java.util.Objects;

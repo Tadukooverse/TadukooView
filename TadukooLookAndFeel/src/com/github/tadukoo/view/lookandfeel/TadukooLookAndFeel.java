@@ -1,6 +1,6 @@
 package com.github.tadukoo.view.lookandfeel;
 
-import com.github.tadukoo.view.lookandfeel.paintui.PaintUIResource;
+import com.github.tadukoo.view.paint.PaintUIResource;
 
 import javax.swing.UIDefaults;
 import javax.swing.plaf.metal.MetalLookAndFeel;

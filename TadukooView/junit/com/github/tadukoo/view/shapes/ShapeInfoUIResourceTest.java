@@ -1,7 +1,5 @@
-package com.github.tadukoo.view.lookandfeel.shapeui;
+package com.github.tadukoo.view.shapes;
 
-import com.github.tadukoo.view.shapes.ShapeInfo;
-import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
