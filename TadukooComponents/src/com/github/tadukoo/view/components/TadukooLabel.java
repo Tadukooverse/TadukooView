@@ -1,102 +1,86 @@
 package com.github.tadukoo.view.components;
 
 import com.github.tadukoo.util.logger.EasyLogger;
-import com.github.tadukoo.view.components.interfaces.TButton;
+import com.github.tadukoo.view.components.interfaces.TLabel;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.Icon;
-import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 
 /**
- * Tadukoo Button is an extension of {@link JButton} that allows for specifying more parameters that can be used in
+ * Tadukoo Label is an extension of {@link JLabel} that allows for specifying more parameters that can be used in
  * Tadukoo Look &amp; Feel, such as {@link ShapeInfo}.
  *
  * @author Logan Ferree (Tadukoo)
  * @version Alpha v.0.3
- * @since Alpha v.0.2
  */
-public class TadukooButton extends JButton implements TButton{
+public class TadukooLabel extends JLabel implements TLabel{
 	
 	/**
-	 * Builder to be used to create a {@link TadukooButton}. It has the following parameters:
+	 * Builder to be used to create a {@link TadukooLabel}. It has the following parameters:
 	 *
 	 * <table>
-	 *     <caption>TadukooButton Parameters</caption>
+	 *     <caption>TadukooLabel Parameters</caption>
 	 *     <tr>
 	 *         <th>Name</th>
 	 *         <th>Description</th>
-	 *         <th>Default Value or Required</th>
+	 *         <th>Default or Required</th>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>text</td>
-	 *         <td>The text to use on the Button</td>
+	 *         <td>The text to use on the Label</td>
 	 *         <td>Defaults to null</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>icon</td>
-	 *         <td>The icon to use on the Button</td>
-	 *         <td>Defaults to null</td>
-	 *     </tr>
-	 *     <tr>
-	 *         <td>actionListener</td>
-	 *         <td>The action to perform on click of the Button</td>
+	 *         <td>The icon to use on the Label</td>
 	 *         <td>Defaults to null</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>foregroundPaint</td>
-	 *         <td>The {@link SizablePaint} to use for the foreground of the Button</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button foreground paint)</td>
+	 *         <td>The {@link SizablePaint} to use for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>backgroundPaint</td>
-	 *         <td>The {@link SizablePaint} to use for the background of the Button</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button background paint)</td>
+	 *         <td>The {@link SizablePaint} to use for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
-	 *         <td>selectPaint</td>
-	 *         <td>The {@link SizablePaint} to use for when the Button is selected</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button select paint)</td>
-	 *     </tr>
-	 *     <tr>
-	 *         <td>focusPaint</td>
-	 *         <td>The {@link SizablePaint} to use for when the Button is focused</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button focus paint)</td>
-	 *     </tr>
-	 *     <tr>
-	 *         <td>disabledTextPaint</td>
-	 *         <td>The {@link SizablePaint} to use for disabled text on the Button</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button disabled text paint)</td>
+	 *         <td>disabledForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} to use for the disabled foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label disabledForeground paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>font</td>
-	 *         <td>The {@link Font} to use on the Button (specified via {@link FontFamily}, font style,
+	 *         <td>The {@link Font} to use on the Label (specified via {@link FontFamily}, font style,
 	 *         and font size</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button font)</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label font)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>shapeInfo</td>
-	 *         <td>The {@link ShapeInfo} to use on the Button</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button shape, if supported)</td>
+	 *         <td>The {@link ShapeInfo} to use on the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label shapeInfo)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>border</td>
-	 *         <td>The {@link Border} to use on the Button</td>
-	 *         <td>Defaults to null (to use the Look &amp; Feel's default Button border)</td>
+	 *         <td>The {@link Border} to use on the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label border)</td>
 	 *     </tr>
 	 * </table>
 	 *
 	 * There are also parameters for loading the font using a {@link FontResourceLoader}, which can be ignored if
-	 * you don't specify a {@link Font} for this button:
+	 * you don't specify a {@link Font} for this label:
 	 *
 	 * <table>
 	 *     <caption>Font Resource Loader Parameters</caption>
@@ -139,45 +123,38 @@ public class TadukooButton extends JButton implements TButton{
 	 *
 	 * @author Logan Ferree (Tadukoo)
 	 * @version Alpha v.0.3
-	 * @since Alpha v.0.2
 	 */
-	public static class TadukooButtonBuilder{
+	public static class TadukooLabelBuilder{
 		/*
 		 * The Basics
 		 */
-		/** The text to use on the Button */
+		/** The text to use on the Label */
 		private String text = null;
-		/** The icon to use on the Button */
+		/** The icon to use on the Label */
 		private Icon icon = null;
-		/** The action to perform on click of the Button */
-		private ActionListener actionListener = null;
 		
 		/*
 		 * The Paints
 		 */
-		/** The {@link SizablePaint} to use for the foreground of the Button */
+		/** The {@link SizablePaint} to use for the foreground of the Label */
 		private SizablePaint foregroundPaint = null;
-		/** The {@link SizablePaint} to use for the background of the Button */
+		/** The {@link SizablePaint} to use for the background of the Label */
 		private SizablePaint backgroundPaint = null;
-		/** The {@link SizablePaint} to use for when the Button is selected */
-		private SizablePaint selectPaint = null;
-		/** The {@link SizablePaint} to use for when the Button is focused */
-		private SizablePaint focusPaint = null;
-		/** The {@link SizablePaint} to use for disabled text on the Button */
-		private SizablePaint disabledTextPaint = null;
+		/** The {@link SizablePaint} to use for the disabled foreground of the Label */
+		private SizablePaint disabledForegroundPaint = null;
 		
 		/*
 		 * Other Customizations
 		 */
-		/** The {@link FontFamily} to use on the font of the Button */
+		/** The {@link FontFamily} to use on the font of the Label */
 		private FontFamily fontFamily = null;
-		/** The font style to use on the font of the Button */
+		/** The font style to use on the font of the Label */
 		private int fontStyle = -1;
-		/** The font size to use on the font of the Button */
+		/** The font size to use on the font of the Label */
 		private int fontSize = -1;
-		/** The {@link ShapeInfo} to use on the Button */
+		/** The {@link ShapeInfo} to use on the Label */
 		private ShapeInfo shapeInfo = null;
-		/** The {@link Border} to use on the Button */
+		/** The {@link Border} to use on the Label */
 		private Border border = null;
 		
 		/*
@@ -198,37 +175,28 @@ public class TadukooButton extends JButton implements TButton{
 		/** The {@link FontResourceLoader} to use in loading a font and/or ensuring they're in the system */
 		private FontResourceLoader fontResourceLoader = null;
 		
-		// Can't create outside of Tadukoo Button
-		private TadukooButtonBuilder(){ }
+		// Can't create Tadukoo Label Builder outside of Tadukoo Label
+		private TadukooLabelBuilder(){ }
 		
 		/*
 		 * The Basics
 		 */
 		
 		/**
-		 * @param text The text to use on the Button
+		 * @param text The text to use on the Label
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder text(String text){
+		public TadukooLabelBuilder text(String text){
 			this.text = text;
 			return this;
 		}
 		
 		/**
-		 * @param icon The icon to use on the Button
+		 * @param icon The icon to use on the Label
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder icon(Icon icon){
+		public TadukooLabelBuilder icon(Icon icon){
 			this.icon = icon;
-			return this;
-		}
-		
-		/**
-		 * @param actionListener The action to perform on click of the Button
-		 * @return this, to continue building
-		 */
-		public TadukooButtonBuilder actionListener(ActionListener actionListener){
-			this.actionListener = actionListener;
 			return this;
 		}
 		
@@ -237,47 +205,29 @@ public class TadukooButton extends JButton implements TButton{
 		 */
 		
 		/**
-		 * @param foregroundPaint The {@link SizablePaint} to use for the foreground of the Button
+		 * @param foregroundPaint The {@link SizablePaint} to use for the foreground of the Label
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder foregroundPaint(SizablePaint foregroundPaint){
+		public TadukooLabelBuilder foregroundPaint(SizablePaint foregroundPaint){
 			this.foregroundPaint = foregroundPaint;
 			return this;
 		}
 		
 		/**
-		 * @param backgroundPaint The {@link SizablePaint} to use for the background of the Button
+		 * @param backgroundPaint The {@link SizablePaint} to use for the background of the Label
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder backgroundPaint(SizablePaint backgroundPaint){
+		public TadukooLabelBuilder backgroundPaint(SizablePaint backgroundPaint){
 			this.backgroundPaint = backgroundPaint;
 			return this;
 		}
 		
 		/**
-		 * @param selectPaint The {@link SizablePaint} to use for when the Button is selected
+		 * @param disabledForegroundPaint The {@link SizablePaint} to use for the disabled foreground of the Label
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder selectPaint(SizablePaint selectPaint){
-			this.selectPaint = selectPaint;
-			return this;
-		}
-		
-		/**
-		 * @param focusPaint The {@link SizablePaint} to use for when the Button is focused
-		 * @return this, to continue building
-		 */
-		public TadukooButtonBuilder focusPaint(SizablePaint focusPaint){
-			this.focusPaint = focusPaint;
-			return this;
-		}
-		
-		/**
-		 * @param disabledTextPaint The {@link SizablePaint} to use for disabled text on the Button
-		 * @return this, to continue building
-		 */
-		public TadukooButtonBuilder disabledTextPaint(SizablePaint disabledTextPaint){
-			this.disabledTextPaint = disabledTextPaint;
+		public TadukooLabelBuilder disabledForegroundPaint(SizablePaint disabledForegroundPaint){
+			this.disabledForegroundPaint = disabledForegroundPaint;
 			return this;
 		}
 		
@@ -286,14 +236,14 @@ public class TadukooButton extends JButton implements TButton{
 		 */
 		
 		/**
-		 * Specifies the font to use on the Button
+		 * Specifies the font to use on the Label
 		 *
 		 * @param fontFamily The {@link FontFamily} to use
 		 * @param fontStyle The font style to use
 		 * @param fontSize The font size to use
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder font(FontFamily fontFamily, int fontStyle, int fontSize){
+		public TadukooLabelBuilder font(FontFamily fontFamily, int fontStyle, int fontSize){
 			this.fontFamily = fontFamily;
 			this.fontStyle = fontStyle;
 			this.fontSize = fontSize;
@@ -301,19 +251,19 @@ public class TadukooButton extends JButton implements TButton{
 		}
 		
 		/**
-		 * @param shapeInfo The {@link ShapeInfo} to use on the Button
+		 * @param shapeInfo The {@link ShapeInfo} to use on the Label
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder shapeInfo(ShapeInfo shapeInfo){
+		public TadukooLabelBuilder shapeInfo(ShapeInfo shapeInfo){
 			this.shapeInfo = shapeInfo;
 			return this;
 		}
 		
 		/**
-		 * @param border The {@link Border} to use on the Button
+		 * @param border The {@link Border} to use on the Label
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder border(Border border){
+		public TadukooLabelBuilder border(Border border){
 			this.border = border;
 			return this;
 		}
@@ -327,7 +277,7 @@ public class TadukooButton extends JButton implements TButton{
 		 *  - can be ignored if you specify your own FontResourceLoader
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder logFontResourceLoaderWarnings(boolean logFontResourceLoaderWarnings){
+		public TadukooLabelBuilder logFontResourceLoaderWarnings(boolean logFontResourceLoaderWarnings){
 			this.logFontResourceLoaderWarnings = logFontResourceLoaderWarnings;
 			return this;
 		}
@@ -337,7 +287,7 @@ public class TadukooButton extends JButton implements TButton{
 		 *  - can be ignored if you specify your own FontResourceLoader
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder logger(EasyLogger logger){
+		public TadukooLabelBuilder logger(EasyLogger logger){
 			this.logger = logger;
 			return this;
 		}
@@ -347,7 +297,7 @@ public class TadukooButton extends JButton implements TButton{
 		 *  - can be ignored if you specify your own FontResourceLoader
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder graphEnv(GraphicsEnvironment graphEnv){
+		public TadukooLabelBuilder graphEnv(GraphicsEnvironment graphEnv){
 			this.graphEnv = graphEnv;
 			return this;
 		}
@@ -357,7 +307,7 @@ public class TadukooButton extends JButton implements TButton{
 		 *  - can be ignored if you specify your own FontResourceLoader
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder fontFolder(String fontFolder){
+		public TadukooLabelBuilder fontFolder(String fontFolder){
 			this.fontFolder = fontFolder;
 			return this;
 		}
@@ -367,19 +317,19 @@ public class TadukooButton extends JButton implements TButton{
 		 *  they're in the system
 		 * @return this, to continue building
 		 */
-		public TadukooButtonBuilder fontResourceLoader(FontResourceLoader fontResourceLoader){
+		public TadukooLabelBuilder fontResourceLoader(FontResourceLoader fontResourceLoader){
 			this.fontResourceLoader = fontResourceLoader;
 			return this;
 		}
 		
 		/**
-		 * Builds a {@link TadukooButton}
+		 * Builds a {@link TadukooLabel}
 		 *
-		 * @return A newly created {@link TadukooButton}
+		 * @return A newly created {@link TadukooLabel}
 		 * @throws IOException If something goes wrong during {@link FontResourceLoader font resource loading}
 		 * @throws FontFormatException If something goes wrong during {@link FontResourceLoader font resource loading}
 		 */
-		public TadukooButton build() throws IOException, FontFormatException{
+		public TadukooLabel build() throws IOException, FontFormatException{
 			// Determine the font to use if it was specified
 			Font font = null;
 			if(fontFamily != null){
@@ -394,51 +344,38 @@ public class TadukooButton extends JButton implements TButton{
 				font = new Font(foundFont, fontStyle, fontSize);
 			}
 			
-			return new TadukooButton(text, icon, actionListener,
-					foregroundPaint, backgroundPaint,
-					selectPaint, focusPaint, disabledTextPaint,
+			return new TadukooLabel(text, icon,
+					foregroundPaint, backgroundPaint, disabledForegroundPaint,
 					font, shapeInfo, border);
 		}
 	}
 	
-	/** The {@link SizablePaint} to use for the foreground of the Button */
+	/** The {@link SizablePaint} to use for the foreground of the Label */
 	private SizablePaint foregroundPaint;
-	/** The {@link SizablePaint} to use for the background of the Button */
+	/** The {@link SizablePaint} to use for the background of the Label */
 	private SizablePaint backgroundPaint;
-	/** The {@link SizablePaint} to use for when this Button is selected */
-	private SizablePaint selectPaint;
-	/** The {@link SizablePaint} to use for when this Button is focused */
-	private SizablePaint focusPaint;
-	/** The {@link SizablePaint} to use for disabled text on the Button */
-	private SizablePaint disabledTextPaint;
-	/** The {@link ShapeInfo} to use on the Button */
+	/** The {@link SizablePaint} to use for the disabled foreground of the Label */
+	private SizablePaint disabledForegroundPaint;
+	/** The {@link ShapeInfo} to use on the Label */
 	private ShapeInfo shapeInfo;
 	
 	/**
-	 * Creates a new Button with the given parameters
+	 * Constructs a new Tadukoo Label with the given parameters
 	 *
-	 * @param text The text to use on the Button
-	 * @param icon The icon to use on the Button
-	 * @param actionListener The action to perform on click of the Button
-	 * @param foregroundPaint The {@link SizablePaint} to use for the foreground of the Button
-	 * @param backgroundPaint The {@link SizablePaint} to use for the background of the Button
-	 * @param selectPaint The {@link SizablePaint} to use for when this Button is selected
-	 * @param focusPaint The {@link SizablePaint} to use for when this Button is focused
-	 * @param disabledTextPaint The {@link SizablePaint} to use for disabled text on the Button
-	 * @param font The {@link Font} to use on the Button
-	 * @param shapeInfo The {@link ShapeInfo} to use on the Button
-	 * @param border The {@link Border} to use on the Button
+	 * @param text The text to use on the Label
+	 * @param icon The icon to use on the Label
+	 * @param foregroundPaint The {@link SizablePaint} to use for the foreground of the Label
+	 * @param backgroundPaint The {@link SizablePaint} to use for the background of the Label
+	 * @param disabledForegroundPaint The {@link SizablePaint} to use for the disabled foreground of the Label
+	 * @param font The {@link Font} to use on the Label
+	 * @param shapeInfo The {@link ShapeInfo} to use for the Label
+	 * @param border The {@link Border} to use on the Label
 	 */
-	private TadukooButton(String text, Icon icon, ActionListener actionListener,
-	                      SizablePaint foregroundPaint, SizablePaint backgroundPaint,
-	                      SizablePaint selectPaint, SizablePaint focusPaint, SizablePaint disabledTextPaint,
-	                      Font font, ShapeInfo shapeInfo, Border border){
-		super(text, icon);
-		
-		// Set action listener if present
-		if(actionListener != null){
-			addActionListener(actionListener);
-		}
+	private TadukooLabel(String text, Icon icon,
+	                     SizablePaint foregroundPaint, SizablePaint backgroundPaint,
+	                     SizablePaint disabledForegroundPaint,
+	                     Font font, ShapeInfo shapeInfo, Border border){
+		super(text, icon, SwingConstants.CENTER);
 		
 		// Set paints
 		if(foregroundPaint != null){
@@ -447,14 +384,8 @@ public class TadukooButton extends JButton implements TButton{
 		if(backgroundPaint != null){
 			setBackgroundPaint(backgroundPaint);
 		}
-		if(selectPaint != null){
-			setSelectPaint(selectPaint);
-		}
-		if(focusPaint != null){
-			setFocusPaint(focusPaint);
-		}
-		if(disabledTextPaint != null){
-			setDisabledTextPaint(disabledTextPaint);
+		if(disabledForegroundPaint != null){
+			setDisabledForegroundPaint(disabledForegroundPaint);
 		}
 		
 		// Set other customizations
@@ -470,10 +401,10 @@ public class TadukooButton extends JButton implements TButton{
 	}
 	
 	/**
-	 * @return A new {@link TadukooButtonBuilder} to use to make a {@link TadukooButton}
+	 * @return A new {@link TadukooLabelBuilder} to use to make a {@link TadukooLabel}
 	 */
-	public static TadukooButtonBuilder builder(){
-		return new TadukooButtonBuilder();
+	public static TadukooLabelBuilder builder(){
+		return new TadukooLabelBuilder();
 	}
 	
 	/** {@inheritDoc} */
@@ -502,38 +433,14 @@ public class TadukooButton extends JButton implements TButton{
 	
 	/** {@inheritDoc} */
 	@Override
-	public SizablePaint getSelectPaint(){
-		return selectPaint;
+	public SizablePaint getDisabledForegroundPaint(){
+		return disabledForegroundPaint;
 	}
 	
 	/** {@inheritDoc} */
 	@Override
-	public void setSelectPaint(SizablePaint selectPaint){
-		this.selectPaint = selectPaint;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public SizablePaint getFocusPaint(){
-		return focusPaint;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public void setFocusPaint(SizablePaint focusPaint){
-		this.focusPaint = focusPaint;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public SizablePaint getDisabledTextPaint(){
-		return disabledTextPaint;
-	}
-	
-	/** {@inheritDoc} */
-	@Override
-	public void setDisabledTextPaint(SizablePaint disabledTextPaint){
-		this.disabledTextPaint = disabledTextPaint;
+	public void setDisabledForegroundPaint(SizablePaint disabledForegroundPaint){
+		this.disabledForegroundPaint = disabledForegroundPaint;
 	}
 	
 	/** {@inheritDoc} */
