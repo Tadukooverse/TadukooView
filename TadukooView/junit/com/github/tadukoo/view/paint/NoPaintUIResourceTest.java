@@ -12,4 +12,14 @@ public class NoPaintUIResourceTest{
 	public void testGetPaint(){
 		assertNull(new NoPaintUIResource().getPaint(new Dimension(25, 42)));
 	}
+	
+	@Test
+	public void testGetColorUIResource(){
+		assertNull(new NoPaintUIResource().getColorUIResource());
+	}
+	
+	@Test
+	public void testGetMetalGradientList(){
+		assertNull(new NoPaintUIResource().getMetalGradientList());
+	}
 }
