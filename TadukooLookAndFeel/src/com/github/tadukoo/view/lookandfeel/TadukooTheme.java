@@ -3,7 +3,9 @@ package com.github.tadukoo.view.lookandfeel;
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
+import com.github.tadukoo.view.lookandfeel.componentui.TadukooLabelUI;
 import com.github.tadukoo.view.paint.ColorPaintUIResource;
+import com.github.tadukoo.view.paint.NoPaintUIResource;
 import com.github.tadukoo.view.paint.PaintUIResource;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
@@ -17,6 +19,7 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.LabelUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -54,6 +57,11 @@ public class TadukooTheme{
 	 *         <td>The {@link ButtonUI} class to use</td>
 	 *         <td>TadukooButtonUI.class</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>labelUI</td>
+	 *         <td>The {@link LabelUI} class to use</td>
+	 *         <td>TadukooLabelUI.class</td>
+	 *     </tr>
 	 * </table>
 	 * <br>
 	 * <table>
@@ -74,6 +82,11 @@ public class TadukooTheme{
 	 *         <td>null (defaults to the {@code defaultForegroundPaint} value)</td>
 	 *     </tr>
 	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for the foreground on Labels</td>
+	 *         <td>null (defaults to the {@code defaultForegroundPaint} value)</td>
+	 *     </tr>
+	 *     <tr>
 	 *         <td>defaultBackgroundPaint</td>
 	 *         <td>The {@link PaintUIResource} to use for all unspecified background paints</td>
 	 *         <td>new ColorPaintUIResource(Color.WHITE)</td>
@@ -82,6 +95,12 @@ public class TadukooTheme{
 	 *         <td>buttonBackgroundPaint</td>
 	 *         <td>The {@link PaintUIResource} to use for the background on Buttons</td>
 	 *         <td>null (defaults to the {@code defaultBackgroundPaint} value)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for the background on Labels</td>
+	 *         <td>new {@link NoPaintUIResource} (can set to null to use the {@code defaultBackgroundPaint} value
+	 *         if you want to)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>defaultFocusPaint</td>
@@ -112,6 +131,16 @@ public class TadukooTheme{
 	 *         <td>buttonDisabledTextPaint</td>
 	 *         <td>The {@link PaintUIResource} to use for disabled text on Buttons</td>
 	 *         <td>null (defaults to the {@code defaultDisabledTextPaint} value)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>defaultDisabledForegroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for all unspecified disabled foreground paints</td>
+	 *         <td>new ColorPaintUIResource(Color.GRAY)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelDisabledForegroundPaint</td>
+	 *         <td>The {@link PaintUIResource} to use for disabled foreground on Labels</td>
+	 *         <td>null (defaults to the {@code defaultDisabledForegroundPaint} value)</td>
 	 *     </tr>
 	 * </table>
 	 * <br>
@@ -276,6 +305,8 @@ public class TadukooTheme{
 		
 		/** The {@link ButtonUI} class to use */
 		private Class<? extends ButtonUI> buttonUI = TadukooButtonUI.class;
+		/** The {@link LabelUI} class to use */
+		private Class<? extends LabelUI> labelUI = TadukooLabelUI.class;
 		
 		/*
 		 * Paints
@@ -288,12 +319,16 @@ public class TadukooTheme{
 		private PaintUIResource defaultForegroundPaint = new ColorPaintUIResource(Color.BLACK);
 		/** The {@link PaintUIResource} to use for the foreground on Buttons */
 		private PaintUIResource buttonForegroundPaint = null;
+		/** The {@link PaintUIResource} to use for the foreground on Labels */
+		private PaintUIResource labelForegroundPaint = null;
 		
 		// Background Paints
 		/** The {@link PaintUIResource} to use for all unspecified background paints */
 		private PaintUIResource defaultBackgroundPaint = new ColorPaintUIResource(Color.WHITE);
 		/** The {@link PaintUIResource} to use for the background on Buttons */
 		private PaintUIResource buttonBackgroundPaint = null;
+		/** The {@link PaintUIResource} to use for the background on Labels */
+		private PaintUIResource labelBackgroundPaint = new NoPaintUIResource();
 		
 		// Focus Paints
 		/** The {@link PaintUIResource} to use for all unspecified focus paints */
@@ -312,6 +347,12 @@ public class TadukooTheme{
 		private PaintUIResource defaultDisabledTextPaint = new ColorPaintUIResource(Color.GRAY);
 		/** The {@link PaintUIResource} to use for disabled text on Buttons */
 		private PaintUIResource buttonDisabledTextPaint = null;
+		
+		// Disabled Foreground Paints
+		/** The {@link PaintUIResource} to use for all unspecified disabled foreground paints */
+		private PaintUIResource defaultDisabledForegroundPaint = new ColorPaintUIResource(Color.GRAY);
+		/** The {@link PaintUIResource} to use for disabled foreground on Labels */
+		private PaintUIResource labelDisabledForegroundPaint = null;
 		
 		/*
 		 * Fonts
@@ -401,12 +442,25 @@ public class TadukooTheme{
 		// Cannot create TadukooThemeBuilder outside of TadukooTheme
 		private TadukooThemeBuilder(){ }
 		
+		/*
+		 * Component UI Classes
+		 */
+		
 		/**
 		 * @param buttonUI The {@link ButtonUI} class to use
 		 * @return this, to continue building
 		 */
 		public TadukooThemeBuilder buttonUI(Class<? extends ButtonUI> buttonUI){
 			this.buttonUI = buttonUI;
+			return this;
+		}
+		
+		/**
+		 * @param labelUI The {@link LabelUI} class to use
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder labelUI(Class<? extends LabelUI> labelUI){
+			this.labelUI = labelUI;
 			return this;
 		}
 		
@@ -432,6 +486,15 @@ public class TadukooTheme{
 			return this;
 		}
 		
+		/**
+		 * @param labelForegroundPaint The {@link PaintUIResource} to use for the foreground on Labels
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder labelForegroundPaint(PaintUIResource labelForegroundPaint){
+			this.labelForegroundPaint = labelForegroundPaint;
+			return this;
+		}
+		
 		/*
 		 * Background Paint Methods
 		 */
@@ -451,6 +514,15 @@ public class TadukooTheme{
 		 */
 		public TadukooThemeBuilder buttonBackgroundPaint(PaintUIResource buttonBackgroundPaint){
 			this.buttonBackgroundPaint = buttonBackgroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param labelBackgroundPaint The {@link PaintUIResource} to use for the background on Labels
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder labelBackgroundPaint(PaintUIResource labelBackgroundPaint){
+			this.labelBackgroundPaint = labelBackgroundPaint;
 			return this;
 		}
 		
@@ -517,6 +589,29 @@ public class TadukooTheme{
 		 */
 		public TadukooThemeBuilder buttonDisabledTextPaint(PaintUIResource buttonDisabledTextPaint){
 			this.buttonDisabledTextPaint = buttonDisabledTextPaint;
+			return this;
+		}
+		
+		/*
+		 * Disabled Foreground Paint Methods
+		 */
+		
+		/**
+		 * @param defaultDisabledForegroundPaint The {@link PaintUIResource} to use for all unspecified disabled
+		 *                                       foreground paints
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder defaultDisabledForegroundPaint(PaintUIResource defaultDisabledForegroundPaint){
+			this.defaultDisabledForegroundPaint = defaultDisabledForegroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param labelDisabledForegroundPaint The {@link PaintUIResource} to use for disabled foreground on Labels
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder labelDisabledForegroundPaint(PaintUIResource labelDisabledForegroundPaint){
+			this.labelDisabledForegroundPaint = labelDisabledForegroundPaint;
 			return this;
 		}
 		
@@ -795,10 +890,16 @@ public class TadukooTheme{
 			if(buttonForegroundPaint == null){
 				buttonForegroundPaint = defaultForegroundPaint;
 			}
+			if(labelForegroundPaint == null){
+				labelForegroundPaint = defaultForegroundPaint;
+			}
 			
 			// Background Paints
 			if(buttonBackgroundPaint == null){
 				buttonBackgroundPaint = defaultBackgroundPaint;
+			}
+			if(labelBackgroundPaint == null){
+				labelBackgroundPaint = defaultBackgroundPaint;
 			}
 			
 			// Focus Paints
@@ -814,6 +915,11 @@ public class TadukooTheme{
 			// Disabled Text Paints
 			if(buttonDisabledTextPaint == null){
 				buttonDisabledTextPaint = defaultDisabledTextPaint;
+			}
+			
+			// Disabled Foreground Paints
+			if(labelDisabledForegroundPaint == null){
+				labelDisabledForegroundPaint = defaultDisabledForegroundPaint;
 			}
 			
 			/*
@@ -898,17 +1004,27 @@ public class TadukooTheme{
 				componentDefaultsArray[i*2+1] = componentDefaults.get(key);
 			}
 			
-			return new TadukooTheme(buttonUI.getCanonicalName(),
+			return new TadukooTheme(buttonUI.getCanonicalName(), labelUI.getCanonicalName(),
 					buttonForegroundPaint, buttonBackgroundPaint,
 					buttonFocusPaint, buttonSelectPaint, buttonDisabledTextPaint, buttonFont,
 					buttonShapeInfo, buttonBorder,
+					labelForegroundPaint, labelBackgroundPaint, labelDisabledForegroundPaint,
 					titledBorderBorder, titledBorderFont, titledBorderColor, titledBorderPosition.getValue(),
 					classDefaultsArray, systemColorDefaultsArray, componentDefaultsArray);
 		}
 	}
 	
+	/*
+	 * Component UI Classes
+	 */
 	/** The {@link ButtonUI} class to use */
 	private final String buttonUI;
+	/** The {@link LabelUI} class to use */
+	private final String labelUI;
+	
+	/*
+	 * Button Paints
+	 */
 	/** The {@link PaintUIResource} to use for the foreground on Buttons */
 	private final PaintUIResource buttonForegroundPaint;
 	/** The {@link PaintUIResource} to use for the background on Buttons */
@@ -919,12 +1035,30 @@ public class TadukooTheme{
 	private final PaintUIResource buttonSelectPaint;
 	/** The {@link PaintUIResource} to use for disabled text on Buttons */
 	private final PaintUIResource buttonDisabledTextPaint;
+	
+	/*
+	 * Other Button Customizations
+	 */
 	/** The {@link FontUIResource} to use for Buttons */
 	private final FontUIResource buttonFont;
 	/** The {@link ShapeInfoUIResource} to use on Buttons */
 	private final ShapeInfoUIResource buttonShapeInfo;
 	/** The {@link Border} to use on Buttons */
 	private final BorderUIResource buttonBorder;
+	
+	/*
+	 * Label Paints
+	 */
+	/** The {@link PaintUIResource} to use for the foreground on Labels */
+	private final PaintUIResource labelForegroundPaint;
+	/** The {@link PaintUIResource} to use for the background on Labels */
+	private final PaintUIResource labelBackgroundPaint;
+	/** The {@link PaintUIResource} to use for the disabled foreground on Labels */
+	private final PaintUIResource labelDisabledForegroundPaint;
+	
+	/*
+	 * Titled Border Customizations
+	 */
 	/** The default {@link BorderUIResource} to use in Titled Borders */
 	private final BorderUIResource titledBorderBorder;
 	/** The default {@link FontUIResource} to use in Titled Borders */
@@ -933,6 +1067,10 @@ public class TadukooTheme{
 	private final ColorUIResource titledBorderColor;
 	/** The default position for the title in Titled Borders */
 	private final int titledBorderPosition;
+	
+	/*
+	 * Other Defaults
+	 */
 	/** Class defaults beyond those specified in the "Component UI Classes" section */
 	private final Object[] classDefaults;
 	/** System Color defaults */
@@ -944,6 +1082,7 @@ public class TadukooTheme{
 	 * Constructs a new TadukooTheme with the given customizations.
 	 *
 	 * @param buttonUI The {@link ButtonUI} class to use
+	 * @param labelUI The {@link LabelUI} class to use
 	 * @param buttonForegroundPaint The {@link PaintUIResource} to use for the foreground on Buttons
 	 * @param buttonBackgroundPaint The {@link PaintUIResource} to use for the background on Buttons
 	 * @param buttonFocusPaint The {@link PaintUIResource} to use for focus on Buttons
@@ -952,6 +1091,9 @@ public class TadukooTheme{
 	 * @param buttonFont The {@link FontUIResource} to use for Buttons
 	 * @param buttonShapeInfo The {@link ShapeInfoUIResource} to use on Buttons
 	 * @param buttonBorder The {@link Border} to use on Buttons
+	 * @param labelForegroundPaint The {@link PaintUIResource} to use for the foreground on Labels
+	 * @param labelBackgroundPaint The {@link PaintUIResource} to use for the background on Labels
+	 * @param labelDisabledForegroundPaint The {@link PaintUIResource} to use for the disabled foreground on Labels
 	 * @param titledBorderBorder The default {@link BorderUIResource} to use in Titled Borders
 	 * @param titledBorderFont The default {@link FontUIResource} to use in Titled Borders
 	 * @param titledBorderColor The default color to use in Titled Borders
@@ -960,27 +1102,44 @@ public class TadukooTheme{
 	 * @param systemColorDefaults System Color defaults
 	 * @param componentDefaults Component defaults beyond those specified in the other sections
 	 */
-	private TadukooTheme(String buttonUI,
+	private TadukooTheme(String buttonUI, String labelUI,
 	                     PaintUIResource buttonForegroundPaint, PaintUIResource buttonBackgroundPaint,
 	                     PaintUIResource buttonFocusPaint, PaintUIResource buttonSelectPaint,
 	                     PaintUIResource buttonDisabledTextPaint, FontUIResource buttonFont,
 	                     ShapeInfoUIResource buttonShapeInfo, BorderUIResource buttonBorder,
+	                     PaintUIResource labelForegroundPaint, PaintUIResource labelBackgroundPaint,
+	                     PaintUIResource labelDisabledForegroundPaint,
 	                     BorderUIResource titledBorderBorder, FontUIResource titledBorderFont,
 	                     ColorUIResource titledBorderColor, int titledBorderPosition,
 	                     Object[] classDefaults, Object[] systemColorDefaults, Object[] componentDefaults){
+		// Set Component UI Classes
 		this.buttonUI = buttonUI;
+		this.labelUI = labelUI;
+		
+		// Set Button Paints
 		this.buttonForegroundPaint = buttonForegroundPaint;
 		this.buttonBackgroundPaint = buttonBackgroundPaint;
 		this.buttonFocusPaint = buttonFocusPaint;
 		this.buttonSelectPaint = buttonSelectPaint;
 		this.buttonDisabledTextPaint = buttonDisabledTextPaint;
+		
+		// Set Other Button Customizations
 		this.buttonFont = buttonFont;
 		this.buttonShapeInfo = buttonShapeInfo;
 		this.buttonBorder = buttonBorder;
+		
+		// Set Label Paints
+		this.labelForegroundPaint = labelForegroundPaint;
+		this.labelBackgroundPaint = labelBackgroundPaint;
+		this.labelDisabledForegroundPaint = labelDisabledForegroundPaint;
+		
+		// Set Titled Border Customizations
 		this.titledBorderBorder = titledBorderBorder;
 		this.titledBorderFont = titledBorderFont;
 		this.titledBorderColor = titledBorderColor;
 		this.titledBorderPosition = titledBorderPosition;
+		
+		// Set Other Defaults
 		this.classDefaults = classDefaults;
 		this.systemColorDefaults = systemColorDefaults;
 		this.componentDefaults = componentDefaults;
@@ -993,12 +1152,27 @@ public class TadukooTheme{
 		return new TadukooThemeBuilder();
 	}
 	
+	/*
+	 * Component UI Classes
+	 */
+	
 	/**
 	 * @return The {@link ButtonUI} class to use
 	 */
 	public String getButtonUI(){
 		return buttonUI;
 	}
+	
+	/**
+	 * @return The {@link LabelUI} class to use
+	 */
+	public String getLabelUI(){
+		return labelUI;
+	}
+	
+	/*
+	 * Button Paints
+	 */
 	
 	/**
 	 * @return The {@link PaintUIResource} to use for the foreground on Buttons
@@ -1035,6 +1209,10 @@ public class TadukooTheme{
 		return buttonDisabledTextPaint;
 	}
 	
+	/*
+	 * Other Button Customizations
+	 */
+	
 	/**
 	 * @return The {@link FontUIResource} to use for Buttons
 	 */
@@ -1055,6 +1233,35 @@ public class TadukooTheme{
 	public BorderUIResource getButtonBorder(){
 		return buttonBorder;
 	}
+	
+	/*
+	 * Label Paints
+	 */
+	
+	/**
+	 * @return The {@link PaintUIResource} to use for the foreground on Labels
+	 */
+	public PaintUIResource getLabelForegroundPaint(){
+		return labelForegroundPaint;
+	}
+	
+	/**
+	 * @return The {@link PaintUIResource} to use for the background on Labels
+	 */
+	public PaintUIResource getLabelBackgroundPaint(){
+		return labelBackgroundPaint;
+	}
+	
+	/**
+	 * @return The {@link PaintUIResource} to use for the disabled foreground on Labels
+	 */
+	public PaintUIResource getLabelDisabledForegroundPaint(){
+		return labelDisabledForegroundPaint;
+	}
+	
+	/*
+	 * Titled Border Customizations
+	 */
 	
 	/**
 	 * @return The default {@link BorderUIResource} to use in Titled Borders
@@ -1083,6 +1290,10 @@ public class TadukooTheme{
 	public int getTitledBorderPosition(){
 		return titledBorderPosition;
 	}
+	
+	/*
+	 * Other Defaults
+	 */
 	
 	/**
 	 * @return Class defaults beyond those specified in the "Component UI Classes" section

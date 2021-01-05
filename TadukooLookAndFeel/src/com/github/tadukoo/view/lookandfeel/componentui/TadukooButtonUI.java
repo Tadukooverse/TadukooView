@@ -93,18 +93,7 @@ public class TadukooButtonUI extends MetalButtonUI implements TComponentUIUtil{
 	/** {@inheritDoc} */
 	@Override
 	public void update(Graphics g, JComponent c){
-		// Cast Graphics to Graphics2D for our purposes
-		Graphics2D g2d = (Graphics2D) g;
-		
-		// Grab dimensions
-		int width = c.getWidth();
-		int height = c.getHeight();
-		
-		// Grab the background paint and set it
-		g2d.setPaint(getBackgroundPaint(c, new Dimension(width, height)));
-		
-		// Paint the background
-		g2d.fill(getShape(c).getShapeFunc().apply(0, 0, width, height));
+		paintBackground(g, c);
 		
 		// Do the other painting
 		paint(g, c);

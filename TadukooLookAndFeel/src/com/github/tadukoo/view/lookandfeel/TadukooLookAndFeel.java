@@ -99,9 +99,14 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 	protected void initClassDefaults(UIDefaults table){
 		super.initClassDefaults(table);
 		
-		table.put("ButtonUI", theme.getButtonUI());
-		// TODO: Add other mappings
+		// Setup Array of the Class Defaults
+		Object[] defaults = new Object[]{
+				"ButtonUI", theme.getButtonUI(),
+				"LabelUI", theme.getLabelUI()
+		};
+		table.putDefaults(defaults);
 		
+		// Add any other class defaults from the theme
 		Object[] otherClassDefaults = theme.getClassDefaults();
 		if(otherClassDefaults.length != 0){
 			table.putDefaults(theme.getClassDefaults());
@@ -119,6 +124,7 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 	protected void initSystemColorDefaults(UIDefaults table){
 		super.initSystemColorDefaults(table);
 		
+		// Add any other system color defaults from the theme
 		Object[] otherSystemColorDefaults = theme.getSystemColorDefaults();
 		if(otherSystemColorDefaults.length != 0){
 			table.putDefaults(theme.getSystemColorDefaults());
@@ -136,13 +142,21 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 	protected void initComponentDefaults(UIDefaults table){
 		super.initComponentDefaults(table);
 		
+		// Grab the Button Paints, as they're used in multiple ways
 		PaintUIResource buttonForegroundPaint = theme.getButtonForegroundPaint();
 		PaintUIResource buttonBackgroundPaint = theme.getButtonBackgroundPaint();
 		PaintUIResource buttonFocusPaint = theme.getButtonFocusPaint();
 		PaintUIResource buttonSelectPaint = theme.getButtonSelectPaint();
 		PaintUIResource buttonDisabledTextPaint = theme.getButtonDisabledTextPaint();
 		
+		// Grab the Label Paints, as they're used in multiple ways
+		PaintUIResource labelForegroundPaint = theme.getLabelForegroundPaint();
+		PaintUIResource labelBackgroundPaint = theme.getLabelBackgroundPaint();
+		PaintUIResource labelDisabledForegroundPaint = theme.getLabelDisabledForegroundPaint();
+		
+		// Setup Array of the Defaults to add
 		Object[] defaults = new Object[]{
+				// Button Customizations
 				"Button.foreground", buttonForegroundPaint.getColorUIResource(),
 				"Button.foreground.paint", buttonForegroundPaint,
 				"Button.background", buttonBackgroundPaint.getColorUIResource(),
@@ -158,16 +172,23 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 				"Button.border", theme.getButtonBorder(),
 				"Button.shape", theme.getButtonShapeInfo(),
 				
+				// Label Customizations
+				"Label.foreground", labelForegroundPaint.getColorUIResource(),
+				"Label.foreground.paint", labelForegroundPaint,
+				"Label.background", labelBackgroundPaint.getColorUIResource(),
+				"Label.background.paint", labelBackgroundPaint,
+				"Label.disabledForeground", labelDisabledForegroundPaint.getColorUIResource(),
+				"Label.disabledForeground.paint", labelDisabledForegroundPaint,
+				
+				// Titled Border Customizations
 				"TitledBorder.border", theme.getTitledBorderBorder(),
 				"TitledBorder.font", theme.getTitledBorderFont(),
 				"TitledBorder.titleColor", theme.getTitledBorderColor(),
 				"TitledBorder.position", theme.getTitledBorderPosition()
 		};
-		
-		// TODO: Add other mappings
-		
 		table.putDefaults(defaults);
 		
+		// Add in Other Component Defaults from the Theme
 		Object[] otherComponentDefaults = theme.getComponentDefaults();
 		if(otherComponentDefaults.length != 0){
 			table.putDefaults(theme.getComponentDefaults());

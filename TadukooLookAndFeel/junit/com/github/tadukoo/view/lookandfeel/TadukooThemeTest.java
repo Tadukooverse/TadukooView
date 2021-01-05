@@ -5,7 +5,9 @@ import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
+import com.github.tadukoo.view.lookandfeel.componentui.TadukooLabelUI;
 import com.github.tadukoo.view.paint.ColorPaintUIResource;
+import com.github.tadukoo.view.paint.NoPaintUIResource;
 import com.github.tadukoo.view.paint.PaintUIResource;
 import com.github.tadukoo.view.shapes.ShapeInfoUIResource;
 import com.github.tadukoo.view.shapes.Shapes;
@@ -16,6 +18,7 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.MetalButtonUI;
+import javax.swing.plaf.metal.MetalLabelUI;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -31,6 +34,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TadukooThemeTest{
 	private TadukooTheme defaultTheme;
@@ -39,6 +43,7 @@ public class TadukooThemeTest{
 	private final PaintUIResource defaultFocusPaint = new ColorPaintUIResource(Color.YELLOW);
 	private final PaintUIResource defaultSelectPaint = new ColorPaintUIResource(Color.RED);
 	private final PaintUIResource defaultDisabledTextPaint = new ColorPaintUIResource(Color.GRAY);
+	private final PaintUIResource defaultDisabledForegroundPaint = new ColorPaintUIResource(Color.GRAY);
 	private final FontFamily defaultFontFamily = FontFamilies.CALIBRI.getFamily();
 	private final int defaultFontStyle = Font.PLAIN;
 	private final int defaultFontSize = 12;
@@ -97,6 +102,11 @@ public class TadukooThemeTest{
 		assertEquals(TadukooButtonUI.class.getCanonicalName(), defaultTheme.getButtonUI());
 	}
 	
+	@Test
+	public void testDefaultLabelUI(){
+		assertEquals(TadukooLabelUI.class.getCanonicalName(), defaultTheme.getLabelUI());
+	}
+	
 	/*
 	 * Test Setting Component UIs
 	 */
@@ -105,6 +115,12 @@ public class TadukooThemeTest{
 	public void testSetButtonUI() throws IOException, FontFormatException{
 		TadukooTheme theme = TadukooTheme.builder().buttonUI(MetalButtonUI.class).build();
 		assertEquals(MetalButtonUI.class.getCanonicalName(), theme.getButtonUI());
+	}
+	
+	@Test
+	public void testSetLabelUI() throws IOException, FontFormatException{
+		TadukooTheme theme = TadukooTheme.builder().labelUI(MetalLabelUI.class).build();
+		assertEquals(MetalLabelUI.class.getCanonicalName(), theme.getLabelUI());
 	}
 	
 	/*
@@ -117,8 +133,24 @@ public class TadukooThemeTest{
 	}
 	
 	@Test
+	public void testDefaultForegroundPaintOnLabel(){
+		assertEquals(defaultForegroundPaint, defaultTheme.getLabelForegroundPaint());
+	}
+	
+	@Test
 	public void testDefaultBackgroundPaintOnButton(){
 		assertEquals(defaultBackgroundPaint, defaultTheme.getButtonBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultBackgroundPaintOnLabel() throws IOException, FontFormatException{
+		TadukooTheme theme = TadukooTheme.builder().labelBackgroundPaint(null).build();
+		assertEquals(defaultBackgroundPaint, theme.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultLabelBackgroundPaint(){
+		assertTrue(defaultTheme.getLabelBackgroundPaint() instanceof NoPaintUIResource);
 	}
 	
 	@Test
@@ -136,6 +168,11 @@ public class TadukooThemeTest{
 		assertEquals(defaultDisabledTextPaint, defaultTheme.getButtonDisabledTextPaint());
 	}
 	
+	@Test
+	public void testDefaultDisabledForegroundPaintOnLabel(){
+		assertEquals(defaultDisabledForegroundPaint, defaultTheme.getLabelDisabledForegroundPaint());
+	}
+	
 	/*
 	 * Test Setting Default Paints
 	 */
@@ -148,10 +185,25 @@ public class TadukooThemeTest{
 	}
 	
 	@Test
+	public void testSetDefaultForegroundPaintOnLabel() throws IOException, FontFormatException{
+		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
+		TadukooTheme theme = TadukooTheme.builder().defaultForegroundPaint(pink).build();
+		assertEquals(pink, theme.getLabelForegroundPaint());
+	}
+	
+	@Test
 	public void testSetDefaultBackgroundPaintOnButton() throws IOException, FontFormatException{
 		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
 		TadukooTheme theme = TadukooTheme.builder().defaultBackgroundPaint(pink).build();
 		assertEquals(pink, theme.getButtonBackgroundPaint());
+	}
+	
+	@Test
+	public void testSetDefaultBackgroundPaintOnLabel() throws IOException, FontFormatException{
+		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
+		TadukooTheme theme = TadukooTheme.builder().defaultBackgroundPaint(pink)
+				.labelBackgroundPaint(null).build();
+		assertEquals(pink, theme.getLabelBackgroundPaint());
 	}
 	
 	@Test
@@ -173,6 +225,13 @@ public class TadukooThemeTest{
 		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
 		TadukooTheme theme = TadukooTheme.builder().defaultDisabledTextPaint(pink).build();
 		assertEquals(pink, theme.getButtonDisabledTextPaint());
+	}
+	
+	@Test
+	public void testSetDefaultDisabledForegroundPaintOnLabel() throws IOException, FontFormatException{
+		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
+		TadukooTheme theme = TadukooTheme.builder().defaultDisabledForegroundPaint(pink).build();
+		assertEquals(pink, theme.getLabelDisabledForegroundPaint());
 	}
 	
 	/*
@@ -212,6 +271,31 @@ public class TadukooThemeTest{
 		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
 		TadukooTheme theme = TadukooTheme.builder().buttonDisabledTextPaint(pink).build();
 		assertEquals(pink, theme.getButtonDisabledTextPaint());
+	}
+	
+	/*
+	 * Test Setting Label Paints
+	 */
+	
+	@Test
+	public void testSetLabelForegroundPaint() throws IOException, FontFormatException{
+		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
+		TadukooTheme theme = TadukooTheme.builder().labelForegroundPaint(pink).build();
+		assertEquals(pink, theme.getLabelForegroundPaint());
+	}
+	
+	@Test
+	public void testSetLabelBackgroundPaint() throws IOException, FontFormatException{
+		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
+		TadukooTheme theme = TadukooTheme.builder().labelBackgroundPaint(pink).build();
+		assertEquals(pink, theme.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testSetLabelDisabledForegroundPaint() throws IOException, FontFormatException{
+		ColorPaintUIResource pink = new ColorPaintUIResource(Color.PINK);
+		TadukooTheme theme = TadukooTheme.builder().labelDisabledForegroundPaint(pink).build();
+		assertEquals(pink, theme.getLabelDisabledForegroundPaint());
 	}
 	
 	/*

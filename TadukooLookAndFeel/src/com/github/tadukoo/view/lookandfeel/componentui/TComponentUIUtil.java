@@ -1,5 +1,6 @@
 package com.github.tadukoo.view.lookandfeel.componentui;
 
+import com.github.tadukoo.view.components.interfaces.HasDisabledForegroundPaint;
 import com.github.tadukoo.view.components.interfaces.TComponent;
 import com.github.tadukoo.view.lookandfeel.TadukooTheme;
 import com.github.tadukoo.view.components.interfaces.HasDisabledTextPaint;
@@ -13,13 +14,15 @@ import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Paint;
 
 /**
  * This interface provides utilities for {@link TComponent}s - this interface is to be implemented in
  * Component UI classes for them to utilize the methods present to help in accessing customizations
  * from the {@link TadukooTheme} and/or the components themselves and installing and uninstalling said
- * customizations.
+ * customizations. It also contains some common paint methods.
  *
  * @author Logan Ferree (Tadukoo)
  * @version Alpha v.0.3
@@ -114,7 +117,7 @@ public interface TComponentUIUtil{
 	}
 	
 	/**
-	 * @return The {@link SizablePaint} to be used for when the Button is selected from the Look &amp; Feel
+	 * @return The {@link SizablePaint} to be used for when the Component is selected from the Look &amp; Feel
 	 */
 	default SizablePaint getSelectPaint(){
 		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "select.paint");
@@ -140,7 +143,7 @@ public interface TComponentUIUtil{
 	}
 	
 	/**
-	 * @return The {@link SizablePaint} to be used for when the Button is focused from the Look &amp; Feel
+	 * @return The {@link SizablePaint} to be used for when the Component is focused from the Look &amp; Feel
 	 */
 	default SizablePaint getFocusPaint(){
 		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "focus.paint");
@@ -166,7 +169,7 @@ public interface TComponentUIUtil{
 	}
 	
 	/**
-	 * @return The {@link SizablePaint} to be used for disabled text on the Button from the Look &amp; Feel
+	 * @return The {@link SizablePaint} to be used for disabled text on the Component from the Look &amp; Feel
 	 */
 	default SizablePaint getDisabledTextPaint(){
 		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "disabledText.paint");
@@ -186,6 +189,32 @@ public interface TComponentUIUtil{
 		}else{
 			// Default to the Look & Feel's setting
 			paint = getDisabledTextPaint();
+		}
+		// Return the paint based on the given size
+		return paint.getPaint(size);
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to be used for disabled foreground on the Component from the Look &amp; Feel
+	 */
+	default SizablePaint getDisabledForegroundPaint(){
+		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "disabledForeground.paint");
+	}
+	
+	/**
+	 * @param c A {@link Component} which may have the disabled foreground paint on it
+	 * @param size The {@link Dimension}s of the surface to be painted
+	 * @return The sized {@link Paint} for the disabled foreground - the {@link SizablePaint} used may come from the
+	 * {@link Component} if it has it, or default to the Look &amp; Feel's paint
+	 */
+	default Paint getDisabledForegroundPaint(Component c, Dimension size){
+		SizablePaint paint;
+		// Grab the disabled foreground paint from the component if it has it
+		if(c instanceof HasDisabledForegroundPaint){
+			paint = ((HasDisabledForegroundPaint) c).getDisabledForegroundPaint();
+		}else{
+			// Default to the Look & Feel's setting
+			paint = getDisabledForegroundPaint();
 		}
 		// Return the paint based on the given size
 		return paint.getPaint(size);
@@ -290,6 +319,27 @@ public interface TComponentUIUtil{
 	default void installHasDisabledTextPaintDefaults(Component c){
 		if(c instanceof HasDisabledTextPaint){
 			installHasDisabledTextPaint((HasDisabledTextPaint) c);
+		}
+	}
+	
+	/**
+	 * Installs disabledForeground paint on the given Component
+	 *
+	 * @param c The {@link Component} that {@link HasDisabledForegroundPaint} and is to have the paint installed
+	 */
+	default void installHasDisabledForegroundPaint(HasDisabledForegroundPaint c){
+		c.setDisabledForegroundPaint(getDisabledForegroundPaint());
+	}
+	
+	/**
+	 * Checks if the given {@link Component} has the {@link HasDisabledForegroundPaint} interface and will install
+	 * the disabledForeground paint if the interface is present.
+	 *
+	 * @param c The {@link Component} that is to have customizations installed
+	 */
+	default void installHasDisabledForegroundPaintDefaults(Component c){
+		if(c instanceof HasDisabledForegroundPaint){
+			installHasDisabledForegroundPaint((HasDisabledForegroundPaint) c);
 		}
 	}
 	
@@ -405,5 +455,62 @@ public interface TComponentUIUtil{
 		if(c instanceof HasDisabledTextPaint){
 			uninstallHasDisabledTextPaint((HasDisabledTextPaint) c);
 		}
+	}
+	
+	/**
+	 * Uninstalls disabledForeground paint from the given Component
+	 *
+	 * @param c The {@link Component} that {@link HasDisabledForegroundPaint} and is to have the paint uninstalled
+	 */
+	default void uninstallHasDisabledForegroundPaint(HasDisabledForegroundPaint c){
+		if(c.getDisabledForegroundPaint() instanceof UIResource){
+			c.setDisabledForegroundPaint(null);
+		}
+	}
+	
+	/**
+	 * Checks if the given {@link Component} has the {@link HasDisabledForegroundPaint} interface and will uninstall
+	 * the disabledForeground paint if the interface is present.
+	 *
+	 * @param c The {@link Component} that is to have customizations uninstalled
+	 */
+	default void uninstallHasDisabledForegroundPaintDefaults(Component c){
+		if(c instanceof HasDisabledForegroundPaint){
+			uninstallHasDisabledForegroundPaint((HasDisabledForegroundPaint) c);
+		}
+	}
+	
+	/*
+	 * Paint Methods
+	 */
+	
+	/**
+	 * Paints the background for the {@link Component} using its {@link ShapeInfo} (if it has it), and using
+	 * its background paint (if it has it). If the background paint turns out to be null, the background will not
+	 * be painted.
+	 * <br><br>
+	 * This method is to be used in the overridden update method of Component UI classes (where the background is
+	 * normally painted)
+	 *
+	 * @param g The {@link Graphics} to use to paint
+	 * @param c The {@link Component} to use for painting its background (potentially)
+	 */
+	default void paintBackground(Graphics g, Component c){
+		// Cast Graphics to Graphics2D for our purposes
+		Graphics2D g2d = (Graphics2D) g;
+		
+		// Grab dimensions
+		int width = c.getWidth();
+		int height = c.getHeight();
+		
+		// Grab the background paint and set it
+		Paint backgroundPaint = getBackgroundPaint(c, new Dimension(width, height));
+		if(backgroundPaint != null){
+			g2d.setPaint(backgroundPaint);
+			
+			// Paint the background
+			g2d.fill(getShape(c).getShapeFunc().apply(0, 0, width, height));
+		}
+		// If background paint is null, it signifies we don't want to paint it
 	}
 }
