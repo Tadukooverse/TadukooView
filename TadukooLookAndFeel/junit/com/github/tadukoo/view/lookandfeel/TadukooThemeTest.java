@@ -1,5 +1,6 @@
 package com.github.tadukoo.view.lookandfeel;
 
+import com.github.tadukoo.view.border.NoBorderUIResource;
 import com.github.tadukoo.view.border.ShapedEtchedBorder;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
@@ -429,6 +430,17 @@ public class TadukooThemeTest{
 		assertNotNull(defaultTheme.getButtonBorder());
 	}
 	
+	@Test
+	public void testDefaultBorderOnLabel() throws IOException, FontFormatException{
+		TadukooTheme theme = TadukooTheme.builder().labelBorder(null).build();
+		assertNotNull(theme.getLabelBorder());
+	}
+	
+	@Test
+	public void testDefaultLabelBorder(){
+		assertTrue(defaultTheme.getLabelBorder() instanceof NoBorderUIResource);
+	}
+	
 	/*
 	 * Test Setting Default Border
 	 */
@@ -440,6 +452,13 @@ public class TadukooThemeTest{
 		assertEquals(border, theme.getButtonBorder());
 	}
 	
+	@Test
+	public void testSetDefaultBorderOnLabel() throws IOException, FontFormatException{
+		BorderUIResource border = new BorderUIResource(ShapedEtchedBorder.builder().build());
+		TadukooTheme theme = TadukooTheme.builder().defaultBorder(border).labelBorder(null).build();
+		assertEquals(border, theme.getLabelBorder());
+	}
+	
 	/*
 	 * Test Setting Other Borders
 	 */
@@ -449,6 +468,13 @@ public class TadukooThemeTest{
 		BorderUIResource border = new BorderUIResource(ShapedEtchedBorder.builder().build());
 		TadukooTheme theme = TadukooTheme.builder().buttonBorder(border).build();
 		assertEquals(border, theme.getButtonBorder());
+	}
+	
+	@Test
+	public void testSetLabelBorder() throws IOException, FontFormatException{
+		BorderUIResource border = new BorderUIResource(ShapedEtchedBorder.builder().build());
+		TadukooTheme theme = TadukooTheme.builder().labelBorder(border).build();
+		assertEquals(border, theme.getLabelBorder());
 	}
 	
 	/*

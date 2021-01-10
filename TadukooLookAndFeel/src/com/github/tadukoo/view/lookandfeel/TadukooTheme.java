@@ -2,6 +2,7 @@ package com.github.tadukoo.view.lookandfeel;
 
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.border.NoBorderUIResource;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooLabelUI;
 import com.github.tadukoo.view.paint.ColorPaintUIResource;
@@ -249,6 +250,11 @@ public class TadukooTheme{
 	 *         <td>The {@link BorderUIResource} to use on Buttons</td>
 	 *         <td>null (defaults to the {@code defaultBorder} value)</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBorder</td>
+	 *         <td>The {@link BorderUIResource} to use on Labels</td>
+	 *         <td>new {@link NoBorderUIResource}() (can be changed to null to use the {@code defaultBorder} value)</td>
+	 *     </tr>
 	 * </table>
 	 * <br>
 	 * <table>
@@ -430,6 +436,8 @@ public class TadukooTheme{
 		private BorderUIResource defaultBorder = new BorderUIResource(ShapedLineBorder.builder().build());
 		/** The {@link BorderUIResource} to use on Buttons */
 		private BorderUIResource buttonBorder = null;
+		/** The {@link BorderUIResource} to use on Labels */
+		private BorderUIResource labelBorder = new NoBorderUIResource();
 		
 		/*
 		 * Titled Border Parameters
@@ -791,6 +799,15 @@ public class TadukooTheme{
 			return this;
 		}
 		
+		/**
+		 * @param labelBorder The {@link BorderUIResource} to use on Labels
+		 * @return this, to continue building
+		 */
+		public TadukooThemeBuilder labelBorder(BorderUIResource labelBorder){
+			this.labelBorder = labelBorder;
+			return this;
+		}
+		
 		/*
 		 * Titled Border Parameters
 		 */
@@ -1019,6 +1036,9 @@ public class TadukooTheme{
 			if(buttonBorder == null){
 				buttonBorder = defaultBorder;
 			}
+			if(labelBorder == null){
+				labelBorder = defaultBorder;
+			}
 			
 			if(titledBorderBorder == null){
 				titledBorderBorder = defaultBorder;
@@ -1063,7 +1083,7 @@ public class TadukooTheme{
 					buttonFocusPaint, buttonSelectPaint, buttonDisabledTextPaint,
 					buttonFont, buttonShapeInfo, buttonBorder,
 					labelForegroundPaint, labelBackgroundPaint, labelDisabledForegroundPaint,
-					labelFont, labelShapeInfo,
+					labelFont, labelShapeInfo, labelBorder,
 					titledBorderBorder, titledBorderFont, titledBorderColor, titledBorderPosition.getValue(),
 					classDefaultsArray, systemColorDefaultsArray, componentDefaultsArray);
 		}
@@ -1118,6 +1138,8 @@ public class TadukooTheme{
 	private final FontUIResource labelFont;
 	/** The {@link ShapeInfoUIResource} to use on Labels */
 	private final ShapeInfoUIResource labelShapeInfo;
+	/** The {@link BorderUIResource} to use on Labels */
+	private final BorderUIResource labelBorder;
 	
 	/*
 	 * Titled Border Customizations
@@ -1159,6 +1181,7 @@ public class TadukooTheme{
 	 * @param labelDisabledForegroundPaint The {@link PaintUIResource} to use for the disabled foreground on Labels
 	 * @param labelFont The {@link FontUIResource} to use for Labels
 	 * @param labelShapeInfo The {@link ShapeInfoUIResource} to use for Labels
+	 * @param labelBorder The {@link BorderUIResource} to use for Labels
 	 * @param titledBorderBorder The default {@link BorderUIResource} to use in Titled Borders
 	 * @param titledBorderFont The default {@link FontUIResource} to use in Titled Borders
 	 * @param titledBorderColor The default color to use in Titled Borders
@@ -1174,7 +1197,7 @@ public class TadukooTheme{
 	                     ShapeInfoUIResource buttonShapeInfo, BorderUIResource buttonBorder,
 	                     PaintUIResource labelForegroundPaint, PaintUIResource labelBackgroundPaint,
 	                     PaintUIResource labelDisabledForegroundPaint,
-	                     FontUIResource labelFont, ShapeInfoUIResource labelShapeInfo,
+	                     FontUIResource labelFont, ShapeInfoUIResource labelShapeInfo, BorderUIResource labelBorder,
 	                     BorderUIResource titledBorderBorder, FontUIResource titledBorderFont,
 	                     ColorUIResource titledBorderColor, int titledBorderPosition,
 	                     Object[] classDefaults, Object[] systemColorDefaults, Object[] componentDefaults){
@@ -1202,6 +1225,7 @@ public class TadukooTheme{
 		// Set Other Label Customizations
 		this.labelFont = labelFont;
 		this.labelShapeInfo = labelShapeInfo;
+		this.labelBorder = labelBorder;
 		
 		// Set Titled Border Customizations
 		this.titledBorderBorder = titledBorderBorder;
@@ -1345,6 +1369,13 @@ public class TadukooTheme{
 	 */
 	public ShapeInfoUIResource getLabelShapeInfo(){
 		return labelShapeInfo;
+	}
+	
+	/**
+	 * @return The {@link BorderUIResource} to use on Labels
+	 */
+	public BorderUIResource getLabelBorder(){
+		return labelBorder;
 	}
 	
 	/*
