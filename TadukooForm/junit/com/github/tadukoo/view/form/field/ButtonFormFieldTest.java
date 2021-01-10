@@ -8,6 +8,7 @@ import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizableColor;
 import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -269,6 +270,12 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testSetButtonShape() throws IOException, FontFormatException{
+		field = ButtonFormField.builder().buttonShape(Shapes.CIRCLE.getShapeInfo()).build();
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getButtonShape());
+	}
+	
+	@Test
 	public void testAllSettings() throws IOException, FontFormatException{
 		SizableColor magenta = new SizableColor(Color.MAGENTA);
 		SizableColor pink = new SizableColor(Color.PINK);
@@ -287,7 +294,7 @@ public class ButtonFormFieldTest{
 				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
 				.buttonSelectPaint(black).buttonFocusPaint(yellow).buttonDisabledTextPaint(gray)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
-				.buttonBorder(border)
+				.buttonBorder(border).buttonShape(Shapes.CIRCLE.getShapeInfo())
 				.build();
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
@@ -309,6 +316,7 @@ public class ButtonFormFieldTest{
 		assertEquals(Font.BOLD, field.getButtonFontStyle());
 		assertEquals(12, field.getButtonFontSize());
 		assertEquals(border, field.getButtonBorder());
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getButtonShape());
 	}
 	
 	@Test
@@ -417,6 +425,17 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testGetComponentButtonShape() throws IOException, FontFormatException{
+		field = ButtonFormField.builder().key("Test")
+				.buttonShape(Shapes.CIRCLE.getShapeInfo()).build();
+		JComponent component = field.getComponent();
+		assertTrue(component instanceof TadukooButton);
+		TadukooButton button = (TadukooButton) component;
+		assertEquals("Test", button.getText());
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), button.getShapeInfo());
+	}
+	
+	@Test
 	public void testGetComponentAllSettings() throws IOException, FontFormatException{
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
@@ -429,7 +448,7 @@ public class ButtonFormFieldTest{
 				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
 				.buttonSelectPaint(black).buttonFocusPaint(yellow).buttonDisabledTextPaint(gray)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
-				.buttonBorder(border)
+				.buttonBorder(border).buttonShape(Shapes.CIRCLE.getShapeInfo())
 				.build();
 		JComponent component = field.getComponent();
 		assertTrue(component instanceof TadukooButton);
@@ -446,6 +465,7 @@ public class ButtonFormFieldTest{
 		assertEquals(Font.BOLD, font.getStyle());
 		assertEquals(12, font.getSize());
 		assertEquals(border, button.getBorder());
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), button.getShapeInfo());
 	}
 	
 	@Test
