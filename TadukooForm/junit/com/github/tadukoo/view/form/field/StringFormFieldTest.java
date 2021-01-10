@@ -1,6 +1,9 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.view.border.ShapedLineBorder;
+import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.paint.SizableColor;
+import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JButton;
@@ -8,8 +11,10 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -43,6 +48,31 @@ public class StringFormFieldTest{
 	@Test
 	public void testDefaultLabelBackgroundPaint(){
 		assertNull(field.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultLabelFontFamily(){
+		assertNull(field.getLabelFontFamily());
+	}
+	
+	@Test
+	public void testDefaultLabelFontStyle(){
+		assertEquals(-1, field.getLabelFontStyle());
+	}
+	
+	@Test
+	public void testDefaultLabelFontSize(){
+		assertEquals(-1, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testDefaultLabelShape(){
+		assertNull(field.getLabelShape());
+	}
+	
+	@Test
+	public void testDefaultLabelBorder(){
+		assertNull(field.getLabelBorder());
 	}
 	
 	@Test
@@ -103,6 +133,27 @@ public class StringFormFieldTest{
 	}
 	
 	@Test
+	public void testSetLabelFont(){
+		field = StringFormField.builder().labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27).build();
+		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.BOLD, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testSetLabelShape(){
+		field = StringFormField.builder().labelShape(Shapes.CIRCLE.getShapeInfo()).build();
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
+	}
+	
+	@Test
+	public void testSetLabelBorder(){
+		Border labelBorder = ShapedLineBorder.builder().build();
+		field = StringFormField.builder().labelBorder(labelBorder).build();
+		assertEquals(labelBorder, field.getLabelBorder());
+	}
+	
+	@Test
 	public void testSetRowPos(){
 		field = StringFormField.builder().rowPos(2).build();
 		assertEquals(2, field.getRowPos());
@@ -148,8 +199,11 @@ public class StringFormFieldTest{
 	public void testSettings(){
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
+		Border labelBorder = ShapedLineBorder.builder().build();
 		field = StringFormField.builder().key("Test").defaultValue("Yes")
 				.labelType(LabelType.NONE).labelForegroundPaint(red).labelBackgroundPaint(blue)
+				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
+				.labelShape(Shapes.CIRCLE.getShapeInfo()).labelBorder(labelBorder)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7)
 				.stringFieldType(StringFormField.StringFieldType.PASSWORD)
 				.editable(false).columns(27).build();
@@ -158,6 +212,11 @@ public class StringFormFieldTest{
 		assertEquals(LabelType.NONE, field.getLabelType());
 		assertEquals(red, field.getLabelForegroundPaint());
 		assertEquals(blue, field.getLabelBackgroundPaint());
+		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.BOLD, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
+		assertEquals(labelBorder, field.getLabelBorder());
 		assertEquals(2, field.getRowPos());
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());

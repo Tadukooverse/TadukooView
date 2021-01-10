@@ -68,6 +68,31 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
+	public void testDefaultLabelFontFamily(){
+		assertNull(field.getLabelFontFamily());
+	}
+	
+	@Test
+	public void testDefaultLabelFontStyle(){
+		assertEquals(-1, field.getLabelFontStyle());
+	}
+	
+	@Test
+	public void testDefaultLabelFontSize(){
+		assertEquals(-1, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testDefaultLabelShape(){
+		assertNull(field.getLabelShape());
+	}
+	
+	@Test
+	public void testDefaultLabelBorder(){
+		assertNull(field.getLabelBorder());
+	}
+	
+	@Test
 	public void testDefaultRowSpan(){
 		assertEquals(1, field.getRowSpan());
 	}
@@ -107,6 +132,27 @@ public class ButtonFormFieldTest{
 		SizablePaint blue = new SizableColor(Color.BLUE);
 		field = ButtonFormField.builder().labelBackgroundPaint(blue).build();
 		assertEquals(blue, field.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testSetLabelFont() throws IOException, FontFormatException{
+		field = ButtonFormField.builder().labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27).build();
+		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.BOLD, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testSetLabelShape() throws IOException, FontFormatException{
+		field = ButtonFormField.builder().labelShape(Shapes.CIRCLE.getShapeInfo()).build();
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
+	}
+	
+	@Test
+	public void testSetLabelBorder() throws IOException, FontFormatException{
+		Border labelBorder = ShapedLineBorder.builder().build();
+		field = ButtonFormField.builder().labelBorder(labelBorder).build();
+		assertEquals(labelBorder, field.getLabelBorder());
 	}
 	
 	@Test
@@ -284,23 +330,31 @@ public class ButtonFormFieldTest{
 		SizableColor black = new SizableColor(Color.BLACK);
 		SizableColor yellow = new SizableColor(Color.YELLOW);
 		SizableColor gray = new SizableColor(Color.GRAY);
-		Border border = ShapedLineBorder.builder().build();
+		Border labelBorder = ShapedLineBorder.builder().build();
+		Border buttonBorder = ShapedLineBorder.builder().build();
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
 				GraphicsEnvironment.getLocalGraphicsEnvironment(), "fonts/");
 		field = ButtonFormField.builder().key("Test").defaultValue("Yes")
 				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(magenta).labelBackgroundPaint(pink)
+				.labelFont(FontFamilies.DIALOG_INPUT.getFamily(), Font.ITALIC, 27)
+				.labelShape(Shapes.ELLIPSE.getShapeInfo()).labelBorder(labelBorder)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader)
 				.actionListener(testAction)
 				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
 				.buttonSelectPaint(black).buttonFocusPaint(yellow).buttonDisabledTextPaint(gray)
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
-				.buttonBorder(border).buttonShape(Shapes.CIRCLE.getShapeInfo())
+				.buttonBorder(buttonBorder).buttonShape(Shapes.CIRCLE.getShapeInfo())
 				.build();
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
 		assertEquals(LabelType.TITLED_BORDER, field.getLabelType());
 		assertEquals(magenta, field.getLabelForegroundPaint());
 		assertEquals(pink, field.getLabelBackgroundPaint());
+		assertEquals(FontFamilies.DIALOG_INPUT.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.ITALIC, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+		assertEquals(Shapes.ELLIPSE.getShapeInfo(), field.getLabelShape());
+		assertEquals(labelBorder, field.getLabelBorder());
 		assertEquals(2, field.getRowPos());
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());
@@ -315,7 +369,7 @@ public class ButtonFormFieldTest{
 		assertEquals(FontFamilies.DIALOG.getFamily(), field.getButtonFontFamily());
 		assertEquals(Font.BOLD, field.getButtonFontStyle());
 		assertEquals(12, field.getButtonFontSize());
-		assertEquals(border, field.getButtonBorder());
+		assertEquals(buttonBorder, field.getButtonBorder());
 		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getButtonShape());
 	}
 	

@@ -5,8 +5,10 @@ import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.JComponent;
+import javax.swing.border.Border;
 import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
@@ -58,6 +60,21 @@ public abstract class FormField<Type>{
 	 *         <td>labelBackgroundPaint</td>
 	 *         <td>The {@link SizablePaint} for the background of the Label</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelFont</td>
+	 *         <td>The Font to use for the Label - specified as a {@link FontFamily}, style, and size</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label font)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelShape</td>
+	 *         <td>The {@link ShapeInfo} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label shape)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBorder</td>
+	 *         <td>The {@link Border} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label border)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -144,6 +161,16 @@ public abstract class FormField<Type>{
 		protected SizablePaint labelForegroundPaint = null;
 		/** The {@link SizablePaint} for the background of the Label */
 		protected SizablePaint labelBackgroundPaint = null;
+		/** The {@link FontFamily} for the Label's font */
+		protected FontFamily labelFontFamily = null;
+		/** The font style for the Label */
+		protected int labelFontStyle = -1;
+		/** The font size for the Label */
+		protected int labelFontSize = -1;
+		/** The {@link ShapeInfo} to use for the Label */
+		protected ShapeInfo labelShape = null;
+		/** The {@link Border} to use for the Label */
+		protected Border labelBorder = null;
 		
 		/*
 		 * Positioning
@@ -230,6 +257,39 @@ public abstract class FormField<Type>{
 		 */
 		public FormFieldBuilder<Type> labelBackgroundPaint(SizablePaint labelBackgroundPaint){
 			this.labelBackgroundPaint = labelBackgroundPaint;
+			return this;
+		}
+		
+		/**
+		 * Specifies the font to use on the Label
+		 *
+		 * @param labelFontFamily The {@link FontFamily} for the Label's font
+		 * @param labelFontStyle The font style for the Label
+		 * @param labelFontSize The font size for the Label
+		 * @return this, to continue building
+		 */
+		public FormFieldBuilder<Type> labelFont(FontFamily labelFontFamily, int labelFontStyle,  int labelFontSize){
+			this.labelFontFamily = labelFontFamily;
+			this.labelFontStyle = labelFontStyle;
+			this.labelFontSize = labelFontSize;
+			return this;
+		}
+		
+		/**
+		 * @param labelShape The {@link ShapeInfo} to use for the Label
+		 * @return this, to continue building
+		 */
+		public FormFieldBuilder<Type> labelShape(ShapeInfo labelShape){
+			this.labelShape = labelShape;
+			return this;
+		}
+		
+		/**
+		 * @param labelBorder The {@link Border} to use for the Label
+		 * @return this, to continue building
+		 */
+		public FormFieldBuilder<Type> labelBorder(Border labelBorder){
+			this.labelBorder = labelBorder;
 			return this;
 		}
 		
@@ -376,6 +436,16 @@ public abstract class FormField<Type>{
 	private final SizablePaint labelForegroundPaint;
 	/** The {@link SizablePaint} for the background of the Label */
 	private final SizablePaint labelBackgroundPaint;
+	/** The {@link FontFamily} for the Label's font */
+	private final FontFamily labelFontFamily;
+	/** The font style for the Label */
+	private final int labelFontStyle;
+	/** The font size for the Label */
+	private final int labelFontSize;
+	/** The {@link ShapeInfo} to use for the Label */
+	private final ShapeInfo labelShape;
+	/** The {@link Border} to use for the Label */
+	private final Border labelBorder;
 	
 	/*
 	 * Positioning
@@ -404,6 +474,11 @@ public abstract class FormField<Type>{
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
 	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
+	 * @param labelFontFamily The {@link FontFamily} for the Label's font
+	 * @param labelFontStyle The font style for the Label
+	 * @param labelFontSize The font size for the Label
+	 * @param labelShape The {@link ShapeInfo} to use for the Label
+	 * @param labelBorder The {@link Border} to use for the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -412,6 +487,8 @@ public abstract class FormField<Type>{
 	 */
 	protected FormField(FieldType type, String key, Type defaultValue,
 	                    LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                    FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+	                    ShapeInfo labelShape, Border labelBorder,
 	                    int rowPos, int colPos, int rowSpan, int colSpan,
 	                    FontResourceLoader fontResourceLoader){
 		// Set The Basics
@@ -423,6 +500,11 @@ public abstract class FormField<Type>{
 		this.labelType = labelType;
 		this.labelForegroundPaint = labelForegroundPaint;
 		this.labelBackgroundPaint = labelBackgroundPaint;
+		this.labelFontFamily = labelFontFamily;
+		this.labelFontStyle = labelFontStyle;
+		this.labelFontSize = labelFontSize;
+		this.labelShape = labelShape;
+		this.labelBorder = labelBorder;
 		
 		// Set the positioning
 		this.rowPos = rowPos;
@@ -482,6 +564,41 @@ public abstract class FormField<Type>{
 	 */
 	public SizablePaint getLabelBackgroundPaint(){
 		return labelBackgroundPaint;
+	}
+	
+	/**
+	 * @return The {@link FontFamily} for the Label's font
+	 */
+	public FontFamily getLabelFontFamily(){
+		return labelFontFamily;
+	}
+	
+	/**
+	 * @return The font style for the Label
+	 */
+	public int getLabelFontStyle(){
+		return labelFontStyle;
+	}
+	
+	/**
+	 * @return The font size for the Label
+	 */
+	public int getLabelFontSize(){
+		return labelFontSize;
+	}
+	
+	/**
+	 * @return The {@link ShapeInfo} to use for the Label
+	 */
+	public ShapeInfo getLabelShape(){
+		return labelShape;
+	}
+	
+	/**
+	 * @return The {@link Border} to use for the Label
+	 */
+	public Border getLabelBorder(){
+		return labelBorder;
 	}
 	
 	/*

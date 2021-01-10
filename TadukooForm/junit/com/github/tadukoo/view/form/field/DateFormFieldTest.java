@@ -1,13 +1,18 @@
 package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.time.DateUtil;
+import com.github.tadukoo.view.border.ShapedLineBorder;
+import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.form.components.DateForm;
 import com.github.tadukoo.view.paint.SizableColor;
+import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 import java.awt.Color;
+import java.awt.Font;
 import java.time.Month;
 import java.util.Date;
 
@@ -41,6 +46,31 @@ public class DateFormFieldTest{
 	@Test
 	public void testDefaultLabelBackgroundPaint(){
 		assertNull(field.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultLabelFontFamily(){
+		assertNull(field.getLabelFontFamily());
+	}
+	
+	@Test
+	public void testDefaultLabelFontStyle(){
+		assertEquals(-1, field.getLabelFontStyle());
+	}
+	
+	@Test
+	public void testDefaultLabelFontSize(){
+		assertEquals(-1, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testDefaultLabelShape(){
+		assertNull(field.getLabelShape());
+	}
+	
+	@Test
+	public void testDefaultLabelBorder(){
+		assertNull(field.getLabelBorder());
 	}
 	
 	@Test
@@ -97,6 +127,27 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
+	public void testSetLabelFont(){
+		field = DateFormField.builder().labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27).build();
+		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.BOLD, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testSetLabelShape(){
+		field = DateFormField.builder().labelShape(Shapes.CIRCLE.getShapeInfo()).build();
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
+	}
+	
+	@Test
+	public void testSetLabelBorder(){
+		Border labelBorder = ShapedLineBorder.builder().build();
+		field = DateFormField.builder().labelBorder(labelBorder).build();
+		assertEquals(labelBorder, field.getLabelBorder());
+	}
+	
+	@Test
 	public void testSetRowPos(){
 		field = DateFormField.builder().rowPos(5).build();
 		assertEquals(5, field.getRowPos());
@@ -137,8 +188,11 @@ public class DateFormFieldTest{
 		Date date = DateUtil.createDate(Month.JULY, 4, 1776);
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
+		Border labelBorder = ShapedLineBorder.builder().build();
 		field = DateFormField.builder().key("Derp").defaultValue(date)
 				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(red).labelBackgroundPaint(blue)
+				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
+				.labelShape(Shapes.CIRCLE.getShapeInfo()).labelBorder(labelBorder)
 				.rowPos(5).colPos(3).rowSpan(2).colSpan(4).minYear(120).maxYear(1920).build();
 		
 		assertEquals(FieldType.DATE, field.getType());
@@ -147,6 +201,11 @@ public class DateFormFieldTest{
 		assertEquals(LabelType.TITLED_BORDER, field.getLabelType());
 		assertEquals(red, field.getLabelForegroundPaint());
 		assertEquals(blue, field.getLabelBackgroundPaint());
+		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.BOLD, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
+		assertEquals(labelBorder, field.getLabelBorder());
 		assertEquals(5, field.getRowPos());
 		assertEquals(3, field.getColPos());
 		assertEquals(2, field.getRowSpan());

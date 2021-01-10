@@ -1,13 +1,16 @@
 package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.AbstractForm;
 import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
 
 /**
@@ -53,6 +56,21 @@ public class FormFormField extends FormField<AbstractForm>{
 	 *         <td>labelBackgroundPaint</td>
 	 *         <td>The {@link SizablePaint} for the background of the Label</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelFont</td>
+	 *         <td>The Font to use for the Label - specified as a {@link FontFamily}, style, and size</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label font)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelShape</td>
+	 *         <td>The {@link ShapeInfo} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label shape)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBorder</td>
+	 *         <td>The {@link Border} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label border)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -170,6 +188,27 @@ public class FormFormField extends FormField<AbstractForm>{
 			return this;
 		}
 		
+		/** {@inheritDoc} */
+		@Override
+		public FormFormFieldBuilder labelFont(FontFamily labelFontFamily, int labelFontStyle, int labelFontSize){
+			super.labelFont(labelFontFamily, labelFontStyle, labelFontSize);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public FormFormFieldBuilder labelShape(ShapeInfo labelShape){
+			super.labelShape(labelShape);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public FormFormFieldBuilder labelBorder(Border labelBorder){
+			super.labelBorder(labelBorder);
+			return this;
+		}
+		
 		/*
 		 * Positioning
 		 */
@@ -246,6 +285,8 @@ public class FormFormField extends FormField<AbstractForm>{
 		public FormFormField build(){
 			return new FormFormField(key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
+					labelFontFamily, labelFontStyle, labelFontSize,
+					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader);
 		}
@@ -259,6 +300,11 @@ public class FormFormField extends FormField<AbstractForm>{
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
 	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
+	 * @param labelFontFamily The {@link FontFamily} for the Label's font
+	 * @param labelFontStyle The font style for the Label
+	 * @param labelFontSize The font size for the Label
+	 * @param labelShape The {@link ShapeInfo} to use for the Label
+	 * @param labelBorder The {@link Border} to use for the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -267,10 +313,14 @@ public class FormFormField extends FormField<AbstractForm>{
 	 */
 	private FormFormField(String key, AbstractForm defaultValue,
 	                      LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                      FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+	                      ShapeInfo labelShape, Border labelBorder,
 	                      int rowPos, int colPos, int rowSpan, int colSpan,
 	                      FontResourceLoader fontResourceLoader){
 		super(FieldType.FORM, key, defaultValue,
 				labelType, labelForegroundPaint, labelBackgroundPaint,
+				labelFontFamily, labelFontStyle, labelFontSize,
+				labelShape, labelBorder,
 				rowPos, colPos, rowSpan, colSpan, fontResourceLoader);
 	}
 	

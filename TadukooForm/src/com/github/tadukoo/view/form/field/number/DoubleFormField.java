@@ -1,13 +1,16 @@
 package com.github.tadukoo.view.form.field.number;
 
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.FormField;
 import com.github.tadukoo.view.form.field.LabelType;
 import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.ShapeInfo;
 
+import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
 
 /**
@@ -53,6 +56,21 @@ public class DoubleFormField extends NumberFormField<Double>{
 	 *         <td>labelBackgroundPaint</td>
 	 *         <td>The {@link SizablePaint} for the background of the Label</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelFont</td>
+	 *         <td>The Font to use for the Label - specified as a {@link FontFamily}, style, and size</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label font)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelShape</td>
+	 *         <td>The {@link ShapeInfo} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label shape)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBorder</td>
+	 *         <td>The {@link Border} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label border)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -186,6 +204,27 @@ public class DoubleFormField extends NumberFormField<Double>{
 			return this;
 		}
 		
+		/** {@inheritDoc} */
+		@Override
+		public DoubleFormFieldBuilder labelFont(FontFamily labelFontFamily, int labelFontStyle, int labelFontSize){
+			super.labelFont(labelFontFamily, labelFontStyle, labelFontSize);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public DoubleFormFieldBuilder labelShape(ShapeInfo labelShape){
+			super.labelShape(labelShape);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public DoubleFormFieldBuilder labelBorder(Border labelBorder){
+			super.labelBorder(labelBorder);
+			return this;
+		}
+		
 		/*
 		 * Positioning
 		 */
@@ -287,6 +326,8 @@ public class DoubleFormField extends NumberFormField<Double>{
 		public DoubleFormField build(){
 			return new DoubleFormField(key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
+					labelFontFamily, labelFontStyle, labelFontSize,
+					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					minValue, maxValue, stepSize);
@@ -301,6 +342,11 @@ public class DoubleFormField extends NumberFormField<Double>{
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
 	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
+	 * @param labelFontFamily The {@link FontFamily} for the Label's font
+	 * @param labelFontStyle The font style for the Label
+	 * @param labelFontSize The font size for the Label
+	 * @param labelShape The {@link ShapeInfo} to use for the Label
+	 * @param labelBorder The {@link Border} to use for the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -312,11 +358,15 @@ public class DoubleFormField extends NumberFormField<Double>{
 	 */
 	private DoubleFormField(String key, Double defaultValue,
 	                        LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                        FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+	                        ShapeInfo labelShape, Border labelBorder,
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        Double minValue, Double maxValue, Double stepSize){
 		super(FieldType.DOUBLE, key, defaultValue,
 				labelType, labelForegroundPaint, labelBackgroundPaint,
+				labelFontFamily, labelFontStyle, labelFontSize,
+				labelShape, labelBorder,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader,
 				minValue, maxValue, stepSize);

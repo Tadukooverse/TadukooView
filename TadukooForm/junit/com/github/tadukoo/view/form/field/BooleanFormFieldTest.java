@@ -1,13 +1,18 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.view.border.ShapedLineBorder;
+import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.paint.SizableColor;
+import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.border.Border;
 
 import java.awt.Color;
+import java.awt.Font;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -40,6 +45,31 @@ public class BooleanFormFieldTest{
 	@Test
 	public void testDefaultLabelBackgroundPaint(){
 		assertNull(field.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultLabelFontFamily(){
+		assertNull(field.getLabelFontFamily());
+	}
+	
+	@Test
+	public void testDefaultLabelFontStyle(){
+		assertEquals(-1, field.getLabelFontStyle());
+	}
+	
+	@Test
+	public void testDefaultLabelFontSize(){
+		assertEquals(-1, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testDefaultLabelShape(){
+		assertNull(field.getLabelShape());
+	}
+	
+	@Test
+	public void testDefaultLabelBorder(){
+		assertNull(field.getLabelBorder());
 	}
 	
 	@Test
@@ -90,6 +120,27 @@ public class BooleanFormFieldTest{
 	}
 	
 	@Test
+	public void testSetLabelFont(){
+		field = BooleanFormField.builder().labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27).build();
+		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.BOLD, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+	}
+	
+	@Test
+	public void testSetLabelShape(){
+		field = BooleanFormField.builder().labelShape(Shapes.CIRCLE.getShapeInfo()).build();
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
+	}
+	
+	@Test
+	public void testSetLabelBorder(){
+		Border labelBorder = ShapedLineBorder.builder().build();
+		field = BooleanFormField.builder().labelBorder(labelBorder).build();
+		assertEquals(labelBorder, field.getLabelBorder());
+	}
+	
+	@Test
 	public void testSetRowPos(){
 		field = BooleanFormField.builder().rowPos(2).build();
 		assertEquals(2, field.getRowPos());
@@ -117,8 +168,11 @@ public class BooleanFormFieldTest{
 	public void testAllSettings(){
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
+		Border labelBorder = ShapedLineBorder.builder().build();
 		field = BooleanFormField.builder().key("Test").defaultValue(true)
 				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(red).labelBackgroundPaint(blue)
+				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
+				.labelShape(Shapes.CIRCLE.getShapeInfo()).labelBorder(labelBorder)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7)
 				.editable(false).build();
 		assertEquals("Test", field.getKey());
@@ -126,6 +180,11 @@ public class BooleanFormFieldTest{
 		assertEquals(LabelType.TITLED_BORDER, field.getLabelType());
 		assertEquals(red, field.getLabelForegroundPaint());
 		assertEquals(blue, field.getLabelBackgroundPaint());
+		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
+		assertEquals(Font.BOLD, field.getLabelFontStyle());
+		assertEquals(27, field.getLabelFontSize());
+		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
+		assertEquals(labelBorder, field.getLabelBorder());
 		assertEquals(2, field.getRowPos());
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());

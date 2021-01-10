@@ -1,8 +1,10 @@
 package com.github.tadukoo.view.form.field.number;
 
+import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.LabelType;
 import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.ShapeInfo;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
@@ -10,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.Border;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -21,10 +24,14 @@ public class NumberFormFieldTest{
 		
 		private TestFormField(FieldType type, String key, Integer defaultValue,
 		                      LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+		                      FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+		                      ShapeInfo labelShape, Border labelBorder,
 		                      int rowPos, int colPos, int rowSpan, int colSpan,
 		                      Integer minValue, Integer maxValue, Integer stepSize){
 			super(type, key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
+					labelFontFamily, labelFontStyle, labelFontSize,
+					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan, null,
 					minValue, maxValue, stepSize);
 		}
@@ -41,6 +48,8 @@ public class NumberFormFieldTest{
 		public NumberFormField<Integer> build(){
 			return new TestFormField(FieldType.INT, key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
+					labelFontFamily, labelFontStyle, labelFontSize,
+					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan,
 					minValue, maxValue, stepSize);
 		}

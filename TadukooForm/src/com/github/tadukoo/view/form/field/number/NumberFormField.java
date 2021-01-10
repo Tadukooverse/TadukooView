@@ -1,16 +1,19 @@
 package com.github.tadukoo.view.form.field.number;
 
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.FormField;
 import com.github.tadukoo.view.form.field.LabelType;
 import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
 
 /**
@@ -59,6 +62,21 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 *         <td>labelBackgroundPaint</td>
 	 *         <td>The {@link SizablePaint} for the background of the Label</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelFont</td>
+	 *         <td>The Font to use for the Label - specified as a {@link FontFamily}, style, and size</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label font)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelShape</td>
+	 *         <td>The {@link ShapeInfo} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label shape)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBorder</td>
+	 *         <td>The {@link Border} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label border)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -206,6 +224,11 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
 	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
+	 * @param labelFontFamily The {@link FontFamily} for the Label's font
+	 * @param labelFontStyle The font style for the Label
+	 * @param labelFontSize The font size for the Label
+	 * @param labelShape The {@link ShapeInfo} to use for the Label
+	 * @param labelBorder The {@link Border} to use for the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -217,11 +240,15 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 */
 	protected NumberFormField(FieldType type, String key, Type defaultValue,
 	                          LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                          FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+	                          ShapeInfo labelShape, Border labelBorder,
 	                          int rowPos, int colPos, int rowSpan, int colSpan,
 	                          FontResourceLoader fontResourceLoader,
 	                          Type minValue, Type maxValue, Type stepSize){
 		super(type, key, defaultValue,
 				labelType, labelForegroundPaint, labelBackgroundPaint,
+				labelFontFamily, labelFontStyle, labelFontSize,
+				labelShape, labelBorder,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.minValue = minValue;

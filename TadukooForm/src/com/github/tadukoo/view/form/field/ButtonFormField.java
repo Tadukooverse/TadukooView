@@ -61,6 +61,21 @@ public class ButtonFormField extends FormField<String>{
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
+	 *         <td>labelFont</td>
+	 *         <td>The Font to use for the Label - specified as a {@link FontFamily}, style, and size</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label font)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelShape</td>
+	 *         <td>The {@link ShapeInfo} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label shape)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBorder</td>
+	 *         <td>The {@link Border} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label border)</td>
+	 *     </tr>
+	 *     <tr>
 	 *         <td>rowPos</td>
 	 *         <td>The row position of the field</td>
 	 *         <td>Required</td>
@@ -246,6 +261,27 @@ public class ButtonFormField extends FormField<String>{
 			return this;
 		}
 		
+		/** {@inheritDoc} */
+		@Override
+		public ButtonFormFieldBuilder labelFont(FontFamily labelFontFamily, int labelFontStyle, int labelFontSize){
+			super.labelFont(labelFontFamily, labelFontStyle, labelFontSize);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public ButtonFormFieldBuilder labelShape(ShapeInfo labelShape){
+			super.labelShape(labelShape);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public ButtonFormFieldBuilder labelBorder(Border labelBorder){
+			super.labelBorder(labelBorder);
+			return this;
+		}
+		
 		/*
 		 * Positioning
 		 */
@@ -418,6 +454,8 @@ public class ButtonFormField extends FormField<String>{
 			
 			return new ButtonFormField(key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
+					labelFontFamily, labelFontStyle, labelFontSize,
+					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					actionListener,
@@ -459,6 +497,11 @@ public class ButtonFormField extends FormField<String>{
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
 	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
+	 * @param labelFontFamily The {@link FontFamily} for the Label's font
+	 * @param labelFontStyle The font style for the Label
+	 * @param labelFontSize The font size for the Label
+	 * @param labelShape The {@link ShapeInfo} to use for the Label
+	 * @param labelBorder The {@link Border} to use for the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -478,6 +521,8 @@ public class ButtonFormField extends FormField<String>{
 	 */
 	private ButtonFormField(String key, String defaultValue,
 	                        LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                        FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+	                        ShapeInfo labelShape, Border labelBorder,
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        ActionListener actionListener,
@@ -488,6 +533,8 @@ public class ButtonFormField extends FormField<String>{
 	                        Border buttonBorder, ShapeInfo buttonShape){
 		super(FieldType.BUTTON, key, defaultValue,
 				labelType,labelForegroundPaint, labelBackgroundPaint,
+				labelFontFamily, labelFontStyle, labelFontSize,
+				labelShape, labelBorder,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.actionListener = actionListener;

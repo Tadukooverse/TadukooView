@@ -2,14 +2,17 @@ package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.StringUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
 
 /**
@@ -68,6 +71,21 @@ public class StringFormField extends FormField<String>{
 	 *         <td>labelBackgroundPaint</td>
 	 *         <td>The {@link SizablePaint} for the background of the Label</td>
 	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelFont</td>
+	 *         <td>The Font to use for the Label - specified as a {@link FontFamily}, style, and size</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label font)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelShape</td>
+	 *         <td>The {@link ShapeInfo} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label shape)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBorder</td>
+	 *         <td>The {@link Border} to use for the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label border)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -205,6 +223,27 @@ public class StringFormField extends FormField<String>{
 			return this;
 		}
 		
+		/** {@inheritDoc} */
+		@Override
+		public StringFormFieldBuilder labelFont(FontFamily labelFontFamily, int labelFontStyle, int labelFontSize){
+			super.labelFont(labelFontFamily, labelFontStyle, labelFontSize);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public StringFormFieldBuilder labelShape(ShapeInfo labelShape){
+			super.labelShape(labelShape);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public StringFormFieldBuilder labelBorder(Border labelBorder){
+			super.labelBorder(labelBorder);
+			return this;
+		}
+		
 		/*
 		 * Positioning
 		 */
@@ -312,6 +351,8 @@ public class StringFormField extends FormField<String>{
 		public StringFormField build(){
 			return new StringFormField(key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
+					labelFontFamily, labelFontStyle, labelFontSize,
+					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					stringFieldType, editable, columns);
@@ -333,6 +374,11 @@ public class StringFormField extends FormField<String>{
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
 	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
+	 * @param labelFontFamily The {@link FontFamily} for the Label's font
+	 * @param labelFontStyle The font style for the Label
+	 * @param labelFontSize The font size for the Label
+	 * @param labelShape The {@link ShapeInfo} to use for the Label
+	 * @param labelBorder The {@link Border} to use for the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -344,11 +390,15 @@ public class StringFormField extends FormField<String>{
 	 */
 	private StringFormField(String key, String defaultValue,
 	                        LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                        FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+	                        ShapeInfo labelShape, Border labelBorder,
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        StringFieldType stringFieldType, boolean editable, int columns){
 		super(FieldType.STRING, key, defaultValue,
 				labelType, labelForegroundPaint, labelBackgroundPaint,
+				labelFontFamily, labelFontStyle, labelFontSize,
+				labelShape, labelBorder,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.stringFieldType = stringFieldType;
