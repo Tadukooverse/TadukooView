@@ -310,6 +310,14 @@ public class TadukooThemeTest{
 		assertEquals(defaultFontSize, buttonFont.getSize());
 	}
 	
+	@Test
+	public void testDefaultFontOnLabel(){
+		FontUIResource labelFont = defaultTheme.getLabelFont();
+		assertEquals(defaultFontFamily.getName(), labelFont.getName());
+		assertEquals(defaultFontStyle, labelFont.getStyle());
+		assertEquals(defaultFontSize, labelFont.getSize());
+	}
+	
 	/*
 	 * Test Setting Default Font
 	 */
@@ -323,6 +331,17 @@ public class TadukooThemeTest{
 		assertEquals(FontFamilies.DIALOG.getFamily().getName(), buttonFont.getName());
 		assertEquals(Font.PLAIN, buttonFont.getStyle());
 		assertEquals(26, buttonFont.getSize());
+	}
+	
+	@Test
+	public void testSetDefaultFontOnLabel() throws IOException, FontFormatException{
+		TadukooTheme theme = TadukooTheme.builder()
+				.defaultFont(FontFamilies.DIALOG.getFamily(), Font.PLAIN, 26)
+				.fontResourceLoader(fontResourceLoader).build();
+		FontUIResource labelFont = theme.getLabelFont();
+		assertEquals(FontFamilies.DIALOG.getFamily().getName(), labelFont.getName());
+		assertEquals(Font.PLAIN, labelFont.getStyle());
+		assertEquals(26, labelFont.getSize());
 	}
 	
 	/*
@@ -340,6 +359,17 @@ public class TadukooThemeTest{
 		assertEquals(26, buttonFont.getSize());
 	}
 	
+	@Test
+	public void testSetLabelFont() throws IOException, FontFormatException{
+		TadukooTheme theme = TadukooTheme.builder()
+				.labelFont(FontFamilies.DIALOG.getFamily(), Font.PLAIN, 26)
+				.fontResourceLoader(fontResourceLoader).build();
+		FontUIResource labelFont = theme.getLabelFont();
+		assertEquals(FontFamilies.DIALOG.getFamily().getName(), labelFont.getName());
+		assertEquals(Font.PLAIN, labelFont.getStyle());
+		assertEquals(26, labelFont.getSize());
+	}
+	
 	/*
 	 * Test Shape Defaults
 	 */
@@ -347,6 +377,11 @@ public class TadukooThemeTest{
 	@Test
 	public void testDefaultShapeOnButton(){
 		assertEquals(defaultShapeInfo, defaultTheme.getButtonShapeInfo());
+	}
+	
+	@Test
+	public void testDefaultShapeOnLabel(){
+		assertEquals(defaultShapeInfo, defaultTheme.getLabelShapeInfo());
 	}
 	
 	/*
@@ -360,6 +395,13 @@ public class TadukooThemeTest{
 		assertEquals(shape, theme.getButtonShapeInfo());
 	}
 	
+	@Test
+	public void testSetDefaultShapeOnLabel() throws IOException, FontFormatException{
+		ShapeInfoUIResource shape = new ShapeInfoUIResource(Shapes.CIRCLE.getShapeInfo());
+		TadukooTheme theme = TadukooTheme.builder().defaultShapeInfo(shape).build();
+		assertEquals(shape, theme.getLabelShapeInfo());
+	}
+	
 	/*
 	 * Test Setting Other Shapes
 	 */
@@ -369,6 +411,13 @@ public class TadukooThemeTest{
 		ShapeInfoUIResource shape = new ShapeInfoUIResource(Shapes.CIRCLE.getShapeInfo());
 		TadukooTheme theme = TadukooTheme.builder().buttonShapeInfo(shape).build();
 		assertEquals(shape, theme.getButtonShapeInfo());
+	}
+	
+	@Test
+	public void testSetLabelShape() throws IOException, FontFormatException{
+		ShapeInfoUIResource shape = new ShapeInfoUIResource(Shapes.CIRCLE.getShapeInfo());
+		TadukooTheme theme = TadukooTheme.builder().labelShapeInfo(shape).build();
+		assertEquals(shape, theme.getLabelShapeInfo());
 	}
 	
 	/*

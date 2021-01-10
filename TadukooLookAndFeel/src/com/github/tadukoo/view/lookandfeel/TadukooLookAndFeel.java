@@ -179,6 +179,8 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 				"Label.background.paint", labelBackgroundPaint,
 				"Label.disabledForeground", labelDisabledForegroundPaint.getColorUIResource(),
 				"Label.disabledForeground.paint", labelDisabledForegroundPaint,
+				"Label.font", theme.getLabelFont(),
+				"Label.shape", theme.getLabelShapeInfo(),
 				
 				// Titled Border Customizations
 				"TitledBorder.border", theme.getTitledBorderBorder(),
