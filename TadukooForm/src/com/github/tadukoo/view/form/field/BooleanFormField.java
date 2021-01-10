@@ -3,6 +3,7 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.util.BooleanUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontResourceLoader;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -41,6 +42,16 @@ public class BooleanFormField extends FormField<Boolean>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#NONE}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -122,6 +133,10 @@ public class BooleanFormField extends FormField<Boolean>{
 			labelType = LabelType.NONE;
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public BooleanFormFieldBuilder key(String key){
@@ -136,12 +151,34 @@ public class BooleanFormField extends FormField<Boolean>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public BooleanFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public BooleanFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public BooleanFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -210,6 +247,10 @@ public class BooleanFormField extends FormField<Boolean>{
 			return this;
 		}
 		
+		/*
+		 * Boolean Specific Methods
+		 */
+		
 		/**
 		 * @param editable Whether the field can be edited or not
 		 * @return this, to continue building
@@ -222,7 +263,8 @@ public class BooleanFormField extends FormField<Boolean>{
 		/** {@inheritDoc} */
 		@Override
 		public BooleanFormField build(){
-			return new BooleanFormField(key, BooleanUtil.isTrue(defaultValue), labelType,
+			return new BooleanFormField(key, BooleanUtil.isTrue(defaultValue),
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					editable);
@@ -238,6 +280,8 @@ public class BooleanFormField extends FormField<Boolean>{
 	 * @param key The name of this field (used as a key in Forms)
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -245,11 +289,14 @@ public class BooleanFormField extends FormField<Boolean>{
 	 * @param fontResourceLoader The {@link FontResourceLoader} to use for fonts on this field
 	 * @param editable Whether this field can be edited or not
 	 */
-	private BooleanFormField(String key, Boolean defaultValue, LabelType labelType,
+	private BooleanFormField(String key, Boolean defaultValue,
+	                         LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                         int rowPos, int colPos, int rowSpan, int colSpan,
 	                         FontResourceLoader fontResourceLoader,
 	                         boolean editable){
-		super(FieldType.BOOLEAN, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
+		super(FieldType.BOOLEAN, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
+				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.editable = editable;
 	}

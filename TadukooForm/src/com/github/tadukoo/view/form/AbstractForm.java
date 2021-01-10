@@ -1,7 +1,9 @@
 package com.github.tadukoo.view.form;
 
 import com.github.tadukoo.util.pojo.MappedPojo;
+import com.github.tadukoo.view.components.TadukooLabel;
 import com.github.tadukoo.view.form.field.FormField;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -131,8 +133,10 @@ public abstract class AbstractForm extends JPanel implements Form{
 		boolean topLabels = labelsOnTop();
 		
 		for(String key: fields.keySet()){
-			// Grab the field and its grid information
+			// Grab the field and its label and grid information
 			FormField<?> field = fields.get(key);
+			SizablePaint labelForegroundPaint = field.getLabelForegroundPaint();
+			SizablePaint labelBackgroundPaint = field.getLabelBackgroundPaint();
 			int rowPos = field.getRowPos();
 			int colPos = field.getColPos();
 			int rowSpan = field.getRowSpan();
@@ -150,7 +154,11 @@ public abstract class AbstractForm extends JPanel implements Form{
 					labelCons.gridwidth = colSpan;
 					labelCons.anchor = topLabels?GridBagConstraints.SOUTH:GridBagConstraints.EAST;
 					labelCons.insets = topLabels?new Insets(5, 0, 5, 0):new Insets(0, 5, 0, 5);
-					JLabel label = new JLabel(key);
+					TadukooLabel label = TadukooLabel.builder()
+							.text(key)
+							.foregroundPaint(labelForegroundPaint)
+							.backgroundPaint(labelBackgroundPaint)
+							.build();
 					label.setHorizontalTextPosition(JLabel.RIGHT);
 					add(label, labelCons);
 				}

@@ -6,6 +6,7 @@ import com.github.tadukoo.util.pojo.Table;
 import com.github.tadukoo.view.components.TadukooTable;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComponent;
 import java.awt.GraphicsEnvironment;
@@ -43,6 +44,16 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#NONE}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -117,6 +128,10 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 			labelType = LabelType.NONE;
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public TableFormFieldBuilder key(String key){
@@ -131,12 +146,34 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public TableFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public TableFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public TableFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -208,7 +245,8 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 		/** {@inheritDoc} */
 		@Override
 		public TableFormField build(){
-			return new TableFormField(key, defaultValue, labelType,
+			return new TableFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader);
 		}
@@ -220,16 +258,21 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 	 * @param key The name of this field (used as a key in Forms)
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
 	 * @param colSpan The column span of this field
 	 * @param fontResourceLoader The {@link FontResourceLoader} to use for fonts on this field
 	 */
-	private TableFormField(String key, Table<OrderedMappedPojo> defaultValue, LabelType labelType,
+	private TableFormField(String key, Table<OrderedMappedPojo> defaultValue,
+	                       LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                       int rowPos, int colPos, int rowSpan, int colSpan,
 	                       FontResourceLoader fontResourceLoader){
-		super(FieldType.TABLE, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
+		super(FieldType.TABLE, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
+				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 	}
 	

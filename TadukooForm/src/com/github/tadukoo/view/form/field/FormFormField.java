@@ -4,6 +4,7 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.AbstractForm;
 import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -42,6 +43,16 @@ public class FormFormField extends FormField<AbstractForm>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#TITLED_BORDER}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -116,6 +127,10 @@ public class FormFormField extends FormField<AbstractForm>{
 			labelType = LabelType.TITLED_BORDER;
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public FormFormFieldBuilder key(String key){
@@ -130,12 +145,34 @@ public class FormFormField extends FormField<AbstractForm>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public FormFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public FormFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public FormFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -207,7 +244,9 @@ public class FormFormField extends FormField<AbstractForm>{
 		/** {@inheritDoc} */
 		@Override
 		public FormFormField build(){
-			return new FormFormField(key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
+			return new FormFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
+					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader);
 		}
 	}
@@ -218,16 +257,21 @@ public class FormFormField extends FormField<AbstractForm>{
 	 * @param key The name of this field (used as a key in Forms)
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
 	 * @param colSpan The column span of this field
 	 * @param fontResourceLoader The {@link FontResourceLoader} to use for fonts on this field
 	 */
-	private FormFormField(String key, AbstractForm defaultValue, LabelType labelType,
+	private FormFormField(String key, AbstractForm defaultValue,
+	                      LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                      int rowPos, int colPos, int rowSpan, int colSpan,
 	                      FontResourceLoader fontResourceLoader){
-		super(FieldType.FORM, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan, fontResourceLoader);
+		super(FieldType.FORM, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
+				rowPos, colPos, rowSpan, colSpan, fontResourceLoader);
 	}
 	
 	/**

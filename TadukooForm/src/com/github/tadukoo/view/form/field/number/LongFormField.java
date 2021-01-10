@@ -6,6 +6,7 @@ import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.FormField;
 import com.github.tadukoo.view.form.field.LabelType;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import java.awt.GraphicsEnvironment;
 
@@ -42,6 +43,16 @@ public class LongFormField extends NumberFormField<Long>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#LABEL}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -132,6 +143,10 @@ public class LongFormField extends NumberFormField<Long>{
 			stepSize = 1L;
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public LongFormFieldBuilder key(String key){
@@ -146,12 +161,34 @@ public class LongFormField extends NumberFormField<Long>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public LongFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public LongFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public LongFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -220,6 +257,10 @@ public class LongFormField extends NumberFormField<Long>{
 			return this;
 		}
 		
+		/*
+		 * Number Specific Methods
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public LongFormFieldBuilder minValue(Long minValue){
@@ -244,7 +285,8 @@ public class LongFormField extends NumberFormField<Long>{
 		/** {@inheritDoc} */
 		@Override
 		public LongFormField build(){
-			return new LongFormField(key, defaultValue, labelType,
+			return new LongFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					minValue, maxValue, stepSize);
@@ -257,6 +299,8 @@ public class LongFormField extends NumberFormField<Long>{
 	 * @param key The name of this field (used as a key in {@link Form Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -266,11 +310,13 @@ public class LongFormField extends NumberFormField<Long>{
 	 * @param maxValue The maximum value allowed for this field
 	 * @param stepSize The increment value for the spinner for this field
 	 */
-	private LongFormField(String key, Long defaultValue, LabelType labelType,
-	                       int rowPos, int colPos, int rowSpan, int colSpan,
-	                       FontResourceLoader fontResourceLoader,
-	                       Long minValue, Long maxValue, Long stepSize){
-		super(FieldType.LONG, key, defaultValue, labelType,
+	private LongFormField(String key, Long defaultValue,
+	                      LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                      int rowPos, int colPos, int rowSpan, int colSpan,
+	                      FontResourceLoader fontResourceLoader,
+	                      Long minValue, Long maxValue, Long stepSize){
+		super(FieldType.LONG, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader,
 				minValue, maxValue, stepSize);

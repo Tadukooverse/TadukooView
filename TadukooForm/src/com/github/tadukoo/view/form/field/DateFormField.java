@@ -4,6 +4,7 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.components.DateForm;
 import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComponent;
 import java.awt.GraphicsEnvironment;
@@ -42,6 +43,16 @@ public class DateFormField extends FormField<Date>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#LABEL}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -129,6 +140,10 @@ public class DateFormField extends FormField<Date>{
 			super();
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public DateFormFieldBuilder key(String key){
@@ -143,12 +158,34 @@ public class DateFormField extends FormField<Date>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public DateFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public DateFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public DateFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -217,6 +254,10 @@ public class DateFormField extends FormField<Date>{
 			return this;
 		}
 		
+		/*
+		 * Date Form Specific Methods
+		 */
+		
 		/**
 		 * @param minYear The minimum year to allow on the field
 		 * @return this, to continue building
@@ -238,7 +279,8 @@ public class DateFormField extends FormField<Date>{
 		/** {@inheritDoc} */
 		@Override
 		public DateFormField build(){
-			return new DateFormField(key, defaultValue, labelType,
+			return new DateFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					minYear, maxYear);
@@ -256,6 +298,8 @@ public class DateFormField extends FormField<Date>{
 	 * @param key The name of this field (used as a key in {@link Form Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -264,11 +308,13 @@ public class DateFormField extends FormField<Date>{
 	 * @param minYear The minimum year to allow on this field
 	 * @param maxYear The maximum year to allow on this field
 	 */
-	private DateFormField(String key, Date defaultValue, LabelType labelType,
-	                        int rowPos, int colPos, int rowSpan, int colSpan,
-	                        FontResourceLoader fontResourceLoader,
-	                        int minYear, int maxYear){
-		super(FieldType.DATE, key, defaultValue, labelType,
+	private DateFormField(String key, Date defaultValue,
+	                      LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                      int rowPos, int colPos, int rowSpan, int colSpan,
+	                      FontResourceLoader fontResourceLoader,
+	                      int minYear, int maxYear){
+		super(FieldType.DATE, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.minYear = minYear;

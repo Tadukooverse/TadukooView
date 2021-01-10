@@ -7,6 +7,7 @@ import com.github.tadukoo.view.components.TadukooButton;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizableColor;
+import com.github.tadukoo.view.paint.SizablePaint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -41,11 +42,37 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testDefaults(){
+	public void testFieldTypeIsButton(){
 		assertEquals(FieldType.BUTTON, field.getType());
+	}
+	
+	@Test
+	public void testDefaultDefaultValue(){
 		assertNull(field.getDefaultValue());
+	}
+	
+	@Test
+	public void testDefaultLabelType(){
 		assertEquals(LabelType.NONE, field.getLabelType());
+	}
+	
+	@Test
+	public void testDefaultLabelForegroundPaint(){
+		assertNull(field.getLabelForegroundPaint());
+	}
+	
+	@Test
+	public void testDefaultLabelBackgroundPaint(){
+		assertNull(field.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultRowSpan(){
 		assertEquals(1, field.getRowSpan());
+	}
+	
+	@Test
+	public void testDefaultColSpan(){
 		assertEquals(1, field.getColSpan());
 	}
 	
@@ -65,6 +92,20 @@ public class ButtonFormFieldTest{
 	public void testSetLabelType() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().labelType(LabelType.TITLED_BORDER).build();
 		assertEquals(LabelType.TITLED_BORDER, field.getLabelType());
+	}
+	
+	@Test
+	public void testSetLabelForegroundPaint() throws IOException, FontFormatException{
+		SizablePaint red = new SizableColor(Color.RED);
+		field = ButtonFormField.builder().labelForegroundPaint(red).build();
+		assertEquals(red, field.getLabelForegroundPaint());
+	}
+	
+	@Test
+	public void testSetLabelBackgroundPaint() throws IOException, FontFormatException{
+		SizablePaint blue = new SizableColor(Color.BLUE);
+		field = ButtonFormField.builder().labelBackgroundPaint(blue).build();
+		assertEquals(blue, field.getLabelBackgroundPaint());
 	}
 	
 	@Test
@@ -229,6 +270,8 @@ public class ButtonFormFieldTest{
 	
 	@Test
 	public void testAllSettings() throws IOException, FontFormatException{
+		SizableColor magenta = new SizableColor(Color.MAGENTA);
+		SizableColor pink = new SizableColor(Color.PINK);
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
 		SizableColor black = new SizableColor(Color.BLACK);
@@ -237,7 +280,8 @@ public class ButtonFormFieldTest{
 		Border border = ShapedLineBorder.builder().build();
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
 				GraphicsEnvironment.getLocalGraphicsEnvironment(), "fonts/");
-		field = ButtonFormField.builder().key("Test").defaultValue("Yes").labelType(LabelType.TITLED_BORDER)
+		field = ButtonFormField.builder().key("Test").defaultValue("Yes")
+				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(magenta).labelBackgroundPaint(pink)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader)
 				.actionListener(testAction)
 				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
@@ -248,6 +292,8 @@ public class ButtonFormFieldTest{
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
 		assertEquals(LabelType.TITLED_BORDER, field.getLabelType());
+		assertEquals(magenta, field.getLabelForegroundPaint());
+		assertEquals(pink, field.getLabelBackgroundPaint());
 		assertEquals(2, field.getRowPos());
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());

@@ -6,6 +6,7 @@ import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.FormField;
 import com.github.tadukoo.view.form.field.LabelType;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
@@ -48,6 +49,16 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#LABEL}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -193,6 +204,8 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 * @param key The name of this field (used as a key in {@link Form Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -202,11 +215,14 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 * @param maxValue The maximum value allowed for this field
 	 * @param stepSize The increment value for the spinner for this field
 	 */
-	protected NumberFormField(FieldType type, String key, Type defaultValue, LabelType labelType,
+	protected NumberFormField(FieldType type, String key, Type defaultValue,
+	                          LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                          int rowPos, int colPos, int rowSpan, int colSpan,
 	                          FontResourceLoader fontResourceLoader,
 	                          Type minValue, Type maxValue, Type stepSize){
-		super(type, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
+		super(type, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
+				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.minValue = minValue;
 		this.maxValue = maxValue;

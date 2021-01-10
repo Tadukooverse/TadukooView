@@ -1,5 +1,6 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.view.paint.SizableColor;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JButton;
@@ -7,6 +8,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import java.awt.Color;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,26 +21,143 @@ public class StringFormFieldTest{
 	private StringFormField field = StringFormField.builder().build();
 	
 	@Test
-	public void testDefaults(){
+	public void testIsStringType(){
 		assertEquals(FieldType.STRING, field.getType());
+	}
+	
+	@Test
+	public void testDefaultDefaultValue(){
 		assertNull(field.getDefaultValue());
+	}
+	
+	@Test
+	public void testDefaultLabelType(){
 		assertEquals(LabelType.LABEL, field.getLabelType());
+	}
+	
+	@Test
+	public void testDefaultLabelForegroundPaint(){
+		assertNull(field.getLabelForegroundPaint());
+	}
+	
+	@Test
+	public void testDefaultLabelBackgroundPaint(){
+		assertNull(field.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultRowSpan(){
 		assertEquals(1, field.getRowSpan());
+	}
+	
+	@Test
+	public void testDefaultColSpan(){
 		assertEquals(1, field.getColSpan());
+	}
+	
+	@Test
+	public void testDefaultStringFieldType(){
 		assertEquals(StringFormField.StringFieldType.NORMAL, field.getStringFieldType());
+	}
+	
+	@Test
+	public void testDefaultEditable(){
 		assertTrue(field.isEditable());
+	}
+	
+	@Test
+	public void testDefaultColumns(){
 		assertEquals(-1, field.getColumns());
 	}
 	
 	@Test
+	public void testSetKey(){
+		field = StringFormField.builder().key("Test").build();
+		assertEquals("Test", field.getKey());
+	}
+	
+	@Test
+	public void testSetDefaultValue(){
+		field = StringFormField.builder().defaultValue("Yes").build();
+		assertEquals("Yes", field.getDefaultValue());
+	}
+	
+	@Test
+	public void testSetLabelType(){
+		field = StringFormField.builder().labelType(LabelType.NONE).build();
+		assertEquals(LabelType.NONE, field.getLabelType());
+	}
+	
+	@Test
+	public void testSetLabelForegroundPaint(){
+		SizableColor red = new SizableColor(Color.RED);
+		field = StringFormField.builder().labelForegroundPaint(red).build();
+		assertEquals(red, field.getLabelForegroundPaint());
+	}
+	
+	@Test
+	public void testSetLabelBackgroundPaint(){
+		SizableColor blue = new SizableColor(Color.BLUE);
+		field = StringFormField.builder().labelBackgroundPaint(blue).build();
+		assertEquals(blue, field.getLabelBackgroundPaint());
+	}
+	
+	@Test
+	public void testSetRowPos(){
+		field = StringFormField.builder().rowPos(2).build();
+		assertEquals(2, field.getRowPos());
+	}
+	
+	@Test
+	public void testSetColPos(){
+		field = StringFormField.builder().colPos(5).build();
+		assertEquals(5, field.getColPos());
+	}
+	
+	@Test
+	public void testSetRowSpan(){
+		field = StringFormField.builder().rowSpan(3).build();
+		assertEquals(3, field.getRowSpan());
+	}
+	
+	@Test
+	public void testSetColSpan(){
+		field = StringFormField.builder().colSpan(7).build();
+		assertEquals(7, field.getColSpan());
+	}
+	
+	@Test
+	public void testSetStringFieldType(){
+		field = StringFormField.builder().stringFieldType(StringFormField.StringFieldType.PASSWORD).build();
+		assertEquals(StringFormField.StringFieldType.PASSWORD, field.getStringFieldType());
+	}
+	
+	@Test
+	public void testSetEditable(){
+		field = StringFormField.builder().editable(false).build();
+		assertFalse(field.isEditable());
+	}
+	
+	@Test
+	public void testSetColumns(){
+		field = StringFormField.builder().columns(27).build();
+		assertEquals(27, field.getColumns());
+	}
+	
+	@Test
 	public void testSettings(){
-		field = StringFormField.builder().key("Test").defaultValue("Yes").labelType(LabelType.NONE)
+		SizableColor red = new SizableColor(Color.RED);
+		SizableColor blue = new SizableColor(Color.BLUE);
+		field = StringFormField.builder().key("Test").defaultValue("Yes")
+				.labelType(LabelType.NONE).labelForegroundPaint(red).labelBackgroundPaint(blue)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7)
 				.stringFieldType(StringFormField.StringFieldType.PASSWORD)
 				.editable(false).columns(27).build();
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
 		assertEquals(LabelType.NONE, field.getLabelType());
+		assertEquals(red, field.getLabelForegroundPaint());
+		assertEquals(blue, field.getLabelBackgroundPaint());
 		assertEquals(2, field.getRowPos());
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());

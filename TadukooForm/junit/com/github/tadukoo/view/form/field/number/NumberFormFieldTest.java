@@ -2,6 +2,7 @@ package com.github.tadukoo.view.form.field.number;
 
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.LabelType;
+import com.github.tadukoo.view.paint.SizablePaint;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
@@ -18,10 +19,13 @@ public class NumberFormFieldTest{
 	
 	private static class TestFormField extends NumberFormField<Integer>{
 		
-		private TestFormField(FieldType type, String key, Integer defaultValue, LabelType labelType,
+		private TestFormField(FieldType type, String key, Integer defaultValue,
+		                      LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 		                      int rowPos, int colPos, int rowSpan, int colSpan,
 		                      Integer minValue, Integer maxValue, Integer stepSize){
-			super(type, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan, null,
+			super(type, key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
+					rowPos, colPos, rowSpan, colSpan, null,
 					minValue, maxValue, stepSize);
 		}
 		
@@ -35,7 +39,8 @@ public class NumberFormFieldTest{
 		
 		@Override
 		public NumberFormField<Integer> build(){
-			return new TestFormField(FieldType.INT, key, defaultValue, labelType,
+			return new TestFormField(FieldType.INT, key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					minValue, maxValue, stepSize);
 		}
@@ -44,8 +49,12 @@ public class NumberFormFieldTest{
 	private NumberFormField<Integer> field = new TestFormFieldBuilder().stepSize(54).build();
 	
 	@Test
-	public void testDefaults(){
+	public void testDefaultMinValue(){
 		assertNull(field.getMinValue());
+	}
+	
+	@Test
+	public void testDefaultMaxValue(){
 		assertNull(field.getMaxValue());
 	}
 	
@@ -66,6 +75,7 @@ public class NumberFormFieldTest{
 		assertEquals(20, ((SpinnerNumberModel) model).getMinimum());
 		assertEquals(105, ((SpinnerNumberModel) model).getMaximum());
 		assertEquals(54, ((SpinnerNumberModel) model).getStepSize());
+		assertEquals(42, model.getValue());
 	}
 	
 	@Test

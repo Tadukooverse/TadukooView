@@ -3,6 +3,7 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -41,6 +42,16 @@ public class DropDownFormField extends FormField<String>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#LABEL}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -128,6 +139,10 @@ public class DropDownFormField extends FormField<String>{
 			super();
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public DropDownFormFieldBuilder key(String key){
@@ -142,12 +157,34 @@ public class DropDownFormField extends FormField<String>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public DropDownFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public DropDownFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public DropDownFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -216,6 +253,10 @@ public class DropDownFormField extends FormField<String>{
 			return this;
 		}
 		
+		/*
+		 * DropDown Specific Methods
+		 */
+		
 		/**
 		 * @param editable Whether the field can be edited or not
 		 * @return this, to continue building
@@ -237,7 +278,8 @@ public class DropDownFormField extends FormField<String>{
 		/** {@inheritDoc} */
 		@Override
 		public DropDownFormField build(){
-			return new DropDownFormField(key, defaultValue, labelType,
+			return new DropDownFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					editable, options);
@@ -255,6 +297,8 @@ public class DropDownFormField extends FormField<String>{
 	 * @param key The name of this field (used as a key in {@link Form Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -263,11 +307,13 @@ public class DropDownFormField extends FormField<String>{
 	 * @param editable Whether this field can be edited or not
 	 * @param options The options to include in the drop-down list
 	 */
-	private DropDownFormField(String key, String defaultValue, LabelType labelType,
+	private DropDownFormField(String key, String defaultValue,
+	                          LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                          int rowPos, int colPos, int rowSpan, int colSpan,
 	                          FontResourceLoader fontResourceLoader,
 	                          boolean editable, String[] options){
-		super(FieldType.DROP_DOWN, key, defaultValue, labelType,
+		super(FieldType.DROP_DOWN, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.editable = editable;

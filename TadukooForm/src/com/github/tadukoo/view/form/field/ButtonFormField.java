@@ -50,6 +50,16 @@ public class ButtonFormField extends FormField<String>{
 	 *         <td>Defaults to {@link LabelType#NONE}</td>
 	 *     </tr>
 	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
+	 *     </tr>
+	 *     <tr>
 	 *         <td>rowPos</td>
 	 *         <td>The row position of the field</td>
 	 *         <td>Required</td>
@@ -185,6 +195,10 @@ public class ButtonFormField extends FormField<String>{
 			labelType = LabelType.NONE;
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public ButtonFormFieldBuilder key(String key){
@@ -199,12 +213,34 @@ public class ButtonFormField extends FormField<String>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public ButtonFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public ButtonFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public ButtonFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -272,6 +308,10 @@ public class ButtonFormField extends FormField<String>{
 			super.fontResourceLoader(fontResourceLoader);
 			return this;
 		}
+		
+		/*
+		 * Button Specific Methods
+		 */
 		
 		/**
 		 * @param actionListener The action to perform on click of the Button
@@ -359,7 +399,8 @@ public class ButtonFormField extends FormField<String>{
 				getFontsToUse(ListUtil.createList(buttonFontFamily));
 			}
 			
-			return new ButtonFormField(key, defaultValue, labelType,
+			return new ButtonFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					actionListener,
@@ -397,6 +438,8 @@ public class ButtonFormField extends FormField<String>{
 	 * @param key The name of this field (used as a key in Forms)
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -413,7 +456,8 @@ public class ButtonFormField extends FormField<String>{
 	 * @param buttonFontSize The font size to use on the font of the Button
 	 * @param buttonBorder The {@link Border} to use on the Button
 	 */
-	private ButtonFormField(String key, String defaultValue, LabelType labelType,
+	private ButtonFormField(String key, String defaultValue,
+	                        LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        ActionListener actionListener,
@@ -422,7 +466,9 @@ public class ButtonFormField extends FormField<String>{
 	                        SizablePaint buttonDisabledTextPaint,
 	                        FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize,
 	                        Border buttonBorder){
-		super(FieldType.BUTTON, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
+		super(FieldType.BUTTON, key, defaultValue,
+				labelType,labelForegroundPaint, labelBackgroundPaint,
+				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.actionListener = actionListener;
 		this.buttonForegroundPaint = buttonForegroundPaint;

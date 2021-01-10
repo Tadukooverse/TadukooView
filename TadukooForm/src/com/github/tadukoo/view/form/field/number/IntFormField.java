@@ -6,6 +6,7 @@ import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.FormField;
 import com.github.tadukoo.view.form.field.LabelType;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import java.awt.GraphicsEnvironment;
 
@@ -42,6 +43,16 @@ public class IntFormField extends NumberFormField<Integer>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#LABEL}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -132,6 +143,10 @@ public class IntFormField extends NumberFormField<Integer>{
 			stepSize = 1;
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public IntFormFieldBuilder key(String key){
@@ -146,12 +161,34 @@ public class IntFormField extends NumberFormField<Integer>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public IntFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public IntFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public IntFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -220,6 +257,10 @@ public class IntFormField extends NumberFormField<Integer>{
 			return this;
 		}
 		
+		/*
+		 * Number Specific Methods
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public IntFormFieldBuilder minValue(Integer minValue){
@@ -244,7 +285,8 @@ public class IntFormField extends NumberFormField<Integer>{
 		/** {@inheritDoc} */
 		@Override
 		public IntFormField build(){
-			return new IntFormField(key, defaultValue, labelType,
+			return new IntFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					minValue, maxValue, stepSize);
@@ -257,6 +299,8 @@ public class IntFormField extends NumberFormField<Integer>{
 	 * @param key The name of this field (used as a key in {@link Form Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -266,11 +310,13 @@ public class IntFormField extends NumberFormField<Integer>{
 	 * @param maxValue The maximum value allowed for this field
 	 * @param stepSize The increment value for the spinner for this field
 	 */
-	private IntFormField(String key, Integer defaultValue, LabelType labelType,
-	                       int rowPos, int colPos, int rowSpan, int colSpan,
-	                       FontResourceLoader fontResourceLoader,
-	                       Integer minValue, Integer maxValue, Integer stepSize){
-		super(FieldType.INT, key, defaultValue, labelType,
+	private IntFormField(String key, Integer defaultValue,
+	                     LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
+	                     int rowPos, int colPos, int rowSpan, int colSpan,
+	                     FontResourceLoader fontResourceLoader,
+	                     Integer minValue, Integer maxValue, Integer stepSize){
+		super(FieldType.INT, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
 				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader,
 				minValue, maxValue, stepSize);

@@ -4,6 +4,7 @@ import com.github.tadukoo.util.StringUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.paint.SizablePaint;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -57,6 +58,16 @@ public class StringFormField extends FormField<String>{
 	 *         <td>labelType</td>
 	 *         <td>The {@link LabelType} to use for the field</td>
 	 *         <td>Defaults to {@link LabelType#LABEL}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelForegroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the foreground of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label foreground paint)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>labelBackgroundPaint</td>
+	 *         <td>The {@link SizablePaint} for the background of the Label</td>
+	 *         <td>Defaults to null (to use the Look &amp; Feel's default Label background paint)</td>
 	 *     </tr>
 	 *     <tr>
 	 *         <td>rowPos</td>
@@ -151,6 +162,10 @@ public class StringFormField extends FormField<String>{
 			super();
 		}
 		
+		/*
+		 * The Basics
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public StringFormFieldBuilder key(String key){
@@ -165,12 +180,34 @@ public class StringFormField extends FormField<String>{
 			return this;
 		}
 		
+		/*
+		 * Label Settings
+		 */
+		
 		/** {@inheritDoc} */
 		@Override
 		public StringFormFieldBuilder labelType(LabelType labelType){
 			super.labelType(labelType);
 			return this;
 		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public StringFormFieldBuilder labelForegroundPaint(SizablePaint labelForegroundPaint){
+			super.labelForegroundPaint(labelForegroundPaint);
+			return this;
+		}
+		
+		/** {@inheritDoc} */
+		@Override
+		public StringFormFieldBuilder labelBackgroundPaint(SizablePaint labelBackgroundPaint){
+			super.labelBackgroundPaint(labelBackgroundPaint);
+			return this;
+		}
+		
+		/*
+		 * Positioning
+		 */
 		
 		/** {@inheritDoc} */
 		@Override
@@ -239,6 +276,10 @@ public class StringFormField extends FormField<String>{
 			return this;
 		}
 		
+		/*
+		 * String Specific Methods
+		 */
+		
 		/**
 		 * @param stringFieldType The {@link StringFieldType type} of String field
 		 * @return this, to continue building
@@ -269,7 +310,8 @@ public class StringFormField extends FormField<String>{
 		/** {@inheritDoc} */
 		@Override
 		public StringFormField build(){
-			return new StringFormField(key, defaultValue, labelType,
+			return new StringFormField(key, defaultValue,
+					labelType, labelForegroundPaint, labelBackgroundPaint,
 					rowPos, colPos, rowSpan, colSpan,
 					fontResourceLoader,
 					stringFieldType, editable, columns);
@@ -289,6 +331,8 @@ public class StringFormField extends FormField<String>{
 	 * @param key The name of this field (used as a key in Forms)
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
+	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
+	 * @param labelBackgroundPaint The {@link SizablePaint} for the background of the Label
 	 * @param rowPos The row position of this field
 	 * @param colPos The column position of this field
 	 * @param rowSpan The row span of this field
@@ -298,11 +342,14 @@ public class StringFormField extends FormField<String>{
 	 * @param editable Whether this field can be edited or not
 	 * @param columns Number of columns used to determine the width of this field
 	 */
-	private StringFormField(String key, String defaultValue, LabelType labelType,
+	private StringFormField(String key, String defaultValue,
+	                        LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        FontResourceLoader fontResourceLoader,
 	                        StringFieldType stringFieldType, boolean editable, int columns){
-		super(FieldType.STRING, key, defaultValue, labelType, rowPos, colPos, rowSpan, colSpan,
+		super(FieldType.STRING, key, defaultValue,
+				labelType, labelForegroundPaint, labelBackgroundPaint,
+				rowPos, colPos, rowSpan, colSpan,
 				fontResourceLoader);
 		this.stringFieldType = stringFieldType;
 		this.editable = editable;
