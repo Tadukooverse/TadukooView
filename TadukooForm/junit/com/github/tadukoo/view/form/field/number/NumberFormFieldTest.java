@@ -1,6 +1,8 @@
 package com.github.tadukoo.view.form.field.number;
 
+import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontFamily;
+import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.LabelType;
 import com.github.tadukoo.view.paint.SizablePaint;
@@ -13,6 +15,8 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.Border;
+
+import java.awt.GraphicsEnvironment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -27,12 +31,16 @@ public class NumberFormFieldTest{
 		                      FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
 		                      ShapeInfo labelShape, Border labelBorder,
 		                      int rowPos, int colPos, int rowSpan, int colSpan,
+		                      boolean logFontResourceLoaderWarnings, EasyLogger logger, GraphicsEnvironment graphEnv,
+		                      String fontFolder, FontResourceLoader fontResourceLoader,
 		                      Integer minValue, Integer maxValue, Integer stepSize){
 			super(type, key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
 					labelFontFamily, labelFontStyle, labelFontSize,
 					labelShape, labelBorder,
-					rowPos, colPos, rowSpan, colSpan, null,
+					rowPos, colPos, rowSpan, colSpan,
+					logFontResourceLoaderWarnings, logger, graphEnv,
+					fontFolder, fontResourceLoader,
 					minValue, maxValue, stepSize);
 		}
 		
@@ -51,6 +59,8 @@ public class NumberFormFieldTest{
 					labelFontFamily, labelFontStyle, labelFontSize,
 					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan,
+					logFontResourceLoaderWarnings, logger, graphEnv,
+					fontFolder, fontResourceLoader,
 					minValue, maxValue, stepSize);
 		}
 	}

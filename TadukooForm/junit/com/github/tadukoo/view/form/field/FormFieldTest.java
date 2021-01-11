@@ -1,5 +1,7 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.util.LoggerUtil;
+import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.border.ShapedBevelBorder;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
@@ -17,9 +19,13 @@ import javax.swing.border.Border;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FormFieldTest{
 	private final JLabel label = new JLabel("Derp");
@@ -31,11 +37,14 @@ public class FormFieldTest{
 		                      FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
 		                      ShapeInfo labelShape, Border labelBorder,
 		                      int rowPos, int colPos, int rowSpan, int colSpan,
-		                      FontResourceLoader fontResourceLoader){
+		                      boolean logFontResourceLoaderWarnings, EasyLogger logger, GraphicsEnvironment graphEnv,
+		                      String fontFolder, FontResourceLoader fontResourceLoader){
 			super(type, key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
 					labelFontFamily, labelFontStyle, labelFontSize, labelShape, labelBorder,
-					rowPos, colPos, rowSpan, colSpan, fontResourceLoader);
+					rowPos, colPos, rowSpan, colSpan,
+					logFontResourceLoaderWarnings, logger, graphEnv,
+					fontFolder, fontResourceLoader);
 		}
 		
 		@Override
@@ -58,7 +67,9 @@ public class FormFieldTest{
 			return new TestFormField(FieldType.STRING, key, defaultValue,
 					labelType, labelForegroundPaint, labelBackgroundPaint,
 					labelFontFamily, labelFontStyle, labelFontSize, labelShape, labelBorder,
-					rowPos, colPos, rowSpan, colSpan, fontResourceLoader);
+					rowPos, colPos, rowSpan, colSpan,
+					logFontResourceLoaderWarnings, logger, graphEnv,
+					fontFolder, fontResourceLoader);
 		}
 	}
 	
@@ -126,6 +137,31 @@ public class FormFieldTest{
 	@Test
 	public void testDefaultColSpan(){
 		assertEquals(1, field.getColSpan());
+	}
+	
+	@Test
+	public void testDefaultLogFontResourceLoaderWarnings(){
+		assertFalse(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testDefaultLogger(){
+		assertNull(field.getLogger());
+	}
+	
+	@Test
+	public void testDefaultGraphEnv(){
+		assertEquals(GraphicsEnvironment.getLocalGraphicsEnvironment(), field.getGraphEnv());
+	}
+	
+	@Test
+	public void testDefaultFontFolder(){
+		assertEquals("fonts/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testDefaultFontResourceLoader(){
+		assertNull(field.getFontResourceLoader());
 	}
 	
 	/*
@@ -220,18 +256,59 @@ public class FormFieldTest{
 	}
 	
 	@Test
+	public void testSettingLogFontResourceLoaderWarnings() throws Throwable{
+		field = new TestFormFieldBuilder().key("Test").rowPos(2).colPos(5)
+				.logFontResourceLoaderWarnings(true).build();
+		assertTrue(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testSettingLogger() throws Throwable{
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		field = new TestFormFieldBuilder().key("Test").rowPos(2).colPos(5)
+				.logger(logger).build();
+		assertEquals(logger, field.getLogger());
+	}
+	
+	@Test
+	public void testSettingGraphEnv() throws Throwable{
+		field = new TestFormFieldBuilder().key("Test").rowPos(2).colPos(5)
+				.graphEnv(null).build();
+		assertNull(field.getGraphEnv());
+	}
+	
+	@Test
+	public void testSettingFontFolder() throws Throwable{
+		field = new TestFormFieldBuilder().key("Test").rowPos(2).colPos(5)
+				.fontFolder("testing/").build();
+		assertEquals("testing/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testSettingFontResourceLoader() throws Throwable{
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
+		field = new TestFormFieldBuilder().key("Test").rowPos(2).colPos(5)
+				.fontResourceLoader(fontResourceLoader).build();
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
+	}
+	
+	@Test
 	public void testAllSettings() throws Throwable{
 		SizablePaint red = new SizableColor(Color.RED);
 		SizablePaint blue = new SizableColor(Color.BLUE);
 		ShapeInfo shape = Shapes.CIRCLE.getShapeInfo();
 		Border border = ShapedBevelBorder.builder().build();
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
 				null, "fonts/");
 		field = new TestFormFieldBuilder().key("Test").defaultValue("Yes")
 				.labelType(LabelType.NONE).labelForegroundPaint(red).labelBackgroundPaint(blue)
 				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
 				.labelShape(shape).labelBorder(border)
-				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader).build();
+				.rowPos(2).colPos(5).rowSpan(3).colSpan(7)
+				.logFontResourceLoaderWarnings(true).logger(logger).graphEnv(null).fontFolder("testing/")
+				.fontResourceLoader(fontResourceLoader).build();
 		assertEquals(FieldType.STRING, field.getType());
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
@@ -247,6 +324,10 @@ public class FormFieldTest{
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());
 		assertEquals(7, field.getColSpan());
+		assertTrue(field.logFontResourceLoaderWarnings());
+		assertEquals(logger, field.getLogger());
+		assertNull(field.getGraphEnv());
+		assertEquals("testing/", field.getFontFolder());
 		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 	}
 	

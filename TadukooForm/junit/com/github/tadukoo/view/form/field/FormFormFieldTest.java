@@ -1,7 +1,10 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.util.LoggerUtil;
+import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
+import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.AbstractForm;
 import com.github.tadukoo.view.paint.SizableColor;
 import com.github.tadukoo.view.shapes.Shapes;
@@ -13,9 +16,13 @@ import javax.swing.JLabel;
 import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -102,6 +109,31 @@ public class FormFormFieldTest{
 	}
 	
 	@Test
+	public void testDefaultLogFontResourceLoaderWarnings(){
+		assertFalse(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testDefaultLogger(){
+		assertNull(field.getLogger());
+	}
+	
+	@Test
+	public void testDefaultGraphEnv(){
+		assertEquals(GraphicsEnvironment.getLocalGraphicsEnvironment(), field.getGraphEnv());
+	}
+	
+	@Test
+	public void testDefaultFontFolder(){
+		assertEquals("fonts/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testDefaultFontResourceLoader(){
+		assertNull(field.getFontResourceLoader());
+	}
+	
+	@Test
 	public void testSetKey(){
 		field = FormFormField.builder().key("Test").build();
 		assertEquals("Test", field.getKey());
@@ -179,15 +211,59 @@ public class FormFormFieldTest{
 	}
 	
 	@Test
-	public void testAllSettings(){
+	public void testSetLogFontResourceLoaderWarnings(){
+		field = FormFormField.builder()
+				.logFontResourceLoaderWarnings(true).build();
+		assertTrue(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testSetLogger() throws IOException{
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		field = FormFormField.builder()
+				.logger(logger).build();
+		assertEquals(logger, field.getLogger());
+	}
+	
+	@Test
+	public void testSetGraphEnv(){
+		field = FormFormField.builder()
+				.graphEnv(null).build();
+		assertNull(field.getGraphEnv());
+	}
+	
+	@Test
+	public void testSetFontFolder(){
+		field = FormFormField.builder()
+				.fontFolder("testing/").build();
+		assertEquals("testing/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testSetFontResourceLoader(){
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
+		field = FormFormField.builder()
+				.fontResourceLoader(fontResourceLoader).build();
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
+	}
+	
+	@Test
+	public void testAllSettings() throws IOException{
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
 		Border labelBorder = ShapedLineBorder.builder().build();
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
 		field = FormFormField.builder().key("Test").defaultValue(form)
 				.labelType(LabelType.LABEL).labelForegroundPaint(red).labelBackgroundPaint(blue)
 				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
 				.labelShape(Shapes.CIRCLE.getShapeInfo()).labelBorder(labelBorder)
-				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).build();
+				.rowPos(2).colPos(5).rowSpan(3).colSpan(7)
+				.logFontResourceLoaderWarnings(true).logger(logger).graphEnv(null).fontFolder("testing/")
+				.fontResourceLoader(fontResourceLoader)
+				.build();
 		assertEquals("Test", field.getKey());
 		assertEquals(form, field.getDefaultValue());
 		assertEquals(LabelType.LABEL, field.getLabelType());
@@ -202,6 +278,11 @@ public class FormFormFieldTest{
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());
 		assertEquals(7, field.getColSpan());
+		assertTrue(field.logFontResourceLoaderWarnings());
+		assertEquals(logger, field.getLogger());
+		assertNull(field.getGraphEnv());
+		assertEquals("testing/", field.getFontFolder());
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 	}
 	
 	@Test

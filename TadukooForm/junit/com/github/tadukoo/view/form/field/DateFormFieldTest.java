@@ -1,8 +1,11 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.util.LoggerUtil;
+import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.util.time.DateUtil;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
+import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.components.DateForm;
 import com.github.tadukoo.view.paint.SizableColor;
 import com.github.tadukoo.view.shapes.Shapes;
@@ -13,10 +16,14 @@ import javax.swing.JLabel;
 import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 import java.time.Month;
 import java.util.Date;
+import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -81,6 +88,31 @@ public class DateFormFieldTest{
 	@Test
 	public void testDefaultColSpan(){
 		assertEquals(1, field.getColSpan());
+	}
+	
+	@Test
+	public void testDefaultLogFontResourceLoaderWarnings(){
+		assertFalse(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testDefaultLogger(){
+		assertNull(field.getLogger());
+	}
+	
+	@Test
+	public void testDefaultGraphEnv(){
+		assertEquals(GraphicsEnvironment.getLocalGraphicsEnvironment(), field.getGraphEnv());
+	}
+	
+	@Test
+	public void testDefaultFontFolder(){
+		assertEquals("fonts/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testDefaultFontResourceLoader(){
+		assertNull(field.getFontResourceLoader());
 	}
 	
 	@Test
@@ -172,6 +204,44 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
+	public void testSetLogFontResourceLoaderWarnings(){
+		field = DateFormField.builder()
+				.logFontResourceLoaderWarnings(true).build();
+		assertTrue(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testSetLogger() throws IOException{
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		field = DateFormField.builder()
+				.logger(logger).build();
+		assertEquals(logger, field.getLogger());
+	}
+	
+	@Test
+	public void testSetGraphEnv(){
+		field = DateFormField.builder()
+				.graphEnv(null).build();
+		assertNull(field.getGraphEnv());
+	}
+	
+	@Test
+	public void testSetFontFolder(){
+		field = DateFormField.builder()
+				.fontFolder("testing/").build();
+		assertEquals("testing/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testSetFontResourceLoader(){
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
+		field = DateFormField.builder()
+				.fontResourceLoader(fontResourceLoader).build();
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
+	}
+	
+	@Test
 	public void testSetMinYear(){
 		field = DateFormField.builder().minYear(120).build();
 		assertEquals(120, field.getMinYear());
@@ -184,16 +254,22 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
-	public void testAllSettings(){
+	public void testAllSettings() throws IOException{
 		Date date = DateUtil.createDate(Month.JULY, 4, 1776);
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
 		Border labelBorder = ShapedLineBorder.builder().build();
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
 		field = DateFormField.builder().key("Derp").defaultValue(date)
 				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(red).labelBackgroundPaint(blue)
 				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
 				.labelShape(Shapes.CIRCLE.getShapeInfo()).labelBorder(labelBorder)
-				.rowPos(5).colPos(3).rowSpan(2).colSpan(4).minYear(120).maxYear(1920).build();
+				.rowPos(5).colPos(3).rowSpan(2).colSpan(4)
+				.logFontResourceLoaderWarnings(true).logger(logger).graphEnv(null).fontFolder("testing/")
+				.fontResourceLoader(fontResourceLoader)
+				.minYear(120).maxYear(1920).build();
 		
 		assertEquals(FieldType.DATE, field.getType());
 		assertEquals("Derp", field.getKey());
@@ -210,6 +286,11 @@ public class DateFormFieldTest{
 		assertEquals(3, field.getColPos());
 		assertEquals(2, field.getRowSpan());
 		assertEquals(4, field.getColSpan());
+		assertTrue(field.logFontResourceLoaderWarnings());
+		assertEquals(logger, field.getLogger());
+		assertNull(field.getGraphEnv());
+		assertEquals("testing/", field.getFontFolder());
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 		assertEquals(120, field.getMinYear());
 		assertEquals(1920, field.getMaxYear());
 	}

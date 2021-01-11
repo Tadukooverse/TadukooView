@@ -9,7 +9,6 @@ import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizableColor;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.Shapes;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
@@ -18,14 +17,9 @@ import javax.swing.border.Border;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -34,13 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ButtonFormFieldTest{
-	private ButtonFormField field;
+	private ButtonFormField field = ButtonFormField.builder().build();
 	private final ActionListener testAction = e -> { };
-	
-	@BeforeEach
-	public void setup() throws IOException, FontFormatException{
-		field = ButtonFormField.builder().build();
-	}
 	
 	@Test
 	public void testFieldTypeIsButton(){
@@ -103,39 +92,64 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testSetKey() throws IOException, FontFormatException{
+	public void testDefaultLogFontResourceLoaderWarnings(){
+		assertFalse(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testDefaultLogger(){
+		assertNull(field.getLogger());
+	}
+	
+	@Test
+	public void testDefaultGraphEnv(){
+		assertEquals(GraphicsEnvironment.getLocalGraphicsEnvironment(), field.getGraphEnv());
+	}
+	
+	@Test
+	public void testDefaultFontFolder(){
+		assertEquals("fonts/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testDefaultFontResourceLoader(){
+		assertNull(field.getFontResourceLoader());
+	}
+	
+	@Test
+	public void testSetKey(){
 		field = ButtonFormField.builder().key("Test").build();
 		assertEquals("Test", field.getKey());
 	}
 	
 	@Test
-	public void testSetDefaultValue() throws IOException, FontFormatException{
+	public void testSetDefaultValue(){
 		field = ButtonFormField.builder().defaultValue("Yes").build();
 		assertEquals("Yes", field.getDefaultValue());
 	}
 	
 	@Test
-	public void testSetLabelType() throws IOException, FontFormatException{
+	public void testSetLabelType(){
 		field = ButtonFormField.builder().labelType(LabelType.TITLED_BORDER).build();
 		assertEquals(LabelType.TITLED_BORDER, field.getLabelType());
 	}
 	
 	@Test
-	public void testSetLabelForegroundPaint() throws IOException, FontFormatException{
+	public void testSetLabelForegroundPaint(){
 		SizablePaint red = new SizableColor(Color.RED);
 		field = ButtonFormField.builder().labelForegroundPaint(red).build();
 		assertEquals(red, field.getLabelForegroundPaint());
 	}
 	
 	@Test
-	public void testSetLabelBackgroundPaint() throws IOException, FontFormatException{
+	public void testSetLabelBackgroundPaint(){
 		SizablePaint blue = new SizableColor(Color.BLUE);
 		field = ButtonFormField.builder().labelBackgroundPaint(blue).build();
 		assertEquals(blue, field.getLabelBackgroundPaint());
 	}
 	
 	@Test
-	public void testSetLabelFont() throws IOException, FontFormatException{
+	public void testSetLabelFont(){
 		field = ButtonFormField.builder().labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27).build();
 		assertEquals(FontFamilies.DIALOG.getFamily(), field.getLabelFontFamily());
 		assertEquals(Font.BOLD, field.getLabelFontStyle());
@@ -143,164 +157,123 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testSetLabelShape() throws IOException, FontFormatException{
+	public void testSetLabelShape(){
 		field = ButtonFormField.builder().labelShape(Shapes.CIRCLE.getShapeInfo()).build();
 		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getLabelShape());
 	}
 	
 	@Test
-	public void testSetLabelBorder() throws IOException, FontFormatException{
+	public void testSetLabelBorder(){
 		Border labelBorder = ShapedLineBorder.builder().build();
 		field = ButtonFormField.builder().labelBorder(labelBorder).build();
 		assertEquals(labelBorder, field.getLabelBorder());
 	}
 	
 	@Test
-	public void testSetRowPos() throws IOException, FontFormatException{
+	public void testSetRowPos(){
 		field = ButtonFormField.builder().rowPos(2).build();
 		assertEquals(2, field.getRowPos());
 	}
 	
 	@Test
-	public void testSetColPos() throws IOException, FontFormatException{
+	public void testSetColPos(){
 		field = ButtonFormField.builder().colPos(5).build();
 		assertEquals(5, field.getColPos());
 	}
 	
 	@Test
-	public void testSetRowSpan() throws IOException, FontFormatException{
+	public void testSetRowSpan(){
 		field = ButtonFormField.builder().rowSpan(3).build();
 		assertEquals(3, field.getRowSpan());
 	}
 	
 	@Test
-	public void testSetColSpan() throws IOException, FontFormatException{
+	public void testSetColSpan(){
 		field = ButtonFormField.builder().colSpan(7).build();
 		assertEquals(7, field.getColSpan());
 	}
 	
 	@Test
-	public void testFontResourceLoaderDefaults() throws IOException, FontFormatException{
-		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
-				.build();
-		FontResourceLoader fontResourceLoader = field.getFontResourceLoader();
-		assertFalse(fontResourceLoader.getLogWarnings());
-		assertNull(fontResourceLoader.getLogger());
-		assertEquals(GraphicsEnvironment.getLocalGraphicsEnvironment(), fontResourceLoader.getGraphEnv());
-		assertEquals("fonts/", fontResourceLoader.getFontDirectoryPath());
-	}
-	
-	@Test
-	public void testSetLogFontResourceLoaderWarnings() throws IOException, FontFormatException{
-		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
+	public void testSetLogFontResourceLoaderWarnings(){
+		field = ButtonFormField.builder()
 				.logFontResourceLoaderWarnings(true).build();
-		assertTrue(field.getFontResourceLoader().getLogWarnings());
+		assertTrue(field.logFontResourceLoaderWarnings());
 	}
 	
 	@Test
-	public void testSetLogger() throws IOException, FontFormatException{
-		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("/target/dummy-log.txt", Level.OFF));
-		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
+	public void testSetLogger() throws IOException{
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		field = ButtonFormField.builder()
 				.logger(logger).build();
-		assertEquals(logger, field.getFontResourceLoader().getLogger());
+		assertEquals(logger, field.getLogger());
 	}
 	
 	@Test
-	public void testSetGraphicsEnvironment() throws IOException, FontFormatException{
-		GraphicsEnvironment graphEnv = new GraphicsEnvironment(){
-			@Override
-			public GraphicsDevice[] getScreenDevices() throws HeadlessException{
-				return new GraphicsDevice[0];
-			}
-			
-			@Override
-			public GraphicsDevice getDefaultScreenDevice() throws HeadlessException{
-				return null;
-			}
-			
-			@Override
-			public Graphics2D createGraphics(BufferedImage img){
-				return null;
-			}
-			
-			@Override
-			public Font[] getAllFonts(){
-				return new Font[0];
-			}
-			
-			@Override
-			public String[] getAvailableFontFamilyNames(){
-				return new String[]{Font.DIALOG};
-			}
-			
-			@Override
-			public String[] getAvailableFontFamilyNames(Locale l){
-				return new String[0];
-			}
-		};
-		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
-				.graphEnv(graphEnv).build();
-		assertEquals(graphEnv, field.getFontResourceLoader().getGraphEnv());
+	public void testSetGraphEnv(){
+		field = ButtonFormField.builder()
+				.graphEnv(null).build();
+		assertNull(field.getGraphEnv());
 	}
 	
 	@Test
-	public void testSetFontFolder() throws IOException, FontFormatException{
-		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
-				.fontFolder("test-fonts/").build();
-		assertEquals("test-fonts/", field.getFontResourceLoader().getFontDirectoryPath());
+	public void testSetFontFolder(){
+		field = ButtonFormField.builder()
+				.fontFolder("testing/").build();
+		assertEquals("testing/", field.getFontFolder());
 	}
 	
 	@Test
-	public void testSetFontResourceLoader() throws IOException, FontFormatException{
+	public void testSetFontResourceLoader(){
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
-				GraphicsEnvironment.getLocalGraphicsEnvironment(), "fonts/");
-		field = ButtonFormField.builder().fontResourceLoader(fontResourceLoader).build();
+				null, "fonts/");
+		field = ButtonFormField.builder()
+				.fontResourceLoader(fontResourceLoader).build();
 		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 	}
 	
 	@Test
-	public void testSetActionListener() throws IOException, FontFormatException{
+	public void testSetActionListener(){
 		field = ButtonFormField.builder().actionListener(testAction).build();
 		assertEquals(testAction, field.getActionListener());
 	}
 	
 	@Test
-	public void testSetButtonForegroundPaint() throws IOException, FontFormatException{
+	public void testSetButtonForegroundPaint(){
 		SizableColor red = new SizableColor(Color.RED);
 		field = ButtonFormField.builder().buttonForegroundPaint(red).build();
 		assertEquals(red, field.getButtonForegroundPaint());
 	}
 	
 	@Test
-	public void testSetButtonBackgroundPaint() throws IOException, FontFormatException{
+	public void testSetButtonBackgroundPaint(){
 		SizableColor blue = new SizableColor(Color.BLUE);
 		field = ButtonFormField.builder().buttonBackgroundPaint(blue).build();
 		assertEquals(blue, field.getButtonBackgroundPaint());
 	}
 	
 	@Test
-	public void testSetButtonSelectPaint() throws IOException, FontFormatException{
+	public void testSetButtonSelectPaint(){
 		SizableColor yellow = new SizableColor(Color.YELLOW);
 		field = ButtonFormField.builder().buttonSelectPaint(yellow).build();
 		assertEquals(yellow, field.getButtonSelectPaint());
 	}
 	
 	@Test
-	public void testSetButtonFocusPaint() throws IOException, FontFormatException{
+	public void testSetButtonFocusPaint(){
 		SizableColor black = new SizableColor(Color.BLACK);
 		field = ButtonFormField.builder().buttonFocusPaint(black).build();
 		assertEquals(black, field.getButtonFocusPaint());
 	}
 	
 	@Test
-	public void testSetButtonDisabledTextPaint() throws IOException, FontFormatException{
+	public void testSetButtonDisabledTextPaint(){
 		SizableColor gray = new SizableColor(Color.GRAY);
 		field = ButtonFormField.builder().buttonDisabledTextPaint(gray).build();
 		assertEquals(gray, field.getButtonDisabledTextPaint());
 	}
 	
 	@Test
-	public void testSetButtonFont() throws IOException, FontFormatException{
+	public void testSetButtonFont(){
 		field = ButtonFormField.builder().buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.build();
 		assertEquals(FontFamilies.DIALOG.getFamily(), field.getButtonFontFamily());
@@ -309,14 +282,14 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testSetButtonBorder() throws IOException, FontFormatException{
+	public void testSetButtonBorder(){
 		Border border = ShapedLineBorder.builder().build();
 		field = ButtonFormField.builder().buttonBorder(border).build();
 		assertEquals(border, field.getButtonBorder());
 	}
 	
 	@Test
-	public void testSetButtonShape() throws IOException, FontFormatException{
+	public void testSetButtonShape(){
 		field = ButtonFormField.builder().buttonShape(Shapes.CIRCLE.getShapeInfo()).build();
 		assertEquals(Shapes.CIRCLE.getShapeInfo(), field.getButtonShape());
 	}
@@ -332,13 +305,16 @@ public class ButtonFormFieldTest{
 		SizableColor gray = new SizableColor(Color.GRAY);
 		Border labelBorder = ShapedLineBorder.builder().build();
 		Border buttonBorder = ShapedLineBorder.builder().build();
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
-				GraphicsEnvironment.getLocalGraphicsEnvironment(), "fonts/");
+				null, "fonts/");
 		field = ButtonFormField.builder().key("Test").defaultValue("Yes")
 				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(magenta).labelBackgroundPaint(pink)
 				.labelFont(FontFamilies.DIALOG_INPUT.getFamily(), Font.ITALIC, 27)
 				.labelShape(Shapes.ELLIPSE.getShapeInfo()).labelBorder(labelBorder)
-				.rowPos(2).colPos(5).rowSpan(3).colSpan(7).fontResourceLoader(fontResourceLoader)
+				.rowPos(2).colPos(5).rowSpan(3).colSpan(7)
+				.logFontResourceLoaderWarnings(true).logger(logger).graphEnv(null).fontFolder("testing/")
+				.fontResourceLoader(fontResourceLoader)
 				.actionListener(testAction)
 				.buttonForegroundPaint(red).buttonBackgroundPaint(blue)
 				.buttonSelectPaint(black).buttonFocusPaint(yellow).buttonDisabledTextPaint(gray)
@@ -359,6 +335,10 @@ public class ButtonFormFieldTest{
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());
 		assertEquals(7, field.getColSpan());
+		assertTrue(field.logFontResourceLoaderWarnings());
+		assertEquals(logger, field.getLogger());
+		assertNull(field.getGraphEnv());
+		assertEquals("testing/", field.getFontFolder());
 		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 		assertEquals(testAction, field.getActionListener());
 		assertEquals(red, field.getButtonForegroundPaint());

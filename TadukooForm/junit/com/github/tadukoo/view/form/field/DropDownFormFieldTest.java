@@ -1,7 +1,10 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.util.LoggerUtil;
+import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
+import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizableColor;
 import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.Test;
@@ -13,6 +16,9 @@ import javax.swing.border.Border;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
+import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -81,6 +87,31 @@ public class DropDownFormFieldTest{
 	@Test
 	public void testDefaultColSpan(){
 		assertEquals(1, field.getColSpan());
+	}
+	
+	@Test
+	public void testDefaultLogFontResourceLoaderWarnings(){
+		assertFalse(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testDefaultLogger(){
+		assertNull(field.getLogger());
+	}
+	
+	@Test
+	public void testDefaultGraphEnv(){
+		assertEquals(GraphicsEnvironment.getLocalGraphicsEnvironment(), field.getGraphEnv());
+	}
+	
+	@Test
+	public void testDefaultFontFolder(){
+		assertEquals("fonts/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testDefaultFontResourceLoader(){
+		assertNull(field.getFontResourceLoader());
 	}
 	
 	@Test
@@ -171,6 +202,44 @@ public class DropDownFormFieldTest{
 	}
 	
 	@Test
+	public void testSetLogFontResourceLoaderWarnings(){
+		field = DropDownFormField.builder()
+				.logFontResourceLoaderWarnings(true).build();
+		assertTrue(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testSetLogger() throws IOException{
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		field = DropDownFormField.builder()
+				.logger(logger).build();
+		assertEquals(logger, field.getLogger());
+	}
+	
+	@Test
+	public void testSetGraphEnv(){
+		field = DropDownFormField.builder()
+				.graphEnv(null).build();
+		assertNull(field.getGraphEnv());
+	}
+	
+	@Test
+	public void testSetFontFolder(){
+		field = DropDownFormField.builder()
+				.fontFolder("testing/").build();
+		assertEquals("testing/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testSetFontResourceLoader(){
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
+		field = DropDownFormField.builder()
+				.fontResourceLoader(fontResourceLoader).build();
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
+	}
+	
+	@Test
 	public void testSetEditable(){
 		field = DropDownFormField.builder().editable(false).build();
 		assertFalse(field.isEditable());
@@ -183,15 +252,20 @@ public class DropDownFormFieldTest{
 	}
 	
 	@Test
-	public void testAllSettings(){
+	public void testAllSettings() throws IOException{
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
 		Border labelBorder = ShapedLineBorder.builder().build();
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
 		field = DropDownFormField.builder().key("Test").defaultValue("Derp")
 				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(red).labelBackgroundPaint(blue)
 				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
 				.labelShape(Shapes.CIRCLE.getShapeInfo()).labelBorder(labelBorder)
 				.rowPos(2).colPos(5).rowSpan(3).colSpan(7)
+				.logFontResourceLoaderWarnings(true).logger(logger).graphEnv(null).fontFolder("testing/")
+				.fontResourceLoader(fontResourceLoader)
 				.editable(false).options(new String[]{"Test", "Derp"}).build();
 		assertEquals("Test", field.getKey());
 		assertEquals("Derp", field.getDefaultValue());
@@ -207,6 +281,11 @@ public class DropDownFormFieldTest{
 		assertEquals(5, field.getColPos());
 		assertEquals(3, field.getRowSpan());
 		assertEquals(7, field.getColSpan());
+		assertTrue(field.logFontResourceLoaderWarnings());
+		assertEquals(logger, field.getLogger());
+		assertNull(field.getGraphEnv());
+		assertEquals("testing/", field.getFontFolder());
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 		assertFalse(field.isEditable());
 		assertArrayEquals(new String[]{"Test", "Derp"}, field.getOptions());
 	}

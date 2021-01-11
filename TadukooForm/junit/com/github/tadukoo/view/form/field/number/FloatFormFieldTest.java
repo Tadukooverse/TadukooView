@@ -1,7 +1,10 @@
 package com.github.tadukoo.view.form.field.number;
 
+import com.github.tadukoo.util.LoggerUtil;
+import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
+import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.field.FieldType;
 import com.github.tadukoo.view.form.field.LabelType;
 import com.github.tadukoo.view.paint.SizableColor;
@@ -14,9 +17,14 @@ import javax.swing.border.Border;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.io.IOException;
+import java.util.logging.Level;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FloatFormFieldTest{
 	private FloatFormField field = FloatFormField.builder().build();
@@ -82,6 +90,31 @@ public class FloatFormFieldTest{
 	}
 	
 	@Test
+	public void testDefaultLogFontResourceLoaderWarnings(){
+		assertFalse(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testDefaultLogger(){
+		assertNull(field.getLogger());
+	}
+	
+	@Test
+	public void testDefaultGraphEnv(){
+		assertEquals(GraphicsEnvironment.getLocalGraphicsEnvironment(), field.getGraphEnv());
+	}
+	
+	@Test
+	public void testDefaultFontFolder(){
+		assertEquals("fonts/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testDefaultFontResourceLoader(){
+		assertNull(field.getFontResourceLoader());
+	}
+	
+	@Test
 	public void testDefaultMinValue(){
 		assertNull(field.getMinValue());
 	}
@@ -92,7 +125,7 @@ public class FloatFormFieldTest{
 	}
 	
 	@Test
-	public void testDefaultStepSzie(){
+	public void testDefaultStepSize(){
 		assertEquals(Float.valueOf(1), field.getStepSize());
 	}
 	
@@ -174,6 +207,44 @@ public class FloatFormFieldTest{
 	}
 	
 	@Test
+	public void testSetLogFontResourceLoaderWarnings(){
+		field = FloatFormField.builder()
+				.logFontResourceLoaderWarnings(true).build();
+		assertTrue(field.logFontResourceLoaderWarnings());
+	}
+	
+	@Test
+	public void testSetLogger() throws IOException{
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		field = FloatFormField.builder()
+				.logger(logger).build();
+		assertEquals(logger, field.getLogger());
+	}
+	
+	@Test
+	public void testSetGraphEnv(){
+		field = FloatFormField.builder()
+				.graphEnv(null).build();
+		assertNull(field.getGraphEnv());
+	}
+	
+	@Test
+	public void testSetFontFolder(){
+		field = FloatFormField.builder()
+				.fontFolder("testing/").build();
+		assertEquals("testing/", field.getFontFolder());
+	}
+	
+	@Test
+	public void testSetFontResourceLoader(){
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
+		field = FloatFormField.builder()
+				.fontResourceLoader(fontResourceLoader).build();
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
+	}
+	
+	@Test
 	public void testSetMinValue(){
 		field = FloatFormField.builder().minValue(1.0f).build();
 		assertEquals(Float.valueOf(1), field.getMinValue());
@@ -192,15 +263,20 @@ public class FloatFormFieldTest{
 	}
 	
 	@Test
-	public void testAllSettings(){
+	public void testAllSettings() throws IOException{
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
 		Border labelBorder = ShapedLineBorder.builder().build();
+		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
+		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
+				null, "fonts/");
 		field = FloatFormField.builder().key("Test").defaultValue(25.0f)
 				.labelType(LabelType.TITLED_BORDER).labelForegroundPaint(red).labelBackgroundPaint(blue)
 				.labelFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 27)
 				.labelShape(Shapes.CIRCLE.getShapeInfo()).labelBorder(labelBorder)
 				.rowPos(5).colPos(25).rowSpan(5).colSpan(3)
+				.logFontResourceLoaderWarnings(true).logger(logger).graphEnv(null).fontFolder("testing/")
+				.fontResourceLoader(fontResourceLoader)
 				.minValue(1.0f).maxValue(125.0f).stepSize(5.0f).build();
 		
 		assertEquals("Test", field.getKey());
@@ -217,6 +293,11 @@ public class FloatFormFieldTest{
 		assertEquals(25, field.getColPos());
 		assertEquals(5, field.getRowSpan());
 		assertEquals(3, field.getColSpan());
+		assertTrue(field.logFontResourceLoaderWarnings());
+		assertEquals(logger, field.getLogger());
+		assertNull(field.getGraphEnv());
+		assertEquals("testing/", field.getFontFolder());
+		assertEquals(fontResourceLoader, field.getFontResourceLoader());
 		assertEquals(Float.valueOf(1), field.getMinValue());
 		assertEquals(Float.valueOf(125), field.getMaxValue());
 		assertEquals(Float.valueOf(5), field.getStepSize());
