@@ -4,7 +4,9 @@ import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
+import com.github.tadukoo.view.lookandfeel.componentui.TadukooLabelUI;
 import com.github.tadukoo.view.paint.ColorPaintUIResource;
+import com.github.tadukoo.view.paint.NoPaintUIResource;
 import com.github.tadukoo.view.paint.PaintUIResource;
 import com.github.tadukoo.view.shapes.ShapeInfoUIResource;
 import com.github.tadukoo.view.shapes.Shapes;
@@ -13,8 +15,10 @@ import org.junit.jupiter.api.Test;
 import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.LabelUI;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalButtonUI;
+import javax.swing.plaf.metal.MetalLabelUI;
 import javax.swing.plaf.metal.MetalTheme;
 import javax.swing.plaf.metal.OceanTheme;
 import java.awt.Color;
@@ -75,9 +79,11 @@ public class TadukooThemeFactoryTest{
 	 */
 	private final PaintUIResource defaultForegroundPaint = new ColorPaintUIResource(Color.BLACK);
 	private final PaintUIResource defaultBackgroundPaint = new ColorPaintUIResource(Color.WHITE);
+	private final PaintUIResource defaultLabelBackgroundPaint = new NoPaintUIResource();
 	private final PaintUIResource defaultFocusPaint = new ColorPaintUIResource(Color.YELLOW);
 	private final PaintUIResource defaultSelectPaint = new ColorPaintUIResource(Color.RED);
 	private final PaintUIResource defaultDisabledTextPaint = new ColorPaintUIResource(Color.GRAY);
+	private final PaintUIResource defaultDisabledForegroundPaint = new ColorPaintUIResource(Color.GRAY);
 	private final FontFamily defaultFontFamily = FontFamilies.CALIBRI.getFamily();
 	private final int defaultFontStyle = Font.PLAIN;
 	private final int defaultFontSize = 12;
@@ -88,16 +94,21 @@ public class TadukooThemeFactoryTest{
 	private final TitlePosition defaultTitledBorderPosition = TitlePosition.TOP;
 	
 	private void verifyTheme(TadukooTheme theme,
-	                         Class<? extends ButtonUI> buttonUIClass,
+	                         Class<? extends ButtonUI> buttonUIClass, Class<? extends LabelUI> labelUIClass,
 	                         PaintUIResource buttonForegroundPaint, PaintUIResource buttonBackgroundPaint,
 	                         PaintUIResource buttonFocusPaint, PaintUIResource buttonSelectPaint,
 	                         PaintUIResource buttonDisabledTextPaint,
 	                         FontFamily buttonFontFamily, int buttonFontStyle, int buttonFontSize,
 	                         ShapeInfoUIResource buttonShapeInfo,
+	                         PaintUIResource labelForegroundPaint, PaintUIResource labelBackgroundPaint,
+	                         PaintUIResource labelDisabledForegroundPaint,
+	                         FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
+	                         ShapeInfoUIResource labelShapeInfo,
 	                         FontFamily titledBorderFontFamily, int titledBorderFontStyle, int titledBorderFontSize,
 	                         ColorUIResource titledBorderColor, TitlePosition titledBorderPosition){
 		// Check Component UI Classes
 		assertEquals(buttonUIClass.getCanonicalName(), theme.getButtonUI());
+		assertEquals(labelUIClass.getCanonicalName(), theme.getLabelUI());
 		
 		// Check Button Settings
 		assertEquals(buttonForegroundPaint, theme.getButtonForegroundPaint());
@@ -111,6 +122,17 @@ public class TadukooThemeFactoryTest{
 		assertEquals(buttonFontSize, buttonFont.getSize());
 		assertEquals(buttonShapeInfo, theme.getButtonShapeInfo());
 		assertNotNull(theme.getButtonBorder());
+		
+		// Check Label Settings
+		assertEquals(labelForegroundPaint, theme.getLabelForegroundPaint());
+		assertEquals(labelBackgroundPaint, theme.getLabelBackgroundPaint());
+		assertEquals(labelDisabledForegroundPaint, theme.getLabelDisabledForegroundPaint());
+		FontUIResource labelFont = theme.getLabelFont();
+		assertEquals(labelFontFamily.getName(), labelFont.getName());
+		assertEquals(labelFontStyle, labelFont.getStyle());
+		assertEquals(labelFontSize, labelFont.getSize());
+		assertEquals(labelShapeInfo, theme.getLabelShapeInfo());
+		assertNotNull(theme.getLabelBorder());
 		
 		// Check Titled Border Settings
 		assertNotNull(theme.getTitledBorderBorder());
@@ -130,12 +152,19 @@ public class TadukooThemeFactoryTest{
 	 * @param defaultTheme The {@link TadukooTheme} that should contain the Default Tadukoo Theme settings
 	 */
 	private void verifyDefaultTheme(TadukooTheme defaultTheme){
-		verifyTheme(defaultTheme, TadukooButtonUI.class,
+		verifyTheme(defaultTheme, TadukooButtonUI.class, TadukooLabelUI.class,
+				// Default Button Settings
 				defaultForegroundPaint, defaultBackgroundPaint,
 				defaultFocusPaint, defaultSelectPaint,
 				defaultDisabledTextPaint,
 				defaultFontFamily, defaultFontStyle, defaultFontSize,
 				defaultShapeInfo,
+				// Default Label Settings
+				defaultForegroundPaint, defaultLabelBackgroundPaint,
+				defaultDisabledForegroundPaint,
+				defaultFontFamily, defaultFontStyle, defaultFontSize,
+				defaultShapeInfo,
+				// Default Titled Border Settings
 				defaultFontFamily, defaultFontStyle, defaultFontSize,
 				defaultTitledBorderColor, defaultTitledBorderPosition);
 	}
@@ -167,12 +196,19 @@ public class TadukooThemeFactoryTest{
 	 * @param metalTheme The {@link TadukooTheme} that should contain the Metal Tadukoo Theme settings
 	 */
 	private void verifyMetalTheme(TadukooTheme metalTheme){
-		verifyTheme(metalTheme, MetalButtonUI.class,
+		verifyTheme(metalTheme, MetalButtonUI.class, MetalLabelUI.class,
+				// Button Settings
 				defaultForegroundPaint, defaultBackgroundPaint,
 				defaultFocusPaint, defaultSelectPaint,
 				defaultDisabledTextPaint,
 				defaultFontFamily, defaultFontStyle, defaultFontSize,
 				defaultShapeInfo,
+				// Label Settings
+				defaultForegroundPaint, defaultLabelBackgroundPaint,
+				defaultDisabledForegroundPaint,
+				defaultFontFamily, defaultFontStyle, defaultFontSize,
+				defaultShapeInfo,
+				// Titled Border Settings
 				defaultFontFamily, defaultFontStyle, defaultFontSize,
 				defaultTitledBorderColor, defaultTitledBorderPosition);
 	}
@@ -205,13 +241,17 @@ public class TadukooThemeFactoryTest{
 	 * @param theme The {@link TadukooTheme} which should contain the contents from the Metal Theme
 	 */
 	private void verifyMetalTheme(MetalTheme metalTheme, TadukooTheme theme, Class<? extends ButtonUI> buttonUIClass,
-	                              ShapeInfoUIResource buttonShapeInfo, TitlePosition titledBorderPosition){
+	                              Class<? extends LabelUI> labelUIClass,
+	                              ShapeInfoUIResource buttonShapeInfo, ShapeInfoUIResource labelShapeInfo,
+	                              TitlePosition titledBorderPosition){
 		// Grab Paints
 		PaintUIResource controlPaint = new ColorPaintUIResource(metalTheme.getControl());
 		PaintUIResource controlTextPaint = new ColorPaintUIResource(metalTheme.getControlTextColor());
-		PaintUIResource inactiveControlTextPaint = new ColorPaintUIResource(metalTheme.getInactiveControlTextColor());
 		PaintUIResource controlShadowPaint = new ColorPaintUIResource(metalTheme.getControlShadow());
 		PaintUIResource focusPaint = new ColorPaintUIResource(metalTheme.getFocusColor());
+		PaintUIResource inactiveControlTextPaint = new ColorPaintUIResource(metalTheme.getInactiveControlTextColor());
+		PaintUIResource inactiveSystemTextPaint = new ColorPaintUIResource(metalTheme.getInactiveSystemTextColor());
+		PaintUIResource systemTextPaint = new ColorPaintUIResource(metalTheme.getSystemTextColor());
 		
 		// Grab Fonts
 		FontUIResource controlTextFont = metalTheme.getControlTextFont();
@@ -222,7 +262,7 @@ public class TadukooThemeFactoryTest{
 		
 		// Verify the settings
 		verifyTheme(theme,
-				buttonUIClass,
+				buttonUIClass, labelUIClass,
 				// Button foreground + background paints
 				controlTextPaint, controlPaint,
 				// Button focus + select paints
@@ -233,6 +273,14 @@ public class TadukooThemeFactoryTest{
 				controlTextFontFamily, controlTextFontStyle, controlTextFontSize,
 				// Button shape
 				buttonShapeInfo,
+				// Label foreground + background paints
+				systemTextPaint, controlPaint,
+				// Label disabled foreground paint
+				inactiveSystemTextPaint,
+				// Label font
+				controlTextFontFamily, controlTextFontStyle, controlTextFontSize,
+				// Label shape
+				labelShapeInfo,
 				// Titled Border font
 				controlTextFontFamily, controlTextFontStyle, controlTextFontSize,
 				// Titled Border color + position
@@ -240,7 +288,9 @@ public class TadukooThemeFactoryTest{
 	}
 	
 	private void verifyMetalTheme(MetalTheme metalTheme, TadukooTheme theme){
-		verifyMetalTheme(metalTheme, theme, MetalButtonUI.class, defaultShapeInfo, defaultTitledBorderPosition);
+		verifyMetalTheme(metalTheme, theme, MetalButtonUI.class, MetalLabelUI.class,
+				defaultShapeInfo, defaultShapeInfo,
+				defaultTitledBorderPosition);
 	}
 	
 	@Test
@@ -357,6 +407,8 @@ public class TadukooThemeFactoryTest{
 		TadukooTheme theme = builder.fontResourceLoader(fontResourceLoader).build();
 		
 		// Verify the Metal Theme
-		verifyMetalTheme(metalTheme, theme, TadukooButtonUI.class, defaultShapeInfo, defaultTitledBorderPosition);
+		verifyMetalTheme(metalTheme, theme, TadukooButtonUI.class, TadukooLabelUI.class,
+				defaultShapeInfo, defaultShapeInfo,
+				defaultTitledBorderPosition);
 	}
 }

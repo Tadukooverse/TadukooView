@@ -1,5 +1,6 @@
 package com.github.tadukoo.view.lookandfeel;
 
+import com.github.tadukoo.view.border.NoBorderUIResource;
 import com.github.tadukoo.view.paint.ColorPaintUIResource;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
@@ -8,6 +9,7 @@ import javax.swing.plaf.BorderUIResource;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalBorders;
 import javax.swing.plaf.metal.MetalButtonUI;
+import javax.swing.plaf.metal.MetalLabelUI;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.MetalTheme;
 import javax.swing.plaf.metal.OceanTheme;
@@ -57,8 +59,9 @@ public class TadukooThemeFactory{
 	 */
 	public static TadukooTheme.TadukooThemeBuilder metalThemeBuilder(){
 		return TadukooTheme.builder()
-							.buttonUI(MetalButtonUI.class)
-							.buttonBorder(new BorderUIResource(MetalBorders.getButtonBorder()));
+				.buttonUI(MetalButtonUI.class).labelUI(MetalLabelUI.class)
+				.buttonBorder(new BorderUIResource(MetalBorders.getButtonBorder()))
+				.labelBorder(new NoBorderUIResource());
 	}
 	
 	/**
@@ -134,6 +137,9 @@ public class TadukooThemeFactory{
 		ColorPaintUIResource focusPaint = new ColorPaintUIResource(metalTheme.getFocusColor());
 		ColorPaintUIResource inactiveControlTextPaint =
 				new ColorPaintUIResource(metalTheme.getInactiveControlTextColor());
+		ColorPaintUIResource inactiveSystemTextPaint =
+				new ColorPaintUIResource(metalTheme.getInactiveSystemTextColor());
+		ColorPaintUIResource systemTextPaint = new ColorPaintUIResource(metalTheme.getSystemTextColor());
 		
 		// Sort out fonts
 		Font controlTextFont = metalTheme.getControlTextFont();
@@ -143,10 +149,16 @@ public class TadukooThemeFactory{
 		int controlTextFontSize = controlTextFont.getSize();
 		
 		return themeBuilder
+				// Button Settings
 				.buttonForegroundPaint(controlTextPaint).buttonBackgroundPaint(controlPaint)
 				.buttonSelectPaint(controlShadowPaint).buttonFocusPaint(focusPaint)
 				.buttonDisabledTextPaint(inactiveControlTextPaint)
 				.buttonFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
+				// Label Settings
+				.labelForegroundPaint(systemTextPaint).labelBackgroundPaint(controlPaint)
+				.labelDisabledForegroundPaint(inactiveSystemTextPaint)
+				.labelFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
+				// Titled Border Settings
 				.titledBorderBorder(new BorderUIResource(
 						new BorderUIResource.LineBorderUIResource(metalTheme.getControlShadow())))
 				.titledBorderFont(controlTextFontFamily, controlTextFontStyle, controlTextFontSize)
