@@ -23,4 +23,10 @@ public class NoPaintUIResource extends NoPaint implements PaintUIResource{
 	public List<Object> getMetalGradientList(){
 		return null;
 	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj){
+		return obj instanceof NoPaintUIResource;
+	}
 }

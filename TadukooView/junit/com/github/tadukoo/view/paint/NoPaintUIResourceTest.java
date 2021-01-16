@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.Dimension;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class NoPaintUIResourceTest{
@@ -21,5 +22,10 @@ public class NoPaintUIResourceTest{
 	@Test
 	public void testGetMetalGradientList(){
 		assertNull(new NoPaintUIResource().getMetalGradientList());
+	}
+	
+	@Test
+	public void testEquals(){
+		assertEquals(new NoPaintUIResource(), new NoPaintUIResource());
 	}
 }
