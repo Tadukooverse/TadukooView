@@ -1,8 +1,11 @@
 package com.github.tadukoo.view;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JList;
+import javax.swing.JTable;
+import javax.swing.ListCellRenderer;
 import javax.swing.table.TableCellRenderer;
-import java.awt.*;
+import java.awt.Component;
 
 /**
  * Custom Cell Renderer used to just have a component draw itself (for use with custom components).

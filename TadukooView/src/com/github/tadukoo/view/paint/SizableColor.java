@@ -1,6 +1,8 @@
 package com.github.tadukoo.view.paint;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.color.ColorSpace;
 
 /**

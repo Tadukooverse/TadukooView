@@ -7,7 +7,7 @@
 	<parent>
 		<artifactId>TadukooViewParent</artifactId>
 		<groupId>com.github.tadukoo.view</groupId>
-		<version>0.2.2-Alpha</version>
+		<version>0.3-Alpha</version>
 	</parent>
 	<dependencies>
 		<!-- TadukooUtil -->

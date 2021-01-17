@@ -2,7 +2,8 @@ package com.github.tadukoo.view.paint.gradient;
 
 import com.github.tadukoo.view.paint.SizablePaint;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.MultipleGradientPaint;
 import java.awt.geom.AffineTransform;
 
 /**

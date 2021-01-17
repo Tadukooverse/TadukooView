@@ -1,11 +1,14 @@
-package com.github.tadukoo.view.shapes;
+package com.github.tadukoo.view.components.interfaces;
+
+import com.github.tadukoo.view.shapes.ShapeInfo;
 
 /**
  * Shaped provides methods for getting and setting {@link ShapeInfo}, to be used on custom components to allow them
  * to use custom shapes.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2
  */
 public interface Shaped{
 	

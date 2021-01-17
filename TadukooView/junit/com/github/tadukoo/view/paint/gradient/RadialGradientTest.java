@@ -4,12 +4,16 @@ import com.github.tadukoo.util.tuple.Triple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.MultipleGradientPaint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.function.Function;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class RadialGradientTest{
 	private RadialGradient gradient;

@@ -2,11 +2,16 @@ package com.github.tadukoo.view.border;
 
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
-import com.github.tadukoo.view.shapes.Shaped;
+import com.github.tadukoo.view.components.interfaces.Shaped;
 import com.github.tadukoo.view.shapes.Shapes;
 
 import javax.swing.border.AbstractBorder;
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.Paint;
 
 /**
  * Shaped Etched Border mimics the functionality of a {@link javax.swing.border.BevelBorder BevelBorder}, but uses the

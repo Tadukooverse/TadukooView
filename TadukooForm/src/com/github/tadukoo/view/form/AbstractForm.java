@@ -1,10 +1,23 @@
 package com.github.tadukoo.view.form;
 
+import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.util.pojo.MappedPojo;
+import com.github.tadukoo.view.components.TadukooLabel;
+import com.github.tadukoo.view.font.FontFamily;
+import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.field.FormField;
+import com.github.tadukoo.view.paint.SizablePaint;
+import com.github.tadukoo.view.shapes.ShapeInfo;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,7 +26,7 @@ import java.util.Set;
  * Abstract Form is the default implementation of {@link Form}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
 public abstract class AbstractForm extends JPanel implements Form{
@@ -31,8 +44,9 @@ public abstract class AbstractForm extends JPanel implements Form{
 	 * {@link #setDefaultFields()} and {@link #createComponents()} are then called.
 	 *
 	 * @param defaultValues The default values map, used for forms that need them during {@link #setDefaultFields()}
+	 * @throws Throwable If anything goes wrong in creating components
 	 */
-	protected AbstractForm(Map<String, Object> defaultValues){
+	protected AbstractForm(Map<String, Object> defaultValues) throws Throwable{
 		// Initialize the maps
 		valueMap = defaultValues;
 		fields = new HashMap<>();
@@ -52,8 +66,9 @@ public abstract class AbstractForm extends JPanel implements Form{
 	 *
 	 * @param pojo The pojo containing a map, to be used for default values for forms
 	 *                that need them during {@link #setDefaultFields()}
+	 * @throws Throwable If anything goes wrong in creating components
 	 */
-	protected AbstractForm(MappedPojo pojo){
+	protected AbstractForm(MappedPojo pojo) throws Throwable{
 		// Initialize the maps
 		valueMap = pojo.getMap();
 		fields = new HashMap<>();
@@ -116,7 +131,7 @@ public abstract class AbstractForm extends JPanel implements Form{
 	
 	/** {@inheritDoc} */
 	@Override
-	public void createComponents(){
+	public void createComponents() throws Throwable{
 		// Use GridBayLayout for this panel
 		setLayout(new GridBagLayout());
 		
@@ -124,8 +139,26 @@ public abstract class AbstractForm extends JPanel implements Form{
 		boolean topLabels = labelsOnTop();
 		
 		for(String key: fields.keySet()){
-			// Grab the field and its grid information
+			// Grab the field
 			FormField<?> field = fields.get(key);
+			
+			// Grab label customizations from the field
+			SizablePaint labelForegroundPaint = field.getLabelForegroundPaint();
+			SizablePaint labelBackgroundPaint = field.getLabelBackgroundPaint();
+			FontFamily labelFontFamily = field.getLabelFontFamily();
+			ShapeInfo labelShape = field.getLabelShape();
+			Border labelBorder = field.getLabelBorder();
+			int labelFontStyle = field.getLabelFontStyle();
+			int labelFontSize = field.getLabelFontSize();
+			
+			// Grab font resource loading info from the field
+			boolean logFontResourceLoaderWarnings = field.logFontResourceLoaderWarnings();
+			EasyLogger logger = field.getLogger();
+			GraphicsEnvironment graphEnv = field.getGraphEnv();
+			String fontFolder = field.getFontFolder();
+			FontResourceLoader fontResourceLoader = field.getFontResourceLoader();
+			
+			// Grab grid information from the field
 			int rowPos = field.getRowPos();
 			int colPos = field.getColPos();
 			int rowSpan = field.getRowSpan();
@@ -143,7 +176,14 @@ public abstract class AbstractForm extends JPanel implements Form{
 					labelCons.gridwidth = colSpan;
 					labelCons.anchor = topLabels?GridBagConstraints.SOUTH:GridBagConstraints.EAST;
 					labelCons.insets = topLabels?new Insets(5, 0, 5, 0):new Insets(0, 5, 0, 5);
-					JLabel label = new JLabel(key);
+					TadukooLabel label = TadukooLabel.builder()
+							.text(key)
+							.foregroundPaint(labelForegroundPaint).backgroundPaint(labelBackgroundPaint)
+							.font(labelFontFamily, labelFontStyle, labelFontSize)
+							.shapeInfo(labelShape).border(labelBorder)
+							.logFontResourceLoaderWarnings(logFontResourceLoaderWarnings).logger(logger)
+							.graphEnv(graphEnv).fontFolder(fontFolder).fontResourceLoader(fontResourceLoader)
+							.build();
 					label.setHorizontalTextPosition(JLabel.RIGHT);
 					add(label, labelCons);
 				}

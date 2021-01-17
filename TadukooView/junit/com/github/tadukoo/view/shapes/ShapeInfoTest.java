@@ -2,7 +2,8 @@ package com.github.tadukoo.view.shapes;
 
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
+import java.awt.Insets;
+import java.awt.Rectangle;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;

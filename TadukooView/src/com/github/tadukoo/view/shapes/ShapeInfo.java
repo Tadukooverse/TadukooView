@@ -1,6 +1,7 @@
 package com.github.tadukoo.view.shapes;
 
-import java.awt.*;
+import java.awt.Insets;
+import java.awt.Shape;
 
 /**
  * Shape Info contains a method for calculating the {@link Shape} and one for calculating the {@link Insets} for that

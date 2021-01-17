@@ -4,7 +4,8 @@ import com.github.tadukoo.util.pojo.AbstractOrderedMappedPojo;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
 import com.github.tadukoo.util.pojo.Table;
 
-import javax.swing.*;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;

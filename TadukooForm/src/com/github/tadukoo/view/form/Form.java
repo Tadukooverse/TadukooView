@@ -3,14 +3,15 @@ package com.github.tadukoo.view.form;
 import com.github.tadukoo.util.pojo.MappedPojo;
 import com.github.tadukoo.view.form.field.FormField;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 /**
  * Form represents a form used in a program that the user can fill out and interact with. It uses {@link FormField}s
  * for the fields and buttons and such to be displayed.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3
+ * @since Alpha v.0.2
  */
 public interface Form extends MappedPojo{
 	
@@ -31,14 +32,18 @@ public interface Form extends MappedPojo{
 	/**
 	 * This method should be called by the constructor to set default fields (this is where you should create new
 	 * {@link FormField}s by calling {@link #addField(FormField)})
+	 *
+	 * @throws Throwable If anything goes wrong in creating the fields
 	 */
-	void setDefaultFields();
+	void setDefaultFields() throws Throwable;
 	
 	/**
 	 * This method should be called by the constructor (after calling {@link #setDefaultFields()}), and will
 	 * create the components to be used on this Form
+	 *
+	 * @throws Throwable If anything goes wrong in creating the components
 	 */
-	void createComponents();
+	void createComponents() throws Throwable;
 	
 	/**
 	 * This method can be called by subclasses to update the values present in the form from the Component values

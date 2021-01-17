@@ -4,7 +4,7 @@ package com.github.tadukoo.view.form.field;
  * Field Type is used in {@link FormField} for what type of field it is.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.3
  * @since Alpha v.0.2
  */
 public enum FieldType{
@@ -31,5 +31,7 @@ public enum FieldType{
 	/** A {@link com.github.tadukoo.view.form.Form Form} field */
 	FORM,
 	/** A {@link com.github.tadukoo.util.pojo.Table Table} field */
-	TABLE
+	TABLE,
+	/** Used for fields not covered by this non-exhaustive list made outside of Tadukoo Form */
+	CUSTOM
 }

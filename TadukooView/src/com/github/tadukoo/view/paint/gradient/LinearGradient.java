@@ -3,7 +3,11 @@ package com.github.tadukoo.view.paint.gradient;
 import com.github.tadukoo.util.FloatUtil;
 import com.github.tadukoo.util.tuple.Pair;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.LinearGradientPaint;
+import java.awt.MultipleGradientPaint;
+import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;

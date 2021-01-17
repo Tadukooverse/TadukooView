@@ -1,6 +1,8 @@
 package com.github.tadukoo.view.shapes;
 
-import java.awt.*;
+import java.awt.Insets;
+import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 
