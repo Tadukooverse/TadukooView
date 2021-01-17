@@ -62,7 +62,7 @@ public class TadukooThemeFactoryTest{
 		@Override
 		public String[] getAvailableFontFamilyNames(){
 			return new String[]{Font.DIALOG, Font.DIALOG_INPUT, Font.MONOSPACED, Font.SANS_SERIF, Font.SERIF,
-					FontFamilies.CALIBRI.getFamily().getName()};
+					FontFamilies.CARLITO.getFamily().getName()};
 		}
 		
 		@Override
@@ -78,15 +78,15 @@ public class TadukooThemeFactoryTest{
 	 * The Default Theme Settings (used in multiple tests/methods below)
 	 */
 	private final PaintUIResource defaultForegroundPaint = new ColorPaintUIResource(Color.BLACK);
-	private final PaintUIResource defaultBackgroundPaint = new ColorPaintUIResource(Color.WHITE);
+	private final PaintUIResource defaultBackgroundPaint = new ColorPaintUIResource(Color.GREEN);
 	private final PaintUIResource defaultLabelBackgroundPaint = new NoPaintUIResource();
-	private final PaintUIResource defaultFocusPaint = new ColorPaintUIResource(Color.YELLOW);
-	private final PaintUIResource defaultSelectPaint = new ColorPaintUIResource(Color.RED);
+	private final PaintUIResource defaultFocusPaint = new ColorPaintUIResource(Color.GRAY);
+	private final PaintUIResource defaultSelectPaint = new ColorPaintUIResource(0, 200, 0);
 	private final PaintUIResource defaultDisabledTextPaint = new ColorPaintUIResource(Color.GRAY);
 	private final PaintUIResource defaultDisabledForegroundPaint = new ColorPaintUIResource(Color.GRAY);
-	private final FontFamily defaultFontFamily = FontFamilies.CALIBRI.getFamily();
+	private final FontFamily defaultFontFamily = FontFamilies.CARLITO.getFamily();
 	private final int defaultFontStyle = Font.PLAIN;
-	private final int defaultFontSize = 12;
+	private final int defaultFontSize = 14;
 	private final ShapeInfoUIResource defaultShapeInfo =
 			new ShapeInfoUIResource(Shapes.RECTANGLE_WITH_CUT_CORNERS_TR_BL.getShapeInfo());
 	//private final BorderUIResource defaultBorder = new BorderUIResource(ShapedLineBorder.builder().build());

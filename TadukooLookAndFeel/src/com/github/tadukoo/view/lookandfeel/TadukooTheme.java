@@ -340,7 +340,7 @@ public class TadukooTheme{
 		
 		// Background Paints
 		/** The {@link PaintUIResource} to use for all unspecified background paints */
-		private PaintUIResource defaultBackgroundPaint = new ColorPaintUIResource(Color.WHITE);
+		private PaintUIResource defaultBackgroundPaint = new ColorPaintUIResource(Color.GREEN);
 		/** The {@link PaintUIResource} to use for the background on Buttons */
 		private PaintUIResource buttonBackgroundPaint = null;
 		/** The {@link PaintUIResource} to use for the background on Labels */
@@ -348,13 +348,13 @@ public class TadukooTheme{
 		
 		// Focus Paints
 		/** The {@link PaintUIResource} to use for all unspecified focus paints */
-		private PaintUIResource defaultFocusPaint = new ColorPaintUIResource(Color.YELLOW);
+		private PaintUIResource defaultFocusPaint = new ColorPaintUIResource(Color.GRAY);
 		/** The {@link PaintUIResource} to use for focus on Buttons */
 		private PaintUIResource buttonFocusPaint = null;
 		
 		// Select Paints
 		/** The {@link PaintUIResource} to use for all unspecified select paints */
-		private PaintUIResource defaultSelectPaint = new ColorPaintUIResource(Color.RED);
+		private PaintUIResource defaultSelectPaint = new ColorPaintUIResource(0, 200, 0);
 		/** The {@link PaintUIResource} to use for select on Buttons */
 		private PaintUIResource buttonSelectPaint = null;
 		
@@ -376,11 +376,11 @@ public class TadukooTheme{
 		
 		// Default Font
 		/** The {@link FontFamily} to use for unspecified fonts */
-		private FontFamily defaultFontFamily = FontFamilies.CALIBRI.getFamily();
+		private FontFamily defaultFontFamily = FontFamilies.CARLITO.getFamily();
 		/** The font style to use for unspecified fonts */
 		private int defaultFontStyle = Font.PLAIN;
 		/** The font size to use for unspecified fonts */
-		private int defaultFontSize = 12;
+		private int defaultFontSize = 14;
 		
 		// Button Font
 		/** The {@link FontFamily} to use for Buttons */
