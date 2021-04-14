@@ -130,7 +130,7 @@ public class ShapedLineBorder extends AbstractBorder{
 	/** {@inheritDoc} */
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int w, int h){
-		if((this.thickness > 0) && (g instanceof Graphics2D)){
+		if((this.thickness > 0) && (g instanceof Graphics2D g2d)){
 			// Determine Shape function to use
 			ShapeFunction shapeFunc = shapeInfo != null?shapeInfo.getShapeFunc():null;
 			if(shapeFunc == null){
@@ -149,7 +149,6 @@ public class ShapedLineBorder extends AbstractBorder{
 			Shape inner = shapeFunc.apply(x + offset, y + offset, w - size, h - size);
 			
 			// Cast Graphics to Graphics2D
-			Graphics2D g2d = (Graphics2D) g;
 			
 			// Set the color and draw the border
 			g2d.setPaint(paint.getPaint(new Dimension(w, h)));

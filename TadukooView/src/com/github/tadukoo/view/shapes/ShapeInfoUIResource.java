@@ -31,8 +31,7 @@ public class ShapeInfoUIResource extends ShapeInfo implements UIResource{
 	/** {@inheritDoc} */
 	@Override
 	public boolean equals(Object obj){
-		if(obj instanceof ShapeInfoUIResource){
-			ShapeInfoUIResource resource = (ShapeInfoUIResource) obj;
+		if(obj instanceof ShapeInfoUIResource resource){
 			return Objects.equals(getShapeFunc(), resource.getShapeFunc()) &&
 					Objects.equals(getShapeInsetsFunc(), resource.getShapeInsetsFunc()) &&
 					Objects.equals(getTopLeftDrawFunc(), resource.getTopLeftDrawFunc()) &&
