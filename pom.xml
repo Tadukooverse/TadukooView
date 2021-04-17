@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.tadukoo.view</groupId>
 	<artifactId>TadukooViewParent</artifactId>
-	<version>0.4-Alpha-SNAPSHOT</version>
+	<version>0.3.2-Alpha-SNAPSHOT</version>
 	<modules>
 		<module>TadukooView</module>
 		<module>TadukooComponents</module>
