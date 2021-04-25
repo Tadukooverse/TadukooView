@@ -48,8 +48,7 @@ public class TadukooLabelUI extends BasicLabelUI implements TComponentUIUtil{
 		super.installDefaults(c);
 		
 		// If we have a TLabel, we can set everything easily
-		if(c instanceof TLabel){
-			TLabel t = (TLabel) c;
+		if(c instanceof TLabel t){
 			installTComponent(t);
 			installHasDisabledForegroundPaint(t);
 		}else{
@@ -65,8 +64,7 @@ public class TadukooLabelUI extends BasicLabelUI implements TComponentUIUtil{
 		super.uninstallDefaults(c);
 		
 		// If we have a TLabel, we can uninstall everything easily
-		if(c instanceof TLabel){
-			TLabel t = (TLabel) c;
+		if(c instanceof TLabel t){
 			uninstallTComponent(t);
 			uninstallHasDisabledForegroundPaint(t);
 		}else{

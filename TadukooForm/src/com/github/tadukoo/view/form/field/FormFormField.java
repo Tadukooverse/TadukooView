@@ -354,8 +354,7 @@ public class FormFormField extends FormField<AbstractForm>{
 	/** {@inheritDoc} */
 	@Override
 	public AbstractForm getValue(JComponent component){
-		if(component instanceof AbstractForm){
-			AbstractForm form = (AbstractForm) component;
+		if(component instanceof AbstractForm form){
 			form.saveValues();
 			return form;
 		}else{

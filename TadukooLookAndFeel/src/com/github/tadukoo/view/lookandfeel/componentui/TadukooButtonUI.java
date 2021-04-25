@@ -54,8 +54,7 @@ public class TadukooButtonUI extends MetalButtonUI implements TComponentUIUtil{
 		b.setOpaque(false);
 		
 		// If we have a TButton, we can set everything easily
-		if(b instanceof TButton){
-			TButton t = (TButton) b;
+		if(b instanceof TButton t){
 			installTComponent(t);
 			installHasSelectAndFocusPaints(t);
 			installHasDisabledTextPaint(t);
@@ -73,8 +72,7 @@ public class TadukooButtonUI extends MetalButtonUI implements TComponentUIUtil{
 		super.uninstallDefaults(b);
 		
 		// If we have a TButton, we can uninstall everything easily
-		if(b instanceof TButton){
-			TButton t = (TButton) b;
+		if(b instanceof TButton t){
 			uninstallTComponent(t);
 			uninstallHasSelectAndFocusPaints(t);
 			uninstallHasDisabledTextPaint(t);
