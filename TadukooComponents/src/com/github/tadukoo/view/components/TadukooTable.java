@@ -2,7 +2,6 @@ package com.github.tadukoo.view.components;
 
 import com.github.tadukoo.util.pojo.AbstractOrderedMappedPojo;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
-import com.github.tadukoo.util.pojo.Table;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -12,11 +11,12 @@ import java.util.List;
 
 /**
  * Tadukoo Table is an extension of {@link JScrollPane} that contains a {@link JTable}. It provides methods for
- * using {@link Table}s of {@link OrderedMappedPojo}s to populate the {@link JTable} and to make it easier to update
+ * using {@link List}s of {@link OrderedMappedPojo}s to populate the {@link JTable} and to make it easier to update
  * the table.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2
+ * @version Alpha v.0.3.3
+ * @since Alpha v.0.2
  */
 public class TadukooTable extends JScrollPane{
 	
@@ -46,7 +46,7 @@ public class TadukooTable extends JScrollPane{
 		/** The order of the keys in the table - can be null to use the pojos in the data */
 		private List<String> keyOrder = null;
 		/** The data to be put in the table */
-		private Table<OrderedMappedPojo> data = null;
+		private List<OrderedMappedPojo> data = null;
 		
 		// Can't create outside of Tadukoo Table
 		private TadukooTableBuilder(){ }
@@ -64,7 +64,7 @@ public class TadukooTable extends JScrollPane{
 		 * @param data The data to be put in the table
 		 * @return this, to continue building
 		 */
-		public TadukooTableBuilder data(Table<OrderedMappedPojo> data){
+		public TadukooTableBuilder data(List<OrderedMappedPojo> data){
 			this.data = data;
 			return this;
 		}
@@ -88,7 +88,7 @@ public class TadukooTable extends JScrollPane{
 	 * @param keyOrder The order of the keys in the table - can be null to use the pojos in the data
 	 * @param data The data to be put in the table
 	 */
-	private TadukooTable(List<String> keyOrder, Table<OrderedMappedPojo> data){
+	private TadukooTable(List<String> keyOrder, List<OrderedMappedPojo> data){
 		super(new JTable(new DefaultTableModel()));
 		this.keyOrder = keyOrder;
 		setTableData(data);
@@ -129,14 +129,14 @@ public class TadukooTable extends JScrollPane{
 	 *
 	 * @param data The pojos to use to populate the table
 	 */
-	public void setTableData(Table<OrderedMappedPojo> data){
+	public void setTableData(List<OrderedMappedPojo> data){
 		// Grab that table model
 		DefaultTableModel model = getTableModel();
 		
 		// Reset the columns based on either the key order we have or grab it off a pojo
 		List<String> keys = keyOrder != null?
 				keyOrder:
-				(data != null && !data.isEmpty()?data.getRow(0).getKeyOrder():null);
+				(data != null && !data.isEmpty()?data.get(0).getKeyOrder():null);
 		model.setColumnCount(0);
 		if(keys != null){
 			for(String key: keys){
@@ -147,8 +147,7 @@ public class TadukooTable extends JScrollPane{
 		// Reset the row data of the table based on the passed in pojos
 		model.setRowCount(0);
 		if(data != null && !data.isEmpty() && keys != null){
-			List<OrderedMappedPojo> pojos = data.getAllRows();
-			for(OrderedMappedPojo pojo: pojos){
+			for(OrderedMappedPojo pojo: data){
 				Object[] row = new Object[keys.size()];
 				for(int i = 0; i < keys.size(); i++){
 					row[i] = pojo.getItem(keys.get(i));
@@ -161,17 +160,17 @@ public class TadukooTable extends JScrollPane{
 	/**
 	 * Update the passed in data based on the current values in the table
 	 *
-	 * @param data The {@link Table} of pojos to be updated
-	 * @return The newly updated pojos {@link Table}
+	 * @param data The {@link List} of pojos to be updated
+	 * @return The newly updated pojos {@link List}
 	 */
-	public Table<OrderedMappedPojo> updatePojos(Table<OrderedMappedPojo> data){
+	public List<OrderedMappedPojo> updatePojos(List<OrderedMappedPojo> data){
 		// If the data is null, create a new table
 		if(data == null){
-			data = new Table<>();
+			data = new ArrayList<>();
 		}
 		
 		// Grab the table model and the size of the data
-		int dataSize = data.getNumRows();
+		int dataSize = data.size();
 		DefaultTableModel model = getTableModel();
 		
 		// Get the key order from the model
@@ -185,7 +184,7 @@ public class TadukooTable extends JScrollPane{
 			OrderedMappedPojo pojo;
 			if(row < dataSize){
 				// Grab the pojo from the data if there's enough rows
-				pojo = data.getRow(row);
+				pojo = data.get(row);
 			}else{
 				// Make a new pojo if the data is too small
 				pojo = new AbstractOrderedMappedPojo(){
@@ -194,7 +193,7 @@ public class TadukooTable extends JScrollPane{
 						return keys;
 					}
 				};
-				data.addRow(pojo);
+				data.add(pojo);
 			}
 			// Set the values on the pojo from the table
 			for(int col = 0; col < keys.size(); col++){
