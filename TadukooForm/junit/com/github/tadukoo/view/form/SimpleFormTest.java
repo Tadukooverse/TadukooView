@@ -17,14 +17,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FormTest{
+public class SimpleFormTest{
 	private boolean weSetThoseFields = false;
 	
-	private Form form;
+	private SimpleForm simpleForm;
 	
 	@BeforeEach
 	public void setup() throws Throwable{
-		form = new AbstractForm(new HashMap<>()){
+		simpleForm = new AbstractSimpleForm(new HashMap<>()){
 			
 			@Override
 			public void setDefaultFields(){
@@ -38,7 +38,7 @@ public class FormTest{
 	
 	@Test
 	public void testConstructor(){
-		Map<String, Object> map = form.getMap();
+		Map<String, Object> map = simpleForm.getMap();
 		assertFalse(map.isEmpty());
 		assertTrue(map.containsKey("Derp"));
 		assertEquals("No", map.get("Derp"));
@@ -54,7 +54,7 @@ public class FormTest{
 				return aMap;
 			}
 		};
-		Form form = new AbstractForm(pojo){
+		SimpleForm simpleForm = new AbstractSimpleForm(pojo){
 			@Override
 			public void setDefaultFields(){
 				weSetThoseFields = true;
@@ -63,7 +63,7 @@ public class FormTest{
 						.build());
 			}
 		};
-		Map<String, Object> map = form.getMap();
+		Map<String, Object> map = simpleForm.getMap();
 		assertFalse(map.isEmpty());
 		assertTrue(map.containsKey("Derp"));
 		assertEquals("No", map.get("Derp"));
@@ -73,20 +73,20 @@ public class FormTest{
 	
 	@Test
 	public void testHasKeyFalse(){
-		assertFalse(form.hasKey("Test"));
+		assertFalse(simpleForm.hasKey("Test"));
 	}
 	
 	@Test
 	public void testHasKeyTrue(){
-		form.setItem("Derp", 5);
-		assertTrue(form.hasKey("Derp"));
+		simpleForm.setItem("Derp", 5);
+		assertTrue(simpleForm.hasKey("Derp"));
 	}
 	
 	@Test
 	public void testGetKeysPopulated(){
-		form.setItem("Derp", 5);
-		form.setItem("Test", "Yes");
-		Set<String> keys = form.getKeys();
+		simpleForm.setItem("Derp", 5);
+		simpleForm.setItem("Test", "Yes");
+		Set<String> keys = simpleForm.getKeys();
 		assertFalse(keys.isEmpty());
 		assertTrue(keys.contains("Derp"));
 		assertTrue(keys.contains("Test"));
@@ -94,59 +94,59 @@ public class FormTest{
 	
 	@Test
 	public void testHasItemNotSet(){
-		assertFalse(form.hasItem("Test"));
+		assertFalse(simpleForm.hasItem("Test"));
 	}
 	
 	@Test
 	public void testHasItemSetToNull(){
-		form.setItem("Test", null);
-		assertFalse(form.hasItem("Test"));
+		simpleForm.setItem("Test", null);
+		assertFalse(simpleForm.hasItem("Test"));
 	}
 	
 	@Test
 	public void testHasItemTrue(){
-		form.setItem("Derp", 5);
-		assertTrue(form.hasItem("Derp"));
+		simpleForm.setItem("Derp", 5);
+		assertTrue(simpleForm.hasItem("Derp"));
 	}
 	
 	@Test
 	public void testGetItemNotSet(){
-		assertNull(form.getItem("Test"));
+		assertNull(simpleForm.getItem("Test"));
 	}
 	
 	@Test
 	public void testGetItem(){
-		form.setItem("Derp", 5);
-		assertEquals(5, form.getItem("Derp"));
+		simpleForm.setItem("Derp", 5);
+		assertEquals(5, simpleForm.getItem("Derp"));
 	}
 	
 	@Test
 	public void testSetItem(){
-		form.setItem("Derp", 5);
-		assertTrue(form.hasKey("Derp"));
-		assertTrue(form.hasItem("Derp"));
-		assertEquals(5, form.getItem("Derp"));
+		simpleForm.setItem("Derp", 5);
+		assertTrue(simpleForm.hasKey("Derp"));
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals(5, simpleForm.getItem("Derp"));
 	}
 	
 	@Test
 	public void testRemoveItem(){
-		form.setItem("Derp", 5);
-		assertTrue(form.hasKey("Derp"));
-		assertTrue(form.hasItem("Derp"));
-		assertEquals(5, form.getItem("Derp"));
+		simpleForm.setItem("Derp", 5);
+		assertTrue(simpleForm.hasKey("Derp"));
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals(5, simpleForm.getItem("Derp"));
 		
-		form.removeItem("Derp");
-		assertFalse(form.hasKey("Derp"));
-		assertFalse(form.hasItem("Derp"));
-		assertNull(form.getItem("Derp"));
+		simpleForm.removeItem("Derp");
+		assertFalse(simpleForm.hasKey("Derp"));
+		assertFalse(simpleForm.hasItem("Derp"));
+		assertNull(simpleForm.getItem("Derp"));
 	}
 	
 	@Test
 	public void testGetMap(){
-		form.setItem("Derp", 5);
-		form.setItem("Test", "Yes");
+		simpleForm.setItem("Derp", 5);
+		simpleForm.setItem("Test", "Yes");
 		
-		Map<String, Object> map = form.getMap();
+		Map<String, Object> map = simpleForm.getMap();
 		assertFalse(map.isEmpty());
 		assertEquals(2, map.keySet().size());
 		assertTrue(map.containsKey("Derp"));
@@ -157,16 +157,16 @@ public class FormTest{
 	
 	@Test
 	public void testLabelsOnTop(){
-		assertTrue(form.labelsOnTop());
+		assertTrue(simpleForm.labelsOnTop());
 	}
 	
 	@Test
 	public void testAddField(){
-		form.addField(StringFormField.builder()
+		simpleForm.addField(StringFormField.builder()
 				.key("Test").defaultValue("Yes")
 				.build());
-		assertTrue(form.hasItem("Test"));
-		assertEquals("Yes", form.getItem("Test"));
+		assertTrue(simpleForm.hasItem("Test"));
+		assertEquals("Yes", simpleForm.getItem("Test"));
 	}
 	
 	@Test
@@ -176,19 +176,24 @@ public class FormTest{
 	
 	@Test
 	public void testCreateComponentsAndGetComponentByKey(){
-		assertTrue(form.hasItem("Derp"));
-		assertEquals("No", form.getItem("Derp"));
-		JComponent comp = form.getComponentByKey("Derp");
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals("No", simpleForm.getItem("Derp"));
+		JComponent comp = simpleForm.getComponentByKey("Derp");
 		assertTrue(comp instanceof JTextField);
 		assertEquals("No", ((JTextField) comp).getText());
 	}
 	
 	@Test
 	public void testSaveValues(){
-		assertTrue(form.hasItem("Derp"));
-		assertEquals("No", form.getItem("Derp"));
-		((JTextField) form.getComponentByKey("Derp")).setText("Yeppers");
-		form.saveValues();
-		assertEquals("Yeppers", form.getItem("Derp"));
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals("No", simpleForm.getItem("Derp"));
+		((JTextField) simpleForm.getComponentByKey("Derp")).setText("Yeppers");
+		simpleForm.saveValues();
+		assertEquals("Yeppers", simpleForm.getItem("Derp"));
+	}
+	
+	@Test
+	public void testAsComponent(){
+		assertEquals(simpleForm, simpleForm.asComponent());
 	}
 }

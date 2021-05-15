@@ -1,5 +1,7 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.view.form.SimpleForm;
+
 /**
  * Field Type is used in {@link FormField} for what type of field it is.
  *
@@ -28,7 +30,7 @@ public enum FieldType{
 	DROP_DOWN,
 	/** A button (not really a field) */
 	BUTTON,
-	/** A {@link com.github.tadukoo.view.form.Form Form} field */
+	/** A {@link SimpleForm Form} field */
 	FORM,
 	/** A Table (List) field */
 	TABLE,

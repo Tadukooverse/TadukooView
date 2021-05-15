@@ -3,7 +3,7 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.form.SimpleForm;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
@@ -33,7 +33,7 @@ public class DropDownFormField extends FormField<String>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link SimpleForm Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>
@@ -336,7 +336,7 @@ public class DropDownFormField extends FormField<String>{
 	/**
 	 * Creates a new DropDownFormField with the given parameters.
 	 *
-	 * @param key The name of this field (used as a key in {@link Form Forms})
+	 * @param key The name of this field (used as a key in {@link SimpleForm Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label

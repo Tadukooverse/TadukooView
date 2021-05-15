@@ -23,13 +23,13 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Abstract Form is the default implementation of {@link Form}.
+ * Abstract Form is the default implementation of {@link SimpleForm}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.3.3
  * @since Alpha v.0.2
  */
-public abstract class AbstractForm extends JPanel implements Form{
+public abstract class AbstractSimpleForm extends JPanel implements SimpleForm{
 	/** The map of actual values on this form */
 	private final Map<String, Object> valueMap;
 	/** The map of {@link FormField}s on this form */
@@ -46,7 +46,7 @@ public abstract class AbstractForm extends JPanel implements Form{
 	 * @param defaultValues The default values map, used for forms that need them during {@link #setDefaultFields()}
 	 * @throws Throwable If anything goes wrong in creating components
 	 */
-	protected AbstractForm(Map<String, Object> defaultValues) throws Throwable{
+	protected AbstractSimpleForm(Map<String, Object> defaultValues) throws Throwable{
 		// Initialize the maps
 		valueMap = defaultValues;
 		fields = new HashMap<>();
@@ -68,7 +68,7 @@ public abstract class AbstractForm extends JPanel implements Form{
 	 *                that need them during {@link #setDefaultFields()}
 	 * @throws Throwable If anything goes wrong in creating components
 	 */
-	protected AbstractForm(MappedPojo pojo) throws Throwable{
+	protected AbstractSimpleForm(MappedPojo pojo) throws Throwable{
 		// Initialize the maps
 		valueMap = pojo.getMap();
 		fields = new HashMap<>();
@@ -219,5 +219,11 @@ public abstract class AbstractForm extends JPanel implements Form{
 	@Override
 	public JComponent getComponentByKey(String key){
 		return components.get(key);
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public JPanel asComponent(){
+		return this;
 	}
 }
