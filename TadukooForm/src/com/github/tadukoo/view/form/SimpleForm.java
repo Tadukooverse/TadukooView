@@ -30,8 +30,14 @@ import java.util.Set;
  */
 public interface SimpleForm extends Form{
 	
+	/**
+	 * @return The Map of {@link FormField}s by their keys
+	 */
 	Map<String, FormField<?>> getFieldMap();
 	
+	/**
+	 * @return The Map of {@link JComponent}s by their keys
+	 */
 	Map<String, JComponent> getComponentMap();
 	
 	/** {@inheritDoc} */
@@ -76,14 +82,27 @@ public interface SimpleForm extends Form{
 	 */
 	void setDefaultFields() throws Throwable;
 	
+	/**
+	 * @return The keys in the Map of {@link FormField}s
+	 */
 	default Set<String> getFieldKeys(){
 		return getFieldMap().keySet();
 	}
 	
+	/**
+	 * @param key The key for the {@link FormField} to retrieve
+	 * @return The {@link FormField} stored with the given key
+	 */
 	default FormField<?> getFieldByKey(String key){
 		return getFieldMap().get(key);
 	}
 	
+	/**
+	 * Adds the given {@link JComponent} to the Components map
+	 *
+	 * @param key The key to use for the {@link JComponent}
+	 * @param component The {@link JComponent} to be stored
+	 */
 	default void addComponent(String key, JComponent component){
 		getComponentMap().put(key, component);
 	}
@@ -167,6 +186,13 @@ public interface SimpleForm extends Form{
 	}
 	
 	/**
+	 * @return The keys in the Map of {@link JComponent}s
+	 */
+	default Set<String> getComponentKeys(){
+		return getComponentMap().keySet();
+	}
+	
+	/**
 	 * Grabs the appropriate {@link JComponent} present on this form for the given key for the field
 	 *
 	 * @param key The key used by the field to find the {@link JComponent}
@@ -174,9 +200,5 @@ public interface SimpleForm extends Form{
 	 */
 	default JComponent getComponentByKey(String key){
 		return getComponentMap().get(key);
-	}
-	
-	default Set<String> getComponentKeys(){
-		return getComponentMap().keySet();
 	}
 }
