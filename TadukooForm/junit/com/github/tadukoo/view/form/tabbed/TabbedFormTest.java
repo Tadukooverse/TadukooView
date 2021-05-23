@@ -3,6 +3,8 @@ package com.github.tadukoo.view.form.tabbed;
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.pojo.AbstractMappedPojo;
 import com.github.tadukoo.util.pojo.MappedPojo;
+import com.github.tadukoo.view.constants.TabLayoutPolicy;
+import com.github.tadukoo.view.constants.TabPlacement;
 import com.github.tadukoo.view.form.AbstractSimpleForm;
 import com.github.tadukoo.view.form.Form;
 import com.github.tadukoo.view.form.SimpleForm;

@@ -1,4 +1,4 @@
-package com.github.tadukoo.view.form.tabbed;
+package com.github.tadukoo.view.constants;
 
 import org.junit.jupiter.api.Test;
 

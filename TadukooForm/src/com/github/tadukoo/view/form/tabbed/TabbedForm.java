@@ -1,6 +1,8 @@
 package com.github.tadukoo.view.form.tabbed;
 
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
+import com.github.tadukoo.view.constants.TabLayoutPolicy;
+import com.github.tadukoo.view.constants.TabPlacement;
 import com.github.tadukoo.view.form.Form;
 
 import javax.swing.JLabel;

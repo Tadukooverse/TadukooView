@@ -1,6 +1,7 @@
 package com.github.tadukoo.view.form.main;
 
 import com.github.tadukoo.util.StringUtil;
+import com.github.tadukoo.view.constants.CloseOperation;
 import com.github.tadukoo.view.form.Form;
 
 import javax.swing.JFrame;

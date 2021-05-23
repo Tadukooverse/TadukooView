@@ -1,5 +1,7 @@
 package com.github.tadukoo.view;
 
+import com.github.tadukoo.view.constants.Orientation;
+
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 
