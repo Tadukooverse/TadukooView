@@ -18,6 +18,11 @@ import java.net.URL;
 public interface MainForm extends Form{
 	
 	/**
+	 * @return This form as a {@link JFrame}
+	 */
+	JFrame asFrame();
+	
+	/**
 	 * Configures frame settings for this Main Form. This method should be called by the constructor to at least
 	 * set the {@link #defaultCloseOperation()}, use the {@link #iconPath()} and {@link #framePreferredSize()} if
 	 * they're not null, and add the inner component to the frame
@@ -64,11 +69,6 @@ public interface MainForm extends Form{
 	default Dimension framePreferredSize(){
 		return null;
 	}
-	
-	/**
-	 * @return This form as a {@link JFrame}
-	 */
-	JFrame asFrame();
 	
 	/**
 	 * Launches this Main Form (default is setting visible to true)

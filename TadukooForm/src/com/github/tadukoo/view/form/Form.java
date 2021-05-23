@@ -14,12 +14,12 @@ import java.awt.Component;
 public interface Form extends MappedPojo{
 	
 	/**
-	 * This method can be called by subclasses to update the values present in the form from the Component values
-	 */
-	void saveValues();
-	
-	/**
 	 * @return This Form as a {@link Component}
 	 */
 	Component asComponent();
+	
+	/**
+	 * This method can be called by subclasses to update the values present in the form from the Component values
+	 */
+	void saveValues();
 }

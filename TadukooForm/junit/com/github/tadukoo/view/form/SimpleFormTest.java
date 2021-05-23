@@ -2,11 +2,13 @@ package com.github.tadukoo.view.form;
 
 import com.github.tadukoo.util.pojo.AbstractMappedPojo;
 import com.github.tadukoo.util.pojo.MappedPojo;
+import com.github.tadukoo.view.form.field.FormField;
 import com.github.tadukoo.view.form.field.StringFormField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,17 +23,20 @@ public class SimpleFormTest{
 	private boolean weSetThoseFields = false;
 	
 	private SimpleForm simpleForm;
+	private FormField<?> field;
 	
 	@BeforeEach
 	public void setup() throws Throwable{
+		field = StringFormField.builder()
+				.stringFieldType(StringFormField.StringFieldType.NORMAL)
+				.key("Derp").defaultValue("No")
+				.build();
 		simpleForm = new AbstractSimpleForm(new HashMap<>()){
 			
 			@Override
 			public void setDefaultFields(){
 				weSetThoseFields = true;
-				addField(StringFormField.builder()
-						.key("Derp").defaultValue("No")
-						.build());
+				addField(field);
 			}
 		};
 	}
@@ -156,6 +161,36 @@ public class SimpleFormTest{
 	}
 	
 	@Test
+	public void testGetFieldMap(){
+		Map<String, FormField<?>> fields = simpleForm.getFieldMap();
+		assertEquals(1, fields.size());
+		assertTrue(fields.containsKey("Derp"));
+		assertEquals(field, fields.get("Derp"));
+	}
+	
+	@Test
+	public void testGetComponentMap(){
+		Map<String, JComponent> components = simpleForm.getComponentMap();
+		assertEquals(1, components.size());
+		assertTrue(components.containsKey("Derp"));
+		assertTrue(components.get("Derp") instanceof JTextField);
+	}
+	
+	@Test
+	public void testAsComponent(){
+		assertEquals(simpleForm, simpleForm.asComponent());
+	}
+	
+	@Test
+	public void testSaveValues(){
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals("No", simpleForm.getItem("Derp"));
+		((JTextField) simpleForm.getComponentByKey("Derp")).setText("Yeppers");
+		simpleForm.saveValues();
+		assertEquals("Yeppers", simpleForm.getItem("Derp"));
+	}
+	
+	@Test
 	public void testLabelsOnTop(){
 		assertTrue(simpleForm.labelsOnTop());
 	}
@@ -175,6 +210,28 @@ public class SimpleFormTest{
 	}
 	
 	@Test
+	public void testGetFieldKeys(){
+		Set<String> keys = simpleForm.getFieldKeys();
+		assertEquals(1, keys.size());
+		assertEquals("Derp", keys.iterator().next());
+	}
+	
+	@Test
+	public void testGetFieldByKey(){
+		assertEquals(field, simpleForm.getFieldByKey("Derp"));
+	}
+	
+	@Test
+	public void testAddComponent(){
+		JLabel label = new JLabel("Test");
+		simpleForm.addComponent("Test", label);
+		Map<String, JComponent> components = simpleForm.getComponentMap();
+		assertEquals(2, components.size());
+		assertTrue(components.containsKey("Test"));
+		assertEquals(label, components.get("Test"));
+	}
+	
+	@Test
 	public void testCreateComponentsAndGetComponentByKey(){
 		assertTrue(simpleForm.hasItem("Derp"));
 		assertEquals("No", simpleForm.getItem("Derp"));
@@ -184,16 +241,9 @@ public class SimpleFormTest{
 	}
 	
 	@Test
-	public void testSaveValues(){
-		assertTrue(simpleForm.hasItem("Derp"));
-		assertEquals("No", simpleForm.getItem("Derp"));
-		((JTextField) simpleForm.getComponentByKey("Derp")).setText("Yeppers");
-		simpleForm.saveValues();
-		assertEquals("Yeppers", simpleForm.getItem("Derp"));
-	}
-	
-	@Test
-	public void testAsComponent(){
-		assertEquals(simpleForm, simpleForm.asComponent());
+	public void testGetComponentKeys(){
+		Set<String> keys = simpleForm.getComponentKeys();
+		assertEquals(1, keys.size());
+		assertEquals("Derp", keys.iterator().next());
 	}
 }

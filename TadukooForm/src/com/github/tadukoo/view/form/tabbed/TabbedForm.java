@@ -38,15 +38,6 @@ public interface TabbedForm extends Form, OrderedMappedPojo{
 	}
 	
 	/**
-	 * Configures settings for this Tabbed Form. This method should be called by the constructor in order to
-	 * set at least the {@link #tabPlacement()} and {@link #tabLayoutPolicy()}
-	 */
-	default void configureSettings(){
-		asComponent().setTabPlacement(tabPlacement().getValue());
-		asComponent().setTabLayoutPolicy(tabLayoutPolicy().getValue());
-	}
-	
-	/**
 	 * @return The {@link TabPlacement} to use for this Tabbed Form
 	 */
 	default TabPlacement tabPlacement(){
@@ -58,6 +49,15 @@ public interface TabbedForm extends Form, OrderedMappedPojo{
 	 */
 	default TabLayoutPolicy tabLayoutPolicy(){
 		return TabLayoutPolicy.SCROLL_TAB_LAYOUT;
+	}
+	
+	/**
+	 * Configures settings for this Tabbed Form. This method should be called by the constructor in order to
+	 * set at least the {@link #tabPlacement()} and {@link #tabLayoutPolicy()}
+	 */
+	default void configureSettings(){
+		asComponent().setTabPlacement(tabPlacement().getValue());
+		asComponent().setTabLayoutPolicy(tabLayoutPolicy().getValue());
 	}
 	
 	/**

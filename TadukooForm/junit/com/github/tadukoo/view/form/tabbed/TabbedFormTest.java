@@ -206,12 +206,6 @@ public class TabbedFormTest{
 	}
 	
 	@Test
-	public void testConfigureSettings(){
-		assertEquals(tabbedForm.tabPlacement().getValue(), ((AbstractTabbedForm) tabbedForm).getTabPlacement());
-		assertEquals(tabbedForm.tabLayoutPolicy().getValue(), ((AbstractTabbedForm) tabbedForm).getTabLayoutPolicy());
-	}
-	
-	@Test
 	public void testTabPlacement(){
 		assertEquals(TabPlacement.LEFT, tabbedForm.tabPlacement());
 	}
@@ -222,13 +216,14 @@ public class TabbedFormTest{
 	}
 	
 	@Test
-	public void testDefaultTabLabelType(){
-		assertEquals(TabLabelType.SIMPLE_PANEL_LABEL, tabbedForm.defaultTabLabelType());
+	public void testConfigureSettings(){
+		assertEquals(tabbedForm.tabPlacement().getValue(), ((AbstractTabbedForm) tabbedForm).getTabPlacement());
+		assertEquals(tabbedForm.tabLayoutPolicy().getValue(), ((AbstractTabbedForm) tabbedForm).getTabLayoutPolicy());
 	}
 	
 	@Test
-	public void testSetDefaultTabs(){
-		assertTrue(weSetThoseFields);
+	public void testDefaultTabLabelType(){
+		assertEquals(TabLabelType.SIMPLE_PANEL_LABEL, tabbedForm.defaultTabLabelType());
 	}
 	
 	@Test
@@ -286,6 +281,11 @@ public class TabbedFormTest{
 		assertEquals(innerForm, tabbedPane.getComponentAt(0));
 		assertEquals(tab, tabbedPane.getComponentAt(1));
 		assertEquals(label, tabbedPane.getTabComponentAt(1));
+	}
+	
+	@Test
+	public void testSetDefaultTabs(){
+		assertTrue(weSetThoseFields);
 	}
 	
 	@Test
