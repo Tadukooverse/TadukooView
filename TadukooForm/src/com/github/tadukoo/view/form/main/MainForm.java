@@ -24,6 +24,27 @@ public interface MainForm extends Form{
 	JFrame asFrame();
 	
 	/**
+	 * @return The default {@link CloseOperation} to use for this Main Form
+	 */
+	default CloseOperation defaultCloseOperation(){
+		return CloseOperation.DISPOSE_ON_CLOSE;
+	}
+	
+	/**
+	 * @return The filepath to the icon to use for this Main Form (can be null to not set an icon)
+	 */
+	default String iconPath(){
+		return null;
+	}
+	
+	/**
+	 * @return The {@link Dimension} for the preferred size of this Main Form (can be null to not set a preferred size)
+	 */
+	default Dimension framePreferredSize(){
+		return null;
+	}
+	
+	/**
 	 * Configures frame settings for this Main Form. This method should be called by the constructor to at least
 	 * set the {@link #defaultCloseOperation()}, use the {@link #iconPath()} and {@link #framePreferredSize()} if
 	 * they're not null, and add the inner component to the frame
@@ -48,27 +69,6 @@ public interface MainForm extends Form{
 		
 		// Add the inner component to the frame
 		asFrame().add(asComponent());
-	}
-	
-	/**
-	 * @return The default {@link CloseOperation} to use for this Main Form
-	 */
-	default CloseOperation defaultCloseOperation(){
-		return CloseOperation.DISPOSE_ON_CLOSE;
-	}
-	
-	/**
-	 * @return The filepath to the icon to use for this Main Form (can be null to not set an icon)
-	 */
-	default String iconPath(){
-		return null;
-	}
-	
-	/**
-	 * @return The {@link Dimension} for the preferred size of this Main Form (can be null to not set a preferred size)
-	 */
-	default Dimension framePreferredSize(){
-		return null;
 	}
 	
 	/**
