@@ -2,26 +2,26 @@ package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
-import com.github.tadukoo.util.pojo.Table;
 import com.github.tadukoo.view.components.TadukooTable;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.form.SimpleForm;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.JComponent;
 import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
+import java.util.List;
 
 /**
- * Table Form Field is a {@link FormField} used to show a {@link Table} of {@link OrderedMappedPojo}s in a form
+ * Table Form Field is a {@link FormField} used to show a {@link List} of {@link OrderedMappedPojo}s in a form
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.3.3
  * @since Alpha v.0.2
  */
-public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
+public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	
 	/**
 	 * Builder to be used to create a {@link TableFormField}. It has the following parameters:
@@ -35,7 +35,7 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link SimpleForm Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>
@@ -138,9 +138,9 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 	 * @version Alpha v.0.3
 	 * @since Alpha v.0.2
 	 */
-	public static class TableFormFieldBuilder extends FormFieldBuilder<Table<OrderedMappedPojo>>{
+	public static class TableFormFieldBuilder extends FormFieldBuilder<List<OrderedMappedPojo>>{
 		
-		// Not allowed to create a TableFormFieldBuilder outside of TableFormField
+		/** Not allowed to create a TableFormFieldBuilder outside of TableFormField */
 		private TableFormFieldBuilder(){
 			super();
 			labelType = LabelType.NONE;
@@ -159,7 +159,7 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 		
 		/** {@inheritDoc} */
 		@Override
-		public TableFormFieldBuilder defaultValue(Table<OrderedMappedPojo> defaultValue){
+		public TableFormFieldBuilder defaultValue(List<OrderedMappedPojo> defaultValue){
 			super.defaultValue(defaultValue);
 			return this;
 		}
@@ -321,7 +321,7 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 	 *                   - can be ignored if you specify your own FontResourceLoader
 	 * @param fontResourceLoader The {@link FontResourceLoader} to use for fonts on this field
 	 */
-	private TableFormField(String key, Table<OrderedMappedPojo> defaultValue,
+	private TableFormField(String key, List<OrderedMappedPojo> defaultValue,
 	                       LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
 	                       FontFamily labelFontFamily, int labelFontStyle, int labelFontSize,
 	                       ShapeInfo labelShape, Border labelBorder,
@@ -354,9 +354,9 @@ public class TableFormField extends FormField<Table<OrderedMappedPojo>>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public Table<OrderedMappedPojo> getValue(JComponent component){
+	public List<OrderedMappedPojo> getValue(JComponent component){
 		if(component instanceof TadukooTable){
-			Table<OrderedMappedPojo> data = getDefaultValue();
+			List<OrderedMappedPojo> data = getDefaultValue();
 			return ((TadukooTable) component).updatePojos(data);
 		}else{
 			return null;

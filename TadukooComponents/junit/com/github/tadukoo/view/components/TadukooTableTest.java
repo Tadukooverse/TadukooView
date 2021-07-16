@@ -3,10 +3,10 @@ package com.github.tadukoo.view.components;
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.pojo.AbstractOrderedMappedPojo;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
-import com.github.tadukoo.util.pojo.Table;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,29 +16,29 @@ public class TadukooTableTest{
 	private TadukooTable table = TadukooTable.builder().build();
 	private final List<String> keyOrder = ListUtil.createList("Test", "Derp");
 	private final List<String> keyOrder2 = ListUtil.createList("Test", "Derp", "Plop");
-	private final Table<OrderedMappedPojo> data = new Table<>();
+	private final List<OrderedMappedPojo> data = new ArrayList<>();
 	private final int testValue = 5;
 	private final String derpValue = "Yep";
 	private final float plopValue = 2.5f;
 	
 	@BeforeEach
 	public void setup(){
-		data.addRow(new AbstractOrderedMappedPojo(){
+		data.add(new AbstractOrderedMappedPojo(){
 			@Override
 			public List<String> getKeyOrder(){
 				return keyOrder2;
 			}
 		});
-		data.getRow(0).setItem("Test", testValue);
-		data.getRow(0).setItem("Derp", derpValue);
-		data.getRow(0).setItem("Plop", plopValue);
-		data.addRow(new AbstractOrderedMappedPojo(){
+		data.get(0).setItem("Test", testValue);
+		data.get(0).setItem("Derp", derpValue);
+		data.get(0).setItem("Plop", plopValue);
+		data.add(new AbstractOrderedMappedPojo(){
 			@Override
 			public List<String> getKeyOrder(){
 				return keyOrder2;
 			}
 		});
-		data.getRow(1).setItem("Derp", derpValue);
+		data.get(1).setItem("Derp", derpValue);
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class TadukooTableTest{
 	public void testSettings(){
 		table = TadukooTable.builder().keyOrder(keyOrder).data(data).build();
 		assertEquals(keyOrder, table.getKeyOrder());
-		assertEquals(data.getNumRows(), table.getTable().getRowCount());
+		assertEquals(data.size(), table.getTable().getRowCount());
 	}
 	
 	@Test
@@ -75,7 +75,7 @@ public class TadukooTableTest{
 		table = TadukooTable.builder().data(data).build();
 		table.setTableData(data);
 		assertEquals(keyOrder2.size(), table.getTable().getColumnCount());
-		assertEquals(data.getNumRows(), table.getTable().getRowCount());
+		assertEquals(data.size(), table.getTable().getRowCount());
 	}
 	
 	@Test
@@ -83,7 +83,7 @@ public class TadukooTableTest{
 		table = TadukooTable.builder().keyOrder(keyOrder).data(data).build();
 		table.setTableData(data);
 		assertEquals(keyOrder.size(), table.getTable().getColumnCount());
-		assertEquals(data.getNumRows(), table.getTable().getRowCount());
+		assertEquals(data.size(), table.getTable().getRowCount());
 	}
 	
 	@Test
@@ -91,24 +91,24 @@ public class TadukooTableTest{
 		table = TadukooTable.builder().keyOrder(keyOrder).data(data).build();
 		table.setTableData(data);
 		assertEquals(keyOrder.size(), table.getTable().getColumnCount());
-		assertEquals(data.getNumRows(), table.getTable().getRowCount());
+		assertEquals(data.size(), table.getTable().getRowCount());
 		
 		table.setTableData(data);
 		assertEquals(keyOrder.size(), table.getTable().getColumnCount());
-		assertEquals(data.getNumRows(), table.getTable().getRowCount());
+		assertEquals(data.size(), table.getTable().getRowCount());
 	}
 	
 	@Test
 	public void testUpdatePojosNull(){
 		table = TadukooTable.builder().data(data).build();
-		Table<OrderedMappedPojo> result = table.updatePojos(null);
-		assertEquals(2, result.getNumRows());
-		OrderedMappedPojo pojo1 = result.getRow(0);
+		List<OrderedMappedPojo> result = table.updatePojos(null);
+		assertEquals(2, result.size());
+		OrderedMappedPojo pojo1 = result.get(0);
 		assertEquals(keyOrder2, pojo1.getKeyOrder());
 		assertEquals(derpValue, pojo1.getItem("Derp"));
 		assertEquals(testValue, pojo1.getItem("Test"));
 		assertEquals(plopValue, pojo1.getItem("Plop"));
-		OrderedMappedPojo pojo2 = result.getRow(1);
+		OrderedMappedPojo pojo2 = result.get(1);
 		assertEquals(keyOrder2, pojo2.getKeyOrder());
 		assertEquals(derpValue, pojo2.getItem("Derp"));
 		assertNull(pojo2.getItem("Test"));

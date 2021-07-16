@@ -5,7 +5,6 @@ import com.github.tadukoo.util.LoggerUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.util.pojo.AbstractOrderedMappedPojo;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
-import com.github.tadukoo.util.pojo.Table;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.components.TadukooTable;
 import com.github.tadukoo.view.font.FontFamilies;
@@ -21,6 +20,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TableFormFieldTest{
 	private TableFormField field = TableFormField.builder().build();
-	private final Table<OrderedMappedPojo> table = new Table<>();
+	private final List<OrderedMappedPojo> table = new ArrayList<>();
 	
 	@Test
 	public void testIsTableType(){
@@ -296,9 +296,9 @@ public class TableFormFieldTest{
 		pojo.setItem("Test", "Yep");
 		table2.addRow(pojo);
 		
-		Table<OrderedMappedPojo> result = field.getValue(table2);
-		assertEquals(1, result.getNumRows());
-		OrderedMappedPojo resultPojo = result.getRow(0);
+		List<OrderedMappedPojo> result = field.getValue(table2);
+		assertEquals(1, result.size());
+		OrderedMappedPojo resultPojo = result.get(0);
 		assertEquals(5, resultPojo.getItem("Derp"));
 		assertEquals("Yep", resultPojo.getItem("Test"));
 	}

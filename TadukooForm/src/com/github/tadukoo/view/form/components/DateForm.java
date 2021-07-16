@@ -4,7 +4,8 @@ import com.github.tadukoo.util.map.MapUtil;
 import com.github.tadukoo.util.time.DateUtil;
 import com.github.tadukoo.util.time.MonthUtil;
 import com.github.tadukoo.util.tuple.Pair;
-import com.github.tadukoo.view.form.AbstractForm;
+import com.github.tadukoo.view.form.AbstractSimpleForm;
+import com.github.tadukoo.view.form.SimpleForm;
 import com.github.tadukoo.view.form.field.DropDownFormField;
 import com.github.tadukoo.view.form.field.number.IntFormField;
 
@@ -13,13 +14,13 @@ import java.time.Month;
 import java.util.Date;
 
 /**
- * Date Form is a {@link com.github.tadukoo.view.form.Form Form} used to store a {@link Date}.
+ * Date Form is a {@link SimpleForm Form} used to store a {@link Date}.
  *
  * @author Logan Ferree (Tadukoo)
  * @version Alpha v.0.3
  * @since Alpha v.0.2.1
  */
-public class DateForm extends AbstractForm{
+public class DateForm extends AbstractSimpleForm{
 	// Passed in default values
 	/** Key used for storing default Date for passed-in values */
 	private static final String DATE = "Date";

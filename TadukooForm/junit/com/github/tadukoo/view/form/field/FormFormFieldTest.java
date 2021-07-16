@@ -5,7 +5,7 @@ import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.border.ShapedLineBorder;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.form.AbstractForm;
+import com.github.tadukoo.view.form.AbstractSimpleForm;
 import com.github.tadukoo.view.paint.SizableColor;
 import com.github.tadukoo.view.shapes.Shapes;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,11 +29,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FormFormFieldTest{
 	private FormFormField field = FormFormField.builder().build();
 	private boolean savedValues = false;
-	private AbstractForm form;
+	private AbstractSimpleForm form;
 	
 	@BeforeEach
 	public void setup() throws Throwable{
-		form = new AbstractForm(new HashMap<>()){
+		form = new AbstractSimpleForm(new HashMap<>()){
 			
 			@Override
 			public void saveValues(){
@@ -296,7 +296,7 @@ public class FormFormFieldTest{
 	public void testGetComponentForm(){
 		field = FormFormField.builder().defaultValue(form).build();
 		JComponent component = field.getComponent();
-		assertTrue(component instanceof AbstractForm);
+		assertTrue(component instanceof AbstractSimpleForm);
 		assertEquals(form, component);
 	}
 	

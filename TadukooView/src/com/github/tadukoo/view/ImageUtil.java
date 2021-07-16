@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class ImageUtil{
 	
-	// Not allowed to create an ImageUtil
+	/** Not allowed to create an ImageUtil */
 	private ImageUtil(){ }
 	
 	/**

@@ -91,7 +91,7 @@ public class LinearGradient implements Gradient{
 			return Pair.of(new Point2D.Float(startX, startY), new Point2D.Float(endX, endY));
 		};
 		
-		// Not allowed to create outside of LinearGradient
+		/** Not allowed to create outside of LinearGradient */
 		private LinearGradientBuilder(){
 			super();
 		}

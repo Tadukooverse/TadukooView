@@ -54,7 +54,7 @@ public class RadialGradient implements Gradient{
 			return Triple.of(center, Math.min(centerX, centerY), center);
 		};
 		
-		// Not allowed to create outside of RadialGradient
+		/** Not allowed to create outside of RadialGradient */
 		private RadialGradientBuilder(){ }
 		
 		/**

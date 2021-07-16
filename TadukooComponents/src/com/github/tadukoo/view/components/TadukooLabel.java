@@ -175,7 +175,7 @@ public class TadukooLabel extends JLabel implements TLabel{
 		/** The {@link FontResourceLoader} to use in loading a font and/or ensuring they're in the system */
 		private FontResourceLoader fontResourceLoader = null;
 		
-		// Can't create Tadukoo Label Builder outside of Tadukoo Label
+		/** Can't create Tadukoo Label Builder outside of Tadukoo Label */
 		private TadukooLabelBuilder(){ }
 		
 		/*

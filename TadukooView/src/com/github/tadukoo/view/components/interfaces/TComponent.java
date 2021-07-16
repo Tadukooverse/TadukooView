@@ -1,6 +1,7 @@
 package com.github.tadukoo.view.components.interfaces;
 
 import com.github.tadukoo.view.InsetsUtil;
+import com.github.tadukoo.view.components.interfaces.paint.HasSizablePaints;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
 import javax.swing.border.AbstractBorder;

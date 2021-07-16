@@ -1,10 +1,12 @@
 package com.github.tadukoo.view.form.field;
 
+import com.github.tadukoo.view.form.SimpleForm;
+
 /**
  * Field Type is used in {@link FormField} for what type of field it is.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.3.3
  * @since Alpha v.0.2
  */
 public enum FieldType{
@@ -28,9 +30,9 @@ public enum FieldType{
 	DROP_DOWN,
 	/** A button (not really a field) */
 	BUTTON,
-	/** A {@link com.github.tadukoo.view.form.Form Form} field */
+	/** A {@link SimpleForm Form} field */
 	FORM,
-	/** A {@link com.github.tadukoo.util.pojo.Table Table} field */
+	/** A Table (List) field */
 	TABLE,
 	/** Used for fields not covered by this non-exhaustive list made outside of Tadukoo Form */
 	CUSTOM

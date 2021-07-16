@@ -29,7 +29,7 @@ import java.util.Objects;
  */
 public class TadukooThemeFactory{
 	
-	// Not allowed to build a Tadukoo Theme Factory
+	/** Not allowed to build a Tadukoo Theme Factory */
 	private TadukooThemeFactory(){ }
 	
 	/*

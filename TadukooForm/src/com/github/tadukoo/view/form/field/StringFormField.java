@@ -4,7 +4,7 @@ import com.github.tadukoo.util.StringUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.form.SimpleForm;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
@@ -49,7 +49,7 @@ public class StringFormField extends FormField<String>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link SimpleForm Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>
@@ -175,7 +175,7 @@ public class StringFormField extends FormField<String>{
 		/** Number of columns used to determine the width of the field */
 		private int columns = -1;
 		
-		// Can't create StringFormFieldBuilder outside of StringFormField
+		/** Can't create StringFormFieldBuilder outside of StringFormField */
 		private StringFormFieldBuilder(){
 			super();
 		}

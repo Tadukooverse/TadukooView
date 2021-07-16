@@ -49,7 +49,7 @@ public class ShapedLineBorder extends AbstractBorder{
 		/** The thickness of the line */
 		private int thickness = 1;
 		
-		// Can't create the builder outside of ShapeLineBorder
+		/** Can't create the builder outside of ShapeLineBorder */
 		private ShapedLineBorderBuilder(){ }
 		
 		/**

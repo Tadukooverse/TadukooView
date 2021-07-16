@@ -1,60 +1,25 @@
 package com.github.tadukoo.view.form;
 
 import com.github.tadukoo.util.pojo.MappedPojo;
-import com.github.tadukoo.view.form.field.FormField;
 
-import javax.swing.JComponent;
+import java.awt.Component;
 
 /**
- * Form represents a form used in a program that the user can fill out and interact with. It uses {@link FormField}s
- * for the fields and buttons and such to be displayed.
+ * Form represents a form used in a program that the user can fill out and interact with. This could be a simple form
+ * with a bunch of fields, or it could be a tabbed form.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
- * @since Alpha v.0.2
+ * @version Alpha v.0.3.3
  */
 public interface Form extends MappedPojo{
 	
 	/**
-	 * @return Whether to have labels for components above them (true) or to the left (false) - defaults to true
+	 * @return This Form as a {@link Component}
 	 */
-	default boolean labelsOnTop(){
-		return true;
-	}
-	
-	/**
-	 * Adds the given {@link FormField} to this Form
-	 *
-	 * @param field The {@link FormField} to add to this Form
-	 */
-	void addField(FormField<?> field);
-	
-	/**
-	 * This method should be called by the constructor to set default fields (this is where you should create new
-	 * {@link FormField}s by calling {@link #addField(FormField)})
-	 *
-	 * @throws Throwable If anything goes wrong in creating the fields
-	 */
-	void setDefaultFields() throws Throwable;
-	
-	/**
-	 * This method should be called by the constructor (after calling {@link #setDefaultFields()}), and will
-	 * create the components to be used on this Form
-	 *
-	 * @throws Throwable If anything goes wrong in creating the components
-	 */
-	void createComponents() throws Throwable;
+	Component asComponent();
 	
 	/**
 	 * This method can be called by subclasses to update the values present in the form from the Component values
 	 */
 	void saveValues();
-	
-	/**
-	 * Grabs the appropriate {@link JComponent} present on this form for the given key for the field
-	 *
-	 * @param key The key used by the field to find the {@link JComponent}
-	 * @return The appropriate {@link JComponent} for the given key for its field
-	 */
-	JComponent getComponentByKey(String key);
 }

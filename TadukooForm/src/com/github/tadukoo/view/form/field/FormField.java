@@ -3,7 +3,7 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
-import com.github.tadukoo.view.form.Form;
+import com.github.tadukoo.view.form.SimpleForm;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
@@ -12,7 +12,7 @@ import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
 
 /**
- * Form Fields are fields used on {@link Form Forms}.
+ * Form Fields are fields used on {@link SimpleForm Forms}.
  *
  * @author Logan Ferree (Tadukoo)
  * @version Alpha v.0.3
@@ -35,7 +35,7 @@ public abstract class FormField<Type>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link SimpleForm Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>
@@ -144,7 +144,7 @@ public abstract class FormField<Type>{
 		/*
 		 * The Basics
 		 */
-		/** The name of the field (used as a key in {@link Form Forms}) */
+		/** The name of the field (used as a key in {@link SimpleForm Forms}) */
 		protected String key;
 		/** The starting value of the field */
 		protected Type defaultValue = null;
@@ -209,7 +209,7 @@ public abstract class FormField<Type>{
 		 */
 		
 		/**
-		 * @param key The name of the field (used as a key in {@link Form Forms})
+		 * @param key The name of the field (used as a key in {@link SimpleForm Forms})
 		 * @return this, to continue building
 		 */
 		public FormFieldBuilder<Type> key(String key){
@@ -398,7 +398,7 @@ public abstract class FormField<Type>{
 	 */
 	/** The {@link FieldType} of this field */
 	private final FieldType type;
-	/** The name of this field (used as a key in {@link Form Forms}) */
+	/** The name of this field (used as a key in {@link SimpleForm Forms}) */
 	private final String key;
 	/** The starting value of the field */
 	private final Type defaultValue;
@@ -457,7 +457,7 @@ public abstract class FormField<Type>{
 	 * Creates a new FormField with the given parameters.
 	 *
 	 * @param type The {@link FieldType} of this field
-	 * @param key The name of this field (used as a key in {@link Form Forms})
+	 * @param key The name of this field (used as a key in {@link SimpleForm Forms})
 	 * @param defaultValue The starting value of the field
 	 * @param labelType The {@link LabelType} to use for this field
 	 * @param labelForegroundPaint The {@link SizablePaint} for the foreground of the Label
@@ -529,7 +529,7 @@ public abstract class FormField<Type>{
 	}
 	
 	/**
-	 * @return The name of this field (used as a key in {@link Form Forms})
+	 * @return The name of this field (used as a key in {@link SimpleForm Forms})
 	 */
 	public String getKey(){
 		return key;

@@ -1,4 +1,4 @@
-package com.github.tadukoo.view;
+package com.github.tadukoo.view.constants;
 
 /**
  * Represents the way to orient an object in relation to given coordinates.

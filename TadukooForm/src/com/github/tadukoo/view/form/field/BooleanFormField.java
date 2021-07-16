@@ -4,6 +4,7 @@ import com.github.tadukoo.util.BooleanUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
+import com.github.tadukoo.view.form.SimpleForm;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
@@ -33,7 +34,7 @@ public class BooleanFormField extends FormField<Boolean>{
 	 *     </tr>
 	 *     <tr>
 	 *         <td>key</td>
-	 *         <td>The name of the field (used as a key in {@link com.github.tadukoo.view.form.Form Forms})</td>
+	 *         <td>The name of the field (used as a key in {@link SimpleForm Forms})</td>
 	 *         <td>Required</td>
 	 *     </tr>
 	 *     <tr>
@@ -145,7 +146,7 @@ public class BooleanFormField extends FormField<Boolean>{
 		/** Whether the field can be edited or not */
 		private boolean editable = true;
 		
-		// Not allowed to create a BooleanFormFieldBuilder outside of BooleanFormField
+		/** Not allowed to create a BooleanFormFieldBuilder outside of BooleanFormField */
 		private BooleanFormFieldBuilder(){
 			super();
 			labelType = LabelType.NONE;

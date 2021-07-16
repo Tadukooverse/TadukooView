@@ -10,7 +10,7 @@ import java.awt.Insets;
  */
 public final class InsetsUtil{
 	
-	// Can't create InsetsUtil
+	/** Can't create InsetsUtil */
 	private InsetsUtil(){ }
 	
 	/**

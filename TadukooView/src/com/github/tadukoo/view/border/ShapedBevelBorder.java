@@ -68,7 +68,7 @@ public class ShapedBevelBorder extends AbstractBorder{
 		/** The {@link SizablePaint} for the outer shadow */
 		private SizablePaint shadowOuterPaint = null;
 		
-		// Can't create outside of ShapedBevelBorder
+		/** Can't create outside of ShapedBevelBorder */
 		private ShapedBevelBorderBuilder(){ }
 		
 		/**
