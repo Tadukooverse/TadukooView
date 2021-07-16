@@ -154,7 +154,7 @@ public class IntFormField extends NumberFormField<Integer>{
 	 */
 	public static class IntFormFieldBuilder extends NumberFormFieldBuilder<Integer>{
 		
-		// Can't create outside of IntFormField
+		/** Can't create outside of IntFormField */
 		private IntFormFieldBuilder(){
 			super();
 			defaultValue = 0;

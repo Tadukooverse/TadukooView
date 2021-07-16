@@ -13,7 +13,7 @@ import java.awt.Graphics;
  */
 public class DrawUtil{
 	
-	// Not allowed to create a DrawUtil
+	/** Not allowed to create a DrawUtil */
 	private DrawUtil(){ }
 	
 	/**

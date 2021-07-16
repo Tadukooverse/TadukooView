@@ -198,7 +198,7 @@ public class TadukooButton extends JButton implements TButton{
 		/** The {@link FontResourceLoader} to use in loading a font and/or ensuring they're in the system */
 		private FontResourceLoader fontResourceLoader = null;
 		
-		// Can't create outside of Tadukoo Button
+		/** Can't create outside of Tadukoo Button */
 		private TadukooButtonBuilder(){ }
 		
 		/*

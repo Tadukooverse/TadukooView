@@ -48,7 +48,7 @@ public class TadukooTable extends JScrollPane{
 		/** The data to be put in the table */
 		private List<OrderedMappedPojo> data = null;
 		
-		// Can't create outside of Tadukoo Table
+		/** Can't create outside of Tadukoo Table */
 		private TadukooTableBuilder(){ }
 		
 		/**

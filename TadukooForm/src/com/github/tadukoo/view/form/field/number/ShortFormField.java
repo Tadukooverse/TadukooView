@@ -154,7 +154,7 @@ public class ShortFormField extends NumberFormField<Short>{
 	 */
 	public static class ShortFormFieldBuilder extends NumberFormFieldBuilder<Short>{
 		
-		// Can't create outside of ShortFormField
+		/** Can't create outside of ShortFormField */
 		private ShortFormFieldBuilder(){
 			super();
 			defaultValue = (short) 0;

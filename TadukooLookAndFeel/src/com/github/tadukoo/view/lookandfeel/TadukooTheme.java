@@ -467,7 +467,7 @@ public class TadukooTheme{
 		/** Component defaults beyond those specified in the above sections */
 		private Map<String, Object> componentDefaults = new HashMap<>();
 		
-		// Cannot create TadukooThemeBuilder outside of TadukooTheme
+		/** Cannot create TadukooThemeBuilder outside of TadukooTheme */
 		private TadukooThemeBuilder(){ }
 		
 		/*

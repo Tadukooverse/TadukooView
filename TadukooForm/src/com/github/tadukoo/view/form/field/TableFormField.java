@@ -140,7 +140,7 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	 */
 	public static class TableFormFieldBuilder extends FormFieldBuilder<List<OrderedMappedPojo>>{
 		
-		// Not allowed to create a TableFormFieldBuilder outside of TableFormField
+		/** Not allowed to create a TableFormFieldBuilder outside of TableFormField */
 		private TableFormFieldBuilder(){
 			super();
 			labelType = LabelType.NONE;

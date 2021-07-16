@@ -60,7 +60,7 @@ public class ShapedEtchedBorder extends AbstractBorder{
 		/** The {@link SizablePaint} for the shadow */
 		private SizablePaint shadowPaint = null;
 		
-		// Can't create builder outside of ShapedEtchedBorder
+		/** Can't create builder outside of ShapedEtchedBorder */
 		private ShapedEtchedBorderBuilder(){ }
 		
 		/**

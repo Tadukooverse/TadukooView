@@ -212,7 +212,7 @@ public class ButtonFormField extends FormField<String>{
 		/** The {@link ShapeInfo} to use on the Button */
 		private ShapeInfo buttonShape = null;
 		
-		// Not allowed to create ButtonFormFieldBuilder outside of ButtonFormField
+		/** Not allowed to create ButtonFormFieldBuilder outside of ButtonFormField */
 		private ButtonFormFieldBuilder(){
 			super();
 			labelType = LabelType.NONE;

@@ -152,7 +152,7 @@ public class DropDownFormField extends FormField<String>{
 		/** The options to include in the drop-down list */
 		private String[] options = new String[]{};
 		
-		// Not allowed to create a DropDownFormFieldBuilder outside of DropDownFormField
+		/** Not allowed to create a DropDownFormFieldBuilder outside of DropDownFormField */
 		private DropDownFormFieldBuilder(){
 			super();
 		}

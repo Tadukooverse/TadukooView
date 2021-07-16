@@ -154,7 +154,7 @@ public class FloatFormField extends NumberFormField<Float>{
 	 */
 	public static class FloatFormFieldBuilder extends NumberFormFieldBuilder<Float>{
 		
-		// Can't create outside of FloatFormField
+		/** Can't create outside of FloatFormField */
 		private FloatFormFieldBuilder(){
 			super();
 			defaultValue = 0.0f;

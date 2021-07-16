@@ -146,7 +146,7 @@ public class BooleanFormField extends FormField<Boolean>{
 		/** Whether the field can be edited or not */
 		private boolean editable = true;
 		
-		// Not allowed to create a BooleanFormFieldBuilder outside of BooleanFormField
+		/** Not allowed to create a BooleanFormFieldBuilder outside of BooleanFormField */
 		private BooleanFormFieldBuilder(){
 			super();
 			labelType = LabelType.NONE;

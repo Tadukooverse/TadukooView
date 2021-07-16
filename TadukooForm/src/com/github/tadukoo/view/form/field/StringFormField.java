@@ -175,7 +175,7 @@ public class StringFormField extends FormField<String>{
 		/** Number of columns used to determine the width of the field */
 		private int columns = -1;
 		
-		// Can't create StringFormFieldBuilder outside of StringFormField
+		/** Can't create StringFormFieldBuilder outside of StringFormField */
 		private StringFormFieldBuilder(){
 			super();
 		}

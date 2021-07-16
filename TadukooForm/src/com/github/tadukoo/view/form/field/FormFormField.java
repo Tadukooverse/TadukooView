@@ -139,7 +139,7 @@ public class FormFormField extends FormField<AbstractSimpleForm>{
 	 */
 	public static class FormFormFieldBuilder extends FormFieldBuilder<AbstractSimpleForm>{
 		
-		// Can't create FormFormFieldBuilder outside of FormFormField
+		/** Can't create FormFormFieldBuilder outside of FormFormField */
 		private FormFormFieldBuilder(){
 			super();
 			labelType = LabelType.TITLED_BORDER;

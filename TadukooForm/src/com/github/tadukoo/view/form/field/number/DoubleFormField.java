@@ -154,7 +154,7 @@ public class DoubleFormField extends NumberFormField<Double>{
 	 */
 	public static class DoubleFormFieldBuilder extends NumberFormFieldBuilder<Double>{
 		
-		// Can't create outside of DoubleFormField
+		/** Can't create outside of DoubleFormField */
 		private DoubleFormFieldBuilder(){
 			super();
 			defaultValue = 0.0;

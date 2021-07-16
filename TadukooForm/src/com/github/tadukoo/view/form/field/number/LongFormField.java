@@ -154,7 +154,7 @@ public class LongFormField extends NumberFormField<Long>{
 	 */
 	public static class LongFormFieldBuilder extends NumberFormFieldBuilder<Long>{
 		
-		// Can't create outside of LongFormField
+		/** Can't create outside of LongFormField */
 		private LongFormFieldBuilder(){
 			super();
 			defaultValue = 0L;

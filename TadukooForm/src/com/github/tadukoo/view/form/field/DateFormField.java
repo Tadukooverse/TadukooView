@@ -153,7 +153,7 @@ public class DateFormField extends FormField<Date>{
 		/** The maximum year to allow on the field */
 		private int maxYear = 2100;
 		
-		// Not allowed to create outside of DateFormField
+		/** Not allowed to create outside of DateFormField */
 		private DateFormFieldBuilder(){
 			super();
 		}
