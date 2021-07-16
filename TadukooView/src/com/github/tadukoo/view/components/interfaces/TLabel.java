@@ -1,5 +1,7 @@
 package com.github.tadukoo.view.components.interfaces;
 
+import com.github.tadukoo.view.components.interfaces.paint.HasDisabledForegroundPaint;
+
 import java.awt.Label;
 
 /**

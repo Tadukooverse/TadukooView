@@ -1,11 +1,11 @@
 package com.github.tadukoo.view.lookandfeel.componentui;
 
-import com.github.tadukoo.view.components.interfaces.HasDisabledForegroundPaint;
+import com.github.tadukoo.view.components.interfaces.paint.HasDisabledForegroundPaint;
 import com.github.tadukoo.view.components.interfaces.TComponent;
 import com.github.tadukoo.view.lookandfeel.TadukooTheme;
-import com.github.tadukoo.view.components.interfaces.HasDisabledTextPaint;
-import com.github.tadukoo.view.components.interfaces.HasSelectAndFocusPaints;
-import com.github.tadukoo.view.components.interfaces.HasSizablePaints;
+import com.github.tadukoo.view.components.interfaces.paint.HasDisabledTextPaint;
+import com.github.tadukoo.view.components.interfaces.paint.HasSelectAndFocusPaints;
+import com.github.tadukoo.view.components.interfaces.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.components.interfaces.Shaped;

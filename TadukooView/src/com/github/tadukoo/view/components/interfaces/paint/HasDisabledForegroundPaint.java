@@ -1,4 +1,4 @@
-package com.github.tadukoo.view.components.interfaces;
+package com.github.tadukoo.view.components.interfaces.paint;
 
 import com.github.tadukoo.view.paint.SizablePaint;
 
