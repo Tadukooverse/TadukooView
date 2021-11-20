@@ -6,11 +6,11 @@
 	<parent>
 		<groupId>com.github.tadukoo.maven</groupId>
 		<artifactId>TadukooMavenLibraryPOM</artifactId>
-		<version>0.2-Alpha</version>
+		<version>0.3.1-Alpha</version>
 	</parent>
 	<groupId>com.github.tadukoo.view</groupId>
 	<artifactId>TadukooViewParent</artifactId>
-	<version>0.3.3-Alpha</version>
+	<version>0.3.4-Alpha-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<description>A collection of view utilities</description>
 	<modules>
@@ -22,7 +22,7 @@
 	<properties>
 		<!-- Info -->
 		<shortName>TadukooView</shortName>
-		<tadukoo.util.version>0.5-Beta</tadukoo.util.version>
+		<tadukoo.util.version>0.5.1-Beta</tadukoo.util.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
