@@ -38,6 +38,18 @@
 				<artifactId>TadukooComponents</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<!-- TadukooForm Dependency -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>TadukooForm</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<!-- TadukooLookAndFeel Dependency -->
+			<dependency>
+				<groupId>${project.groupId}</groupId>
+				<artifactId>TadukooLookAndFeel</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>
