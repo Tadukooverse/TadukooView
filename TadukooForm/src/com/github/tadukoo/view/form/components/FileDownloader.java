@@ -1,8 +1,8 @@
 package com.github.tadukoo.view.form.components;
 
 import com.github.tadukoo.util.ExceptionUtil;
+import com.github.tadukoo.util.download.DownloadUtil;
 import com.github.tadukoo.util.download.ProgressRBCWrapperListener;
-import com.github.tadukoo.util.download.ProgressReadableByteChannelWrapper;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.util.tuple.Pair;
 
@@ -11,14 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import java.awt.Component;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.channels.Channels;
-import java.nio.channels.FileChannel;
-import java.nio.channels.ReadableByteChannel;
 import java.util.Collection;
 
 /**
@@ -90,35 +83,6 @@ public class FileDownloader extends JPanel implements ProgressRBCWrapperListener
 	}
 	
 	/**
-	 * Attempts to grab the file size for the file at the given {@link URL}. If it fails, a warning
-	 * will be logged, but it will not error out and return -1
-	 *
-	 * @param url The {@link URL} the file is located at
-	 * @return The size of the file in bytes, or -1 if we fail to retrieve it
-	 */
-	private int getFileSize(URL url){
-		// Set file size default to -1 (so we can at least return something if it fails)
-		int fileLength = -1;
-		
-		try{
-			// Do not follow redirects for grabbing file size
-			HttpURLConnection.setFollowRedirects(false);
-			
-			// Setup a connection to get the HEAD for the file
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("HEAD");
-			
-			// Grab the file size from the connection
-			fileLength = connection.getContentLength();
-		}catch(Exception e){
-			// Log warning that we couldn't get file size + notify user
-			logger.logWarning("Failed to get file size at url: " + url.getPath(), e);
-		}
-		
-		return fileLength;
-	}
-	
-	/**
 	 * Iterates over the given file address and filepath pairs to download the files as needed and updates
 	 * the overall progress bar on the overall files progress.
 	 *
@@ -136,49 +100,13 @@ public class FileDownloader extends JPanel implements ProgressRBCWrapperListener
 		
 		// Download the files
 		for(Pair<String, String> fileAddressAndPath: fileAddressAndPathPairs){
-			loadFile(fileAddressAndPath.getLeft(), fileAddressAndPath.getRight());
+			singleProgressBar.setValue(0);
+			DownloadUtil.downloadFile(logger, this, fileAddressAndPath.getLeft(), fileAddressAndPath.getRight());
 			
 			// Update the number of files completed in the overall progress bar
 			done++;
 			overallProgressBar.setValue(done);
 			overallProgressBar.setString(done + "/" + total + " files");
 		}
-	}
-	
-	/**
-	 * If the file already exists at the given filepath, nothing happens. Otherwise, we download it from the
-	 * given address, and progress will be updated by sending this as a {@link ProgressRBCWrapperListener} to
-	 * the {@link ProgressReadableByteChannelWrapper} we use
-	 *
-	 * @param address The URL for the file to be downloaded
-	 * @param filepath The local filepath for the file
-	 * @throws IOException If anything goes wrong in downloading the file
-	 */
-	private void loadFile(String address, String filepath) throws IOException{
-		// Check if file already exists so we don't need to download it
-		File file = new File(filepath);
-		if(file.exists()){
-			return;
-		}
-		
-		// Reset current file progress to 0
-		singleProgressBar.setValue(0);
-		
-		// Setup the download, including setting this as the listener for progress updates
-		URL url = new URL(address);
-		ReadableByteChannel fileDownload = new ProgressReadableByteChannelWrapper(
-				Channels.newChannel(url.openStream()), this, getFileSize(url));
-		// Follow redirects for the file
-		HttpURLConnection.setFollowRedirects(true);
-		
-		// Perform the file transfer from the URL to our local filepath
-		FileOutputStream fileOutputStream = new FileOutputStream(filepath);
-		FileChannel fileChannel = fileOutputStream.getChannel();
-		fileChannel.transferFrom(fileDownload, 0, Long.MAX_VALUE);
-		
-		// Close the file channels and output stream now that we're done
-		fileDownload.close();
-		fileChannel.close();
-		fileOutputStream.close();
 	}
 }
