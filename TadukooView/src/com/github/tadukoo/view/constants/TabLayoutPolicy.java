@@ -6,7 +6,8 @@ import javax.swing.JTabbedPane;
  * Tab Layout Policy represents what to do when there are too many tabs to fit in the given space on a Tabbed Form
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3.3
+ * @version Alpha v.0.4
+ * @since Alpha v.0.3.3
  */
 public enum TabLayoutPolicy{
 	/** The tabs will be wrapped if there are too many to fit in the given space */
@@ -24,6 +25,21 @@ public enum TabLayoutPolicy{
 	 */
 	TabLayoutPolicy(int value){
 		this.value = value;
+	}
+	
+	/**
+	 * Searches for a {@link TabLayoutPolicy} using the given value
+	 *
+	 * @param value The value to use to find a {@link TabLayoutPolicy}
+	 * @return The found {@link TabLayoutPolicy} or {@code null} if none were found with the given value
+	 */
+	public static TabLayoutPolicy fromValue(int value){
+		for(TabLayoutPolicy policy: values()){
+			if(policy.value == value){
+				return policy;
+			}
+		}
+		return null;
 	}
 	
 	/**

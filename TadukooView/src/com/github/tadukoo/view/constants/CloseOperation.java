@@ -6,7 +6,8 @@ import javax.swing.JFrame;
  * Close Operation represents what to do on closure of a frame/window.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3.3
+ * @version Alpha v.0.4
+ * @since Alpha v.0.3.3
  */
 public enum CloseOperation{
 	/** Do nothing when the frame/window is closed */
@@ -28,6 +29,21 @@ public enum CloseOperation{
 	 */
 	CloseOperation(int value){
 		this.value = value;
+	}
+	
+	/**
+	 * Searches for a {@link CloseOperation} using the given value
+	 *
+	 * @param value The value to use to find a {@link CloseOperation}
+	 * @return The found {@link CloseOperation} or {@code null} if none were found with the given value
+	 */
+	public static CloseOperation fromValue(int value){
+		for(CloseOperation operation: values()){
+			if(operation.value == value){
+				return operation;
+			}
+		}
+		return null;
 	}
 	
 	/**

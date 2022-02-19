@@ -2,6 +2,7 @@ package com.github.tadukoo.view.lookandfeel;
 
 import com.github.tadukoo.view.border.NoBorderUIResource;
 import com.github.tadukoo.view.border.ShapedEtchedBorder;
+import com.github.tadukoo.view.constants.TitlePosition;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;

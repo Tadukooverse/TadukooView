@@ -6,7 +6,8 @@ import javax.swing.JTabbedPane;
  * Tab Placement is used to determine where tabs should be placed in a Tabbed Form.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3.3
+ * @version Alpha v.0.4
+ * @since Alpha v.0.3.3
  */
 public enum TabPlacement{
 	/** Tabs are placed at the top of the form */
@@ -28,6 +29,21 @@ public enum TabPlacement{
 	 */
 	TabPlacement(int value){
 		this.value = value;
+	}
+	
+	/**
+	 * Searches for a {@link TabPlacement} using the given value
+	 *
+	 * @param value The value to use to find a {@link TabPlacement}
+	 * @return The found {@link TabPlacement} or {@code null} if none were found with the given value
+	 */
+	public static TabPlacement fromValue(int value){
+		for(TabPlacement placement: values()){
+			if(placement.value == value){
+				return placement;
+			}
+		}
+		return null;
 	}
 	
 	/**

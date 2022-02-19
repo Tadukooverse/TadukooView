@@ -3,6 +3,7 @@ package com.github.tadukoo.view.lookandfeel;
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.border.NoBorderUIResource;
+import com.github.tadukoo.view.constants.TitlePosition;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooButtonUI;
 import com.github.tadukoo.view.lookandfeel.componentui.TadukooLabelUI;
 import com.github.tadukoo.view.paint.ColorPaintUIResource;
