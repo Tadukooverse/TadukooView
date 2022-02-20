@@ -9,6 +9,7 @@ import com.github.tadukoo.view.components.interfaces.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.components.interfaces.Shaped;
+import com.github.tadukoo.view.uimanager.ThemeProperties;
 
 import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
@@ -25,9 +26,10 @@ import java.awt.Paint;
  * customizations. It also contains some common paint methods.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
+ * @since Alpha v.0.3
  */
-public interface TComponentUIUtil{
+public interface TComponentUIUtil extends ThemeProperties{
 	
 	/**
 	 * Retrieves the Property Prefix string present on the Component UI class.
@@ -47,7 +49,7 @@ public interface TComponentUIUtil{
 	 * @return The {@link SizablePaint} to be used for the foreground from the Look &amp; Feel
 	 */
 	default SizablePaint getForegroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "foreground.paint");
+		return (SizablePaint) UIManager.get(getPropertyPrefixString() + FOREGROUND_PAINT);
 	}
 	
 	/**
@@ -73,7 +75,7 @@ public interface TComponentUIUtil{
 	 * @return The {@link SizablePaint} to be used for the background from the Look &amp; Feel
 	 */
 	default SizablePaint getBackgroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "background.paint");
+		return (SizablePaint) UIManager.get(getPropertyPrefixString() + BACKGROUND_PAINT);
 	}
 	
 	/**
@@ -99,7 +101,7 @@ public interface TComponentUIUtil{
 	 * @return The {@link ShapeInfo} to be used from the Look &amp; Feel
 	 */
 	default ShapeInfo getShape(){
-		return (ShapeInfo) UIManager.get(getPropertyPrefixString() + "shape");
+		return (ShapeInfo) UIManager.get(getPropertyPrefixString() + SHAPE);
 	}
 	
 	/**
@@ -120,7 +122,7 @@ public interface TComponentUIUtil{
 	 * @return The {@link SizablePaint} to be used for when the Component is selected from the Look &amp; Feel
 	 */
 	default SizablePaint getSelectPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "select.paint");
+		return (SizablePaint) UIManager.get(getPropertyPrefixString() + SELECT_PAINT);
 	}
 	
 	/**
@@ -146,7 +148,7 @@ public interface TComponentUIUtil{
 	 * @return The {@link SizablePaint} to be used for when the Component is focused from the Look &amp; Feel
 	 */
 	default SizablePaint getFocusPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "focus.paint");
+		return (SizablePaint) UIManager.get(getPropertyPrefixString() + FOCUS_PAINT);
 	}
 	
 	/**
@@ -172,7 +174,7 @@ public interface TComponentUIUtil{
 	 * @return The {@link SizablePaint} to be used for disabled text on the Component from the Look &amp; Feel
 	 */
 	default SizablePaint getDisabledTextPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "disabledText.paint");
+		return (SizablePaint) UIManager.get(getPropertyPrefixString() + DISABLED_TEXT_PAINT);
 	}
 	
 	/**
@@ -198,7 +200,7 @@ public interface TComponentUIUtil{
 	 * @return The {@link SizablePaint} to be used for disabled foreground on the Component from the Look &amp; Feel
 	 */
 	default SizablePaint getDisabledForegroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + "disabledForeground.paint");
+		return (SizablePaint) UIManager.get(getPropertyPrefixString() + DISABLED_FOREGROUND_PAINT);
 	}
 	
 	/**

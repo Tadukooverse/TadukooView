@@ -2,6 +2,7 @@ package com.github.tadukoo.view.lookandfeel.componentui;
 
 import com.github.tadukoo.view.components.interfaces.TLabel;
 import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
+import com.github.tadukoo.view.uimanager.LabelThemeProperties;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -18,7 +19,8 @@ import java.awt.Label;
  * provide customizations for the Labels beyond those present in existing Look &amp; Feels.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
+ * @since Alpha v.0.3
  */
 public class TadukooLabelUI extends BasicLabelUI implements TComponentUIUtil{
 	
@@ -35,7 +37,7 @@ public class TadukooLabelUI extends BasicLabelUI implements TComponentUIUtil{
 	/** {@inheritDoc} */
 	@Override
 	public String getPropertyPrefixString(){
-		return "Label.";
+		return LabelThemeProperties.PROPERTY_PREFIX;
 	}
 	
 	/*

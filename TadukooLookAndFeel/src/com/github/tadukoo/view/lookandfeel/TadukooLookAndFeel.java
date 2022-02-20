@@ -1,6 +1,10 @@
 package com.github.tadukoo.view.lookandfeel;
 
 import com.github.tadukoo.view.paint.PaintUIResource;
+import com.github.tadukoo.view.uimanager.ButtonThemeProperties;
+import com.github.tadukoo.view.uimanager.LabelThemeProperties;
+import com.github.tadukoo.view.uimanager.TitledBorderThemeProperties;
+import com.github.tadukoo.view.uimanager.UIClassProperties;
 
 import javax.swing.UIDefaults;
 import javax.swing.plaf.metal.MetalLookAndFeel;
@@ -14,10 +18,11 @@ import java.io.IOException;
  * that's not custom enough for you.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
-public class TadukooLookAndFeel extends MetalLookAndFeel{
+public class TadukooLookAndFeel extends MetalLookAndFeel
+		implements UIClassProperties, ButtonThemeProperties, LabelThemeProperties, TitledBorderThemeProperties{
 	/** The {@link TadukooTheme theme} to use in the Look &amp; Feel */
 	private final TadukooTheme theme;
 	
@@ -101,8 +106,8 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 		
 		// Setup Array of the Class Defaults
 		Object[] defaults = new Object[]{
-				"ButtonUI", theme.getButtonUI(),
-				"LabelUI", theme.getLabelUI()
+				BUTTON_UI, theme.getButtonUI(),
+				LABEL_UI, theme.getLabelUI()
 		};
 		table.putDefaults(defaults);
 		
@@ -114,7 +119,7 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 	}
 	
 	/**
-	 * Populates {@code table} with system colors. Currently just adds the custom systemColorDefaults from
+	 * Populates {@code table} with system colors. Currently, just adds the custom systemColorDefaults from
 	 * {@link TadukooTheme}. In the future, there will be more settings on the theme for here.
 	 *
 	 * @param table the {@code UIDefaults} object the values are added to
@@ -157,37 +162,37 @@ public class TadukooLookAndFeel extends MetalLookAndFeel{
 		// Setup Array of the Defaults to add
 		Object[] defaults = new Object[]{
 				// Button Customizations
-				"Button.foreground", buttonForegroundPaint.getColorUIResource(),
-				"Button.foreground.paint", buttonForegroundPaint,
-				"Button.background", buttonBackgroundPaint.getColorUIResource(),
-				"Button.gradient", buttonBackgroundPaint.getMetalGradientList(),
-				"Button.background.paint", buttonBackgroundPaint,
-				"Button.focus", buttonFocusPaint.getColorUIResource(),
-				"Button.focus.paint", buttonFocusPaint,
-				"Button.select", buttonSelectPaint.getColorUIResource(),
-				"Button.select.paint", buttonSelectPaint,
-				"Button.disabledText", buttonDisabledTextPaint.getColorUIResource(),
-				"Button.disabledText.paint", buttonDisabledTextPaint,
-				"Button.font", theme.getButtonFont(),
-				"Button.border", theme.getButtonBorder(),
-				"Button.shape", theme.getButtonShapeInfo(),
+				BUTTON_FOREGROUND_COLOR, buttonForegroundPaint.getColorUIResource(),
+				BUTTON_FOREGROUND_PAINT, buttonForegroundPaint,
+				BUTTON_BACKGROUND_COLOR, buttonBackgroundPaint.getColorUIResource(),
+				BUTTON_GRADIENT, buttonBackgroundPaint.getMetalGradientList(),
+				BUTTON_BACKGROUND_PAINT, buttonBackgroundPaint,
+				BUTTON_FOCUS_COLOR, buttonFocusPaint.getColorUIResource(),
+				BUTTON_FOCUS_PAINT, buttonFocusPaint,
+				BUTTON_SELECT_COLOR, buttonSelectPaint.getColorUIResource(),
+				BUTTON_SELECT_PAINT, buttonSelectPaint,
+				BUTTON_DISABLED_TEXT_COLOR, buttonDisabledTextPaint.getColorUIResource(),
+				BUTTON_DISABLED_TEXT_PAINT, buttonDisabledTextPaint,
+				BUTTON_FONT, theme.getButtonFont(),
+				BUTTON_BORDER, theme.getButtonBorder(),
+				BUTTON_SHAPE, theme.getButtonShapeInfo(),
 				
 				// Label Customizations
-				"Label.foreground", labelForegroundPaint.getColorUIResource(),
-				"Label.foreground.paint", labelForegroundPaint,
-				"Label.background", labelBackgroundPaint.getColorUIResource(),
-				"Label.background.paint", labelBackgroundPaint,
-				"Label.disabledForeground", labelDisabledForegroundPaint.getColorUIResource(),
-				"Label.disabledForeground.paint", labelDisabledForegroundPaint,
-				"Label.font", theme.getLabelFont(),
-				"Label.border", theme.getLabelBorder(),
-				"Label.shape", theme.getLabelShapeInfo(),
+				LABEL_FOREGROUND_COLOR, labelForegroundPaint.getColorUIResource(),
+				LABEL_FOREGROUND_PAINT, labelForegroundPaint,
+				LABEL_BACKGROUND_COLOR, labelBackgroundPaint.getColorUIResource(),
+				LABEL_BACKGROUND_COLOR, labelBackgroundPaint,
+				LABEL_DISABLED_FOREGROUND_COLOR, labelDisabledForegroundPaint.getColorUIResource(),
+				LABEL_DISABLED_FOREGROUND_PAINT, labelDisabledForegroundPaint,
+				LABEL_FONT, theme.getLabelFont(),
+				LABEL_BORDER, theme.getLabelBorder(),
+				LABEL_SHAPE, theme.getLabelShapeInfo(),
 				
 				// Titled Border Customizations
-				"TitledBorder.border", theme.getTitledBorderBorder(),
-				"TitledBorder.font", theme.getTitledBorderFont(),
-				"TitledBorder.titleColor", theme.getTitledBorderColor(),
-				"TitledBorder.position", theme.getTitledBorderPosition()
+				TITLED_BORDER_BORDER, theme.getTitledBorderBorder(),
+				TITLED_BORDER_FONT, theme.getTitledBorderFont(),
+				TITLED_BORDER_TITLE_COLOR, theme.getTitledBorderColor(),
+				TITLED_BORDER_POSITION, theme.getTitledBorderPosition()
 		};
 		table.putDefaults(defaults);
 		

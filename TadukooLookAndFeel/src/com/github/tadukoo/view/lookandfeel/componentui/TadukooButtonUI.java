@@ -2,6 +2,7 @@ package com.github.tadukoo.view.lookandfeel.componentui;
 
 import com.github.tadukoo.view.components.interfaces.TButton;
 import com.github.tadukoo.view.lookandfeel.TadukooLookAndFeel;
+import com.github.tadukoo.view.uimanager.ButtonThemeProperties;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
@@ -20,7 +21,7 @@ import java.awt.Rectangle;
  * provide customizations for the Buttons beyond those present in existing Look &amp; Feels.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.1
  */
 public class TadukooButtonUI extends MetalButtonUI implements TComponentUIUtil{
@@ -38,7 +39,7 @@ public class TadukooButtonUI extends MetalButtonUI implements TComponentUIUtil{
 	/** {@inheritDoc} */
 	@Override
 	public String getPropertyPrefixString(){
-		return getPropertyPrefix();
+		return ButtonThemeProperties.PROPERTY_PREFIX;
 	}
 	
 	/*
