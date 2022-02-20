@@ -181,7 +181,7 @@ public class TadukooLookAndFeel extends MetalLookAndFeel
 				LABEL_FOREGROUND_COLOR, labelForegroundPaint.getColorUIResource(),
 				LABEL_FOREGROUND_PAINT, labelForegroundPaint,
 				LABEL_BACKGROUND_COLOR, labelBackgroundPaint.getColorUIResource(),
-				LABEL_BACKGROUND_COLOR, labelBackgroundPaint,
+				LABEL_BACKGROUND_PAINT, labelBackgroundPaint,
 				LABEL_DISABLED_FOREGROUND_COLOR, labelDisabledForegroundPaint.getColorUIResource(),
 				LABEL_DISABLED_FOREGROUND_PAINT, labelDisabledForegroundPaint,
 				LABEL_FONT, theme.getLabelFont(),

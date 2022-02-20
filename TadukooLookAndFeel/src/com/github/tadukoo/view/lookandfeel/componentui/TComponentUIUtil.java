@@ -9,9 +9,8 @@ import com.github.tadukoo.view.components.interfaces.paint.HasSizablePaints;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 import com.github.tadukoo.view.components.interfaces.Shaped;
-import com.github.tadukoo.view.uimanager.ThemeProperties;
+import com.github.tadukoo.view.uimanager.UIManagerUtil;
 
-import javax.swing.UIManager;
 import javax.swing.plaf.UIResource;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -29,7 +28,7 @@ import java.awt.Paint;
  * @version Alpha v.0.4
  * @since Alpha v.0.3
  */
-public interface TComponentUIUtil extends ThemeProperties{
+public interface TComponentUIUtil{
 	
 	/**
 	 * Retrieves the Property Prefix string present on the Component UI class.
@@ -46,13 +45,6 @@ public interface TComponentUIUtil extends ThemeProperties{
 	 */
 	
 	/**
-	 * @return The {@link SizablePaint} to be used for the foreground from the Look &amp; Feel
-	 */
-	default SizablePaint getForegroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + FOREGROUND_PAINT);
-	}
-	
-	/**
 	 * @param c A {@link Component} which may have the foreground paint on it
 	 * @param size The {@link Dimension}s of the surface to be painted
 	 * @return The sized {@link Paint} for the foreground - the {@link SizablePaint} used may come from the
@@ -65,17 +57,10 @@ public interface TComponentUIUtil extends ThemeProperties{
 			paint = ((HasSizablePaints) c).getForegroundPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			paint = getForegroundPaint();
+			paint = UIManagerUtil.getForegroundPaint(getPropertyPrefixString());
 		}
 		// Return the paint based on the given size
 		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for the background from the Look &amp; Feel
-	 */
-	default SizablePaint getBackgroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + BACKGROUND_PAINT);
 	}
 	
 	/**
@@ -91,17 +76,10 @@ public interface TComponentUIUtil extends ThemeProperties{
 			paint = ((HasSizablePaints) c).getBackgroundPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			paint = getBackgroundPaint();
+			paint = UIManagerUtil.getBackgroundPaint(getPropertyPrefixString());
 		}
 		// Return the paint based on the given size
 		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link ShapeInfo} to be used from the Look &amp; Feel
-	 */
-	default ShapeInfo getShape(){
-		return (ShapeInfo) UIManager.get(getPropertyPrefixString() + SHAPE);
 	}
 	
 	/**
@@ -114,15 +92,8 @@ public interface TComponentUIUtil extends ThemeProperties{
 			return ((Shaped) c).getShapeInfo();
 		}else{
 			// Default to the Look & Feel's setting
-			return getShape();
+			return UIManagerUtil.getDefaultShapeInfo(getPropertyPrefixString());
 		}
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for when the Component is selected from the Look &amp; Feel
-	 */
-	default SizablePaint getSelectPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + SELECT_PAINT);
 	}
 	
 	/**
@@ -138,17 +109,10 @@ public interface TComponentUIUtil extends ThemeProperties{
 			paint = ((HasSelectAndFocusPaints) c).getSelectPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			paint = getSelectPaint();
+			paint = UIManagerUtil.getSelectPaint(getPropertyPrefixString());
 		}
 		// Return the paint based on the given size
 		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for when the Component is focused from the Look &amp; Feel
-	 */
-	default SizablePaint getFocusPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + FOCUS_PAINT);
 	}
 	
 	/**
@@ -164,18 +128,12 @@ public interface TComponentUIUtil extends ThemeProperties{
 			paint = ((HasSelectAndFocusPaints) c).getFocusPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			paint = getFocusPaint();
+			paint = UIManagerUtil.getFocusPaint(getPropertyPrefixString());
 		}
 		// Return the paint based on the given size
 		return paint.getPaint(size);
 	}
 	
-	/**
-	 * @return The {@link SizablePaint} to be used for disabled text on the Component from the Look &amp; Feel
-	 */
-	default SizablePaint getDisabledTextPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + DISABLED_TEXT_PAINT);
-	}
 	
 	/**
 	 * @param c A {@link Component} which may have the disabled text paint on it
@@ -190,17 +148,10 @@ public interface TComponentUIUtil extends ThemeProperties{
 			paint = ((HasDisabledTextPaint) c).getDisabledTextPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			paint = getDisabledTextPaint();
+			paint = UIManagerUtil.getDisabledTextPaint(getPropertyPrefixString());
 		}
 		// Return the paint based on the given size
 		return paint.getPaint(size);
-	}
-	
-	/**
-	 * @return The {@link SizablePaint} to be used for disabled foreground on the Component from the Look &amp; Feel
-	 */
-	default SizablePaint getDisabledForegroundPaint(){
-		return (SizablePaint) UIManager.get(getPropertyPrefixString() + DISABLED_FOREGROUND_PAINT);
 	}
 	
 	/**
@@ -216,7 +167,7 @@ public interface TComponentUIUtil extends ThemeProperties{
 			paint = ((HasDisabledForegroundPaint) c).getDisabledForegroundPaint();
 		}else{
 			// Default to the Look & Feel's setting
-			paint = getDisabledForegroundPaint();
+			paint = UIManagerUtil.getDisabledForegroundPaint(getPropertyPrefixString());
 		}
 		// Return the paint based on the given size
 		return paint.getPaint(size);
@@ -232,8 +183,8 @@ public interface TComponentUIUtil extends ThemeProperties{
 	 * @param c The {@link Component} that {@link HasSizablePaints} and is to have paints installed
 	 */
 	default void installHasSizablePaints(HasSizablePaints c){
-		c.setForegroundPaint(getForegroundPaint());
-		c.setBackgroundPaint(getBackgroundPaint());
+		c.setForegroundPaint(UIManagerUtil.getForegroundPaint(getPropertyPrefixString()));
+		c.setBackgroundPaint(UIManagerUtil.getBackgroundPaint(getPropertyPrefixString()));
 	}
 	
 	/**
@@ -242,7 +193,7 @@ public interface TComponentUIUtil extends ThemeProperties{
 	 * @param c The {@link Component} that is {@link Shaped} and is to have shape info installed
 	 */
 	default void installShaped(Shaped c){
-		c.setShapeInfo(getShape());
+		c.setShapeInfo(UIManagerUtil.getDefaultShapeInfo(getPropertyPrefixString()));
 	}
 	
 	/**
@@ -287,8 +238,8 @@ public interface TComponentUIUtil extends ThemeProperties{
 	 * @param c The {@link Component} that {@link HasSelectAndFocusPaints} and is to have paints installed
 	 */
 	default void installHasSelectAndFocusPaints(HasSelectAndFocusPaints c){
-		c.setSelectPaint(getSelectPaint());
-		c.setFocusPaint(getFocusPaint());
+		c.setSelectPaint(UIManagerUtil.getSelectPaint(getPropertyPrefixString()));
+		c.setFocusPaint(UIManagerUtil.getFocusPaint(getPropertyPrefixString()));
 	}
 	
 	/**
@@ -309,7 +260,7 @@ public interface TComponentUIUtil extends ThemeProperties{
 	 * @param c The {@link Component} that {@link HasDisabledTextPaint} and is to have the paint installed
 	 */
 	default void installHasDisabledTextPaint(HasDisabledTextPaint c){
-		c.setDisabledTextPaint(getDisabledTextPaint());
+		c.setDisabledTextPaint(UIManagerUtil.getDisabledTextPaint(getPropertyPrefixString()));
 	}
 	
 	/**
@@ -330,7 +281,7 @@ public interface TComponentUIUtil extends ThemeProperties{
 	 * @param c The {@link Component} that {@link HasDisabledForegroundPaint} and is to have the paint installed
 	 */
 	default void installHasDisabledForegroundPaint(HasDisabledForegroundPaint c){
-		c.setDisabledForegroundPaint(getDisabledForegroundPaint());
+		c.setDisabledForegroundPaint(UIManagerUtil.getDisabledForegroundPaint(getPropertyPrefixString()));
 	}
 	
 	/**
