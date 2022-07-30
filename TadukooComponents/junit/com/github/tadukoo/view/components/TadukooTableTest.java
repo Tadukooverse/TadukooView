@@ -3,6 +3,7 @@ package com.github.tadukoo.view.components;
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.pojo.AbstractOrderedMappedPojo;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
+import com.github.tadukoo.view.constants.SizingMethod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class TadukooTableTest{
 	private TadukooTable table = TadukooTable.builder().build();
@@ -42,17 +44,132 @@ public class TadukooTableTest{
 	}
 	
 	@Test
-	public void testDefaults(){
+	public void testBuilderDefaultKeyOrder(){
 		assertNull(table.getKeyOrder());
+	}
+	
+	@Test
+	public void testBuilderDefaultData(){
 		assertEquals(0, table.getTableModel().getColumnCount());
 		assertEquals(0, table.getTable().getRowCount());
 	}
 	
 	@Test
-	public void testSettings(){
-		table = TadukooTable.builder().keyOrder(keyOrder).data(data).build();
+	public void testBuilderDefaultHorizontalSizingMethod(){
+		assertEquals(table.getHorizontalSizingMethod(), SizingMethod.DEFAULT_JAVA);
+	}
+	
+	@Test
+	public void testBuilderDefaultVerticalSizingMethod(){
+		assertEquals(table.getVerticalSizingMethod(), SizingMethod.DEFAULT_JAVA);
+	}
+	
+	@Test
+	public void testBuilderDefaultBuilderWidth(){
+		assertEquals(table.getBuilderWidth(), -1);
+	}
+	
+	@Test
+	public void testBuilderDefaultBuilderHeight(){
+		assertEquals(table.getBuilderHeight(), -1);
+	}
+	
+	@Test
+	public void testBuilderSetKeyOrder(){
+		table = TadukooTable.builder().keyOrder(keyOrder).build();
 		assertEquals(keyOrder, table.getKeyOrder());
+	}
+	
+	@Test
+	public void testBuilderSetData(){
+		table = TadukooTable.builder().data(data).build();
 		assertEquals(data.size(), table.getTable().getRowCount());
+	}
+	
+	@Test
+	public void testBuilderSetOverallSizingMethod(){
+		table = TadukooTable.builder().overallSizingMethod(SizingMethod.BY_DATA).build();
+		assertEquals(table.getHorizontalSizingMethod(), SizingMethod.BY_DATA);
+		assertEquals(table.getVerticalSizingMethod(), SizingMethod.BY_DATA);
+	}
+	
+	@Test
+	public void testBuilderSetHorizontalSizingMethod(){
+		table = TadukooTable.builder().horizontalSizingMethod(SizingMethod.BY_DATA).build();
+		assertEquals(table.getHorizontalSizingMethod(), SizingMethod.BY_DATA);
+		assertEquals(table.getVerticalSizingMethod(), SizingMethod.DEFAULT_JAVA);
+	}
+	
+	@Test
+	public void testBuilderSetVerticalSizingMethod(){
+		table = TadukooTable.builder().verticalSizingMethod(SizingMethod.BY_DATA).build();
+		assertEquals(table.getVerticalSizingMethod(), SizingMethod.BY_DATA);
+		assertEquals(table.getHorizontalSizingMethod(), SizingMethod.DEFAULT_JAVA);
+	}
+	
+	@Test
+	public void testBuilderSetWidth(){
+		table = TadukooTable.builder().width(42).build();
+		assertEquals(42, table.getBuilderWidth());
+	}
+	
+	@Test
+	public void testBuilderSetHeight(){
+		table = TadukooTable.builder().height(42).build();
+		assertEquals(42, table.getBuilderHeight());
+	}
+	
+	@Test
+	public void testBuilderErrorWidth(){
+		try{
+			table = TadukooTable.builder().horizontalSizingMethod(SizingMethod.SPECIFY_DATA).build();
+			fail();
+		}catch(IllegalArgumentException e){
+			assertEquals("Encountered errors building a TadukooTable: \n" +
+					"When using 'specify data' or 'specify exact' for horizontal sizing, you must specify width!",
+					e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testBuilderErrorHeight(){
+		try{
+			table = TadukooTable.builder().verticalSizingMethod(SizingMethod.SPECIFY_DATA).build();
+			fail();
+		}catch(IllegalArgumentException e){
+			assertEquals("Encountered errors building a TadukooTable: \n" +
+							"When using 'specify data' or 'specify exact' for vertical sizing, you must specify height!",
+					e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testBuilderErrorAll(){
+		try{
+			table = TadukooTable.builder()
+					.horizontalSizingMethod(SizingMethod.SPECIFY_EXACT)
+					.verticalSizingMethod(SizingMethod.SPECIFY_EXACT)
+					.build();
+			fail();
+		}catch(IllegalArgumentException e){
+			assertEquals("""
+							Encountered errors building a TadukooTable:\s
+							When using 'specify data' or 'specify exact' for horizontal sizing, you must specify width!
+							When using 'specify data' or 'specify exact' for vertical sizing, you must specify height!""",
+					e.getMessage());
+		}
+	}
+	
+	@Test
+	public void testDefaultWidth(){
+		table = TadukooTable.builder().horizontalSizingMethod(SizingMethod.DEFAULT_JAVA).build();
+		assertEquals(453, table.getTable().getPreferredScrollableViewportSize().getWidth());
+	}
+	
+	@Test
+	public void testDefaultHeight(){
+		table = TadukooTable.builder().verticalSizingMethod(SizingMethod.DEFAULT_JAVA).build();
+		assertEquals(403, table.getTable().getPreferredScrollableViewportSize().getHeight());
 	}
 	
 	@Test

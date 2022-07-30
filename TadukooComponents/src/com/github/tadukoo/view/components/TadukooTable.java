@@ -1,11 +1,15 @@
 package com.github.tadukoo.view.components;
 
+import com.github.tadukoo.util.ListUtil;
+import com.github.tadukoo.util.StringUtil;
 import com.github.tadukoo.util.pojo.AbstractOrderedMappedPojo;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
+import com.github.tadukoo.view.constants.SizingMethod;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +44,28 @@ public class TadukooTable extends JScrollPane{
 	 *         <td>The data to be put in the table</td>
 	 *         <td>Defaults to null</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>horizontalSizingMethod</td>
+	 *         <td>The {@link SizingMethod} to use horizontally for the table</td>
+	 *         <td>Defaults to {@link SizingMethod#DEFAULT_JAVA}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>verticalSizingMethod</td>
+	 *         <td>The {@link SizingMethod} to use vertically for the table</td>
+	 *         <td>Defaults to {@link SizingMethod#DEFAULT_JAVA}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>width</td>
+	 *         <td>The width to use for certain {@link SizingMethod horizontalSizingMethod} options</td>
+	 *         <td>Required if using {@link SizingMethod#SPECIFY_DATA} or {@link SizingMethod#SPECIFY_EXACT}
+	 *         for {@code horizontalSizingMethod}</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>height</td>
+	 *         <td>The height to use for certain {@link SizingMethod verticalSizingMethod} options</td>
+	 *         <td>Required if using {@link SizingMethod#SPECIFY_DATA} or {@link SizingMethod#SPECIFY_EXACT}
+	 *         for {@code verticalSizingMethod}</td>
+	 *     </tr>
 	 * </table>
 	 */
 	public static class TadukooTableBuilder{
@@ -47,6 +73,14 @@ public class TadukooTable extends JScrollPane{
 		private List<String> keyOrder = null;
 		/** The data to be put in the table */
 		private List<OrderedMappedPojo> data = null;
+		/** The {@link SizingMethod} to use horizontally for the table */
+		private SizingMethod horizontalSizingMethod = SizingMethod.DEFAULT_JAVA;
+		/** The {@link SizingMethod} to use vertically for the table */
+		private SizingMethod verticalSizingMethod = SizingMethod.DEFAULT_JAVA;
+		/** The width to use for certain {@link SizingMethod horizontalSizingMethod} options */
+		private int width = -1;
+		/** The height to use for certain {@link SizingMethod verticalSizingMethod} options */
+		private int height = -1;
 		
 		/** Can't create outside of Tadukoo Table */
 		private TadukooTableBuilder(){ }
@@ -70,28 +104,144 @@ public class TadukooTable extends JScrollPane{
 		}
 		
 		/**
-		 * Builds the {@link TadukooTable}
+		 * @param overallSizingMethod The {@link SizingMethod} to use horizontally and vertically for the table
+		 * @return this, to continue building
+		 */
+		public TadukooTableBuilder overallSizingMethod(SizingMethod overallSizingMethod){
+			this.horizontalSizingMethod = overallSizingMethod;
+			this.verticalSizingMethod = overallSizingMethod;
+			return this;
+		}
+		
+		/**
+		 * @param horizontalSizingMethod The {@link SizingMethod} to use horizontally for the table
+		 * @return this, to continue building
+		 */
+		public TadukooTableBuilder horizontalSizingMethod(SizingMethod horizontalSizingMethod){
+			this.horizontalSizingMethod = horizontalSizingMethod;
+			return this;
+		}
+		
+		/**
+		 * @param verticalSizingMethod The {@link SizingMethod} to use vertically for the table
+		 * @return this, to continue building
+		 */
+		public TadukooTableBuilder verticalSizingMethod(SizingMethod verticalSizingMethod){
+			this.verticalSizingMethod = verticalSizingMethod;
+			return this;
+		}
+		
+		/**
+		 * @param width The width to use for certain {@link SizingMethod horizontalSizingMethod} options
+		 * @return this, to continue building
+		 */
+		public TadukooTableBuilder width(int width){
+			this.width = width;
+			return this;
+		}
+		
+		/**
+		 * @param height The height to use for certain {@link SizingMethod verticalSizingMethod} options
+		 * @return this, to continue building
+		 */
+		public TadukooTableBuilder height(int height){
+			this.height = height;
+			return this;
+		}
+		
+		/**
+		 * Checks for any errors in the set parameters and will throw an {@link IllegalArgumentException} if any
+		 * errors are found
+		 */
+		private void checkForErrors(){
+			List<String> errors = new ArrayList<>();
+			
+			// Check horizontal sizing method with width
+			if(width == -1 && (horizontalSizingMethod == SizingMethod.SPECIFY_DATA ||
+					horizontalSizingMethod == SizingMethod.SPECIFY_EXACT)){
+				errors.add("When using 'specify data' or 'specify exact' for horizontal sizing, you must specify width!");
+			}
+			
+			// Check vertical sizing method with height
+			if(height == -1 && (verticalSizingMethod == SizingMethod.SPECIFY_DATA ||
+					verticalSizingMethod == SizingMethod.SPECIFY_EXACT)){
+				errors.add("When using 'specify data' or 'specify exact' for vertical sizing, you must specify height!");
+			}
+			
+			// Report any errors
+			if(!errors.isEmpty()){
+				throw new IllegalArgumentException("Encountered errors building a TadukooTable: \n" +
+						StringUtil.buildStringWithNewLines(errors));
+			}
+		}
+		
+		/**
+		 * Builds a {@link TadukooTable} using the set parameters after checking for any errors
 		 *
 		 * @return A newly created {@link TadukooTable}
 		 */
 		public TadukooTable build(){
-			return new TadukooTable(keyOrder, data);
+			checkForErrors();
+			
+			return new TadukooTable(keyOrder, data, horizontalSizingMethod, verticalSizingMethod, width, height);
 		}
 	}
 	
 	/** The order of the keys in the table - can be null to use the pojos in the data */
 	private final List<String> keyOrder;
+	/** The {@link SizingMethod} to use horizontally for the table */
+	private final SizingMethod horizontalSizingMethod;
+	/** The {@link SizingMethod} to use vertically for the table */
+	private final SizingMethod verticalSizingMethod;
+	/** The width to use for certain {@link SizingMethod horizontalSizingMethod} options */
+	private final int builderWidth;
+	/** The height to use for certain {@link SizingMethod verticalSizingMethod} options */
+	private final int builderHeight;
 	
 	/**
 	 * Creates a new Tadukoo Table using the given parameters
 	 *
 	 * @param keyOrder The order of the keys in the table - can be null to use the pojos in the data
 	 * @param data The data to be put in the table
+	 * @param horizontalSizingMethod How to size the table horizontally
+	 * @param verticalSizingMethod How to size the table vertically
+	 * @param width The width to use for certain {@code horizontalSizingMethod} options
+	 * @param height The height to use for certain {@code verticalSizingMethod} options
 	 */
-	private TadukooTable(List<String> keyOrder, List<OrderedMappedPojo> data){
+	private TadukooTable(
+			List<String> keyOrder, List<OrderedMappedPojo> data,
+			SizingMethod horizontalSizingMethod, SizingMethod verticalSizingMethod,
+			int width, int height){
 		super(new JTable(new DefaultTableModel()));
 		this.keyOrder = keyOrder;
+		this.horizontalSizingMethod = horizontalSizingMethod;
+		this.verticalSizingMethod = verticalSizingMethod;
+		this.builderWidth = width;
+		this.builderHeight = height;
 		setTableData(data);
+		
+		// Resize the table based on the sizing methods
+		// Check if we have data and grab the table
+		boolean haveData = ListUtil.isNotBlank(data);
+		JTable table = getTable();
+		
+		// TODO: If using DEFAULT_THEME sizing method, grab the right method from the theme if possible
+		
+		// Determine dimensions by sizing method
+		int realWidth = switch(horizontalSizingMethod){
+			case DEFAULT_JAVA, DEFAULT_THEME -> getPreferredSize().width;
+			case BY_DATA -> table.getPreferredSize().width;
+			case SPECIFY_DATA -> table.getPreferredSize().width*width;
+			case SPECIFY_EXACT -> width;
+		};
+		int realHeight = switch(verticalSizingMethod){
+			case DEFAULT_JAVA, DEFAULT_THEME -> getPreferredSize().height;
+			case BY_DATA -> haveData?table.getRowHeight()*data.size():this.getPreferredSize().height;
+			case SPECIFY_DATA -> table.getRowHeight()*height;
+			case SPECIFY_EXACT -> height;
+		};
+		// Actually set the dimensions
+		table.setPreferredScrollableViewportSize(new Dimension(realWidth, realHeight));
 	}
 	
 	/**
@@ -106,6 +256,34 @@ public class TadukooTable extends JScrollPane{
 	 */
 	public List<String> getKeyOrder(){
 		return keyOrder;
+	}
+	
+	/**
+	 * @return The {@link SizingMethod} to use horizontally for the table
+	 */
+	public SizingMethod getHorizontalSizingMethod(){
+		return horizontalSizingMethod;
+	}
+	
+	/**
+	 * @return The {@link SizingMethod} to use vertically for the table
+	 */
+	public SizingMethod getVerticalSizingMethod(){
+		return verticalSizingMethod;
+	}
+	
+	/**
+	 * @return The width to use for certain {@link SizingMethod horizontalSizingMethod} options
+	 */
+	public int getBuilderWidth(){
+		return builderWidth;
+	}
+	
+	/**
+	 * @return The height to use for certain {@link SizingMethod verticalSizingMethod} options
+	 */
+	public int getBuilderHeight(){
+		return builderHeight;
 	}
 	
 	/**
