@@ -12,19 +12,22 @@ import com.github.tadukoo.view.shapes.ShapeInfo;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Table Form Field is a {@link FormField} used to show a {@link List} of {@link OrderedMappedPojo}s in a form
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	
 	/**
-	 * Builder to be used to create a {@link TableFormField}. It has the following parameters:
+	 * Builder to be used to create a {@link TableFormField}. It has the following parameters from the default
+	 * {@link FormField} builder:
 	 *
 	 * <table>
 	 *     <caption>TableFormField Parameters</caption>
@@ -133,14 +136,30 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	 *         {@link #logger}, {@link #graphEnv}, and {@link #fontFolder}</td>
 	 *     </tr>
 	 * </table>
+	 * This builder also provides methods and parameters specific to a {@link TableFormField}:
+	 * <table>
+	 *     <caption>Table Form Field Specific Parameters</caption>
+	 *     <tr>
+	 *         <td>Field</td>
+	 *         <td>Description</td>
+	 *         <td>Default Value</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>columnDefs</td>
+	 *         <td>The column definition components of the table</td>
+	 *         <td>An empty Map</td>
+	 *     </tr>
+	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2
 	 */
 	public static class TableFormFieldBuilder extends FormFieldBuilder<List<OrderedMappedPojo>>{
+		/** The column definition components of the table */
+		private Map<String, JComponent> columnDefs = new HashMap<>();
 		
-		/** Not allowed to create a TableFormFieldBuilder outside of TableFormField */
+		/** Not allowed to create a TableFormFieldBuilder outside {@link TableFormField} */
 		private TableFormFieldBuilder(){
 			super();
 			labelType = LabelType.NONE;
@@ -281,6 +300,40 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 			return this;
 		}
 		
+		/**
+		 * @param columnDefs The Map of column definition components by field name
+		 * @return this, to continue building
+		 */
+		public TableFormFieldBuilder columnDefs(Map<String, JComponent> columnDefs){
+			this.columnDefs = columnDefs;
+			return this;
+		}
+		
+		/**
+		 * Adds an entry to the Map of column definition components by field name
+		 *
+		 * @param columnName The name of the column (field)
+		 * @param component The column definition component
+		 * @return this, to continue building
+		 */
+		public TableFormFieldBuilder columnDef(String columnName, JComponent component){
+			this.columnDefs.put(columnName, component);
+			return this;
+		}
+		
+		/**
+		 * Adds an entry to the Map of column definition components by field name
+		 *
+		 * @param columnName The name of the column (field)
+		 * @param formField The {@link FormField} to use as the column definition component
+		 * @return this, to continue building
+		 * @throws Throwable If anything goes wrong in grabbing the component off the {@link FormField}
+		 */
+		public TableFormFieldBuilder columnDef(String columnName, FormField<?> formField) throws Throwable{
+			this.columnDefs.put(columnName, formField.getComponent());
+			return this;
+		}
+		
 		/** {@inheritDoc} */
 		@Override
 		public TableFormField build(){
@@ -290,9 +343,13 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 					labelShape, labelBorder,
 					rowPos, colPos, rowSpan, colSpan,
 					logFontResourceLoaderWarnings, logger, graphEnv,
-					fontFolder, fontResourceLoader);
+					fontFolder, fontResourceLoader,
+					columnDefs);
 		}
 	}
+	
+	/** The column definition components of the table */
+	private final Map<String, JComponent> columnDefs;
 	
 	/**
 	 * Creates a new TableFormField with the given parameters
@@ -320,6 +377,7 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	 * @param fontFolder The path to the fonts folder to find font files in if needed in the FontResourceLoader
 	 *                   - can be ignored if you specify your own FontResourceLoader
 	 * @param fontResourceLoader The {@link FontResourceLoader} to use for fonts on this field
+	 * @param columnDefs The column definition components of the table
 	 */
 	private TableFormField(String key, List<OrderedMappedPojo> defaultValue,
 	                       LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
@@ -327,7 +385,8 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	                       ShapeInfo labelShape, Border labelBorder,
 	                       int rowPos, int colPos, int rowSpan, int colSpan,
 	                       boolean logFontResourceLoaderWarnings, EasyLogger logger, GraphicsEnvironment graphEnv,
-	                       String fontFolder, FontResourceLoader fontResourceLoader){
+	                       String fontFolder, FontResourceLoader fontResourceLoader,
+	                       Map<String, JComponent> columnDefs){
 		super(FieldType.TABLE, key, defaultValue,
 				labelType, labelForegroundPaint, labelBackgroundPaint,
 				labelFontFamily, labelFontStyle, labelFontSize,
@@ -335,6 +394,7 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 				rowPos, colPos, rowSpan, colSpan,
 				logFontResourceLoaderWarnings, logger, graphEnv,
 				fontFolder, fontResourceLoader);
+		this.columnDefs = columnDefs;
 	}
 	
 	/**
@@ -344,11 +404,19 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 		return new TableFormFieldBuilder();
 	}
 	
+	/**
+	 * @return The column definition components of the table
+	 */
+	public Map<String, JComponent> getColumnDefs(){
+		return columnDefs;
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	public JComponent getComponent(){
 		return TadukooTable.builder()
 				.data(getDefaultValue())
+				.columnDefs(columnDefs)
 				.build();
 	}
 	

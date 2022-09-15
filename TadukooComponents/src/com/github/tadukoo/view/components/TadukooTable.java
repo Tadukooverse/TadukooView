@@ -2,16 +2,23 @@ package com.github.tadukoo.view.components;
 
 import com.github.tadukoo.util.ListUtil;
 import com.github.tadukoo.util.StringUtil;
+import com.github.tadukoo.util.map.MapUtil;
 import com.github.tadukoo.util.pojo.AbstractOrderedMappedPojo;
 import com.github.tadukoo.util.pojo.OrderedMappedPojo;
 import com.github.tadukoo.view.constants.SizingMethod;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Tadukoo Table is an extension of {@link JScrollPane} that contains a {@link JTable}. It provides methods for
@@ -66,6 +73,11 @@ public class TadukooTable extends JScrollPane{
 	 *         <td>Required if using {@link SizingMethod#SPECIFY_DATA} or {@link SizingMethod#SPECIFY_EXACT}
 	 *         for {@code verticalSizingMethod}</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>columnDefs</td>
+	 *         <td>The {@link JComponent components} to use for columns</td>
+	 *         <td>Defaults to an empty Map</td>
+	 *     </tr>
 	 * </table>
 	 */
 	public static class TadukooTableBuilder{
@@ -81,6 +93,8 @@ public class TadukooTable extends JScrollPane{
 		private int width = -1;
 		/** The height to use for certain {@link SizingMethod verticalSizingMethod} options */
 		private int height = -1;
+		/** The {@link JComponent components} to use for columns */
+		private Map<String, JComponent> columnDefs = new HashMap<>();
 		
 		/** Can't create outside of Tadukoo Table */
 		private TadukooTableBuilder(){ }
@@ -149,6 +163,11 @@ public class TadukooTable extends JScrollPane{
 			return this;
 		}
 		
+		public TadukooTableBuilder columnDefs(Map<String, JComponent> columnDefs){
+			this.columnDefs = columnDefs;
+			return this;
+		}
+		
 		/**
 		 * Checks for any errors in the set parameters and will throw an {@link IllegalArgumentException} if any
 		 * errors are found
@@ -183,7 +202,7 @@ public class TadukooTable extends JScrollPane{
 		public TadukooTable build(){
 			checkForErrors();
 			
-			return new TadukooTable(keyOrder, data, horizontalSizingMethod, verticalSizingMethod, width, height);
+			return new TadukooTable(keyOrder, data, horizontalSizingMethod, verticalSizingMethod, width, height, columnDefs);
 		}
 	}
 	
@@ -197,6 +216,8 @@ public class TadukooTable extends JScrollPane{
 	private final int builderWidth;
 	/** The height to use for certain {@link SizingMethod verticalSizingMethod} options */
 	private final int builderHeight;
+	/** The {@link JComponent components} to use for columns */
+	private final Map<String, JComponent> columnDefs;
 	
 	/**
 	 * Creates a new Tadukoo Table using the given parameters
@@ -207,17 +228,19 @@ public class TadukooTable extends JScrollPane{
 	 * @param verticalSizingMethod How to size the table vertically
 	 * @param width The width to use for certain {@code horizontalSizingMethod} options
 	 * @param height The height to use for certain {@code verticalSizingMethod} options
+	 * @param columnDefs The {@link JComponent components} to use for columns
 	 */
 	private TadukooTable(
 			List<String> keyOrder, List<OrderedMappedPojo> data,
 			SizingMethod horizontalSizingMethod, SizingMethod verticalSizingMethod,
-			int width, int height){
+			int width, int height, Map<String, JComponent> columnDefs){
 		super(new JTable(new DefaultTableModel()));
 		this.keyOrder = keyOrder;
 		this.horizontalSizingMethod = horizontalSizingMethod;
 		this.verticalSizingMethod = verticalSizingMethod;
 		this.builderWidth = width;
 		this.builderHeight = height;
+		this.columnDefs = columnDefs;
 		setTableData(data);
 		
 		// Resize the table based on the sizing methods
@@ -242,6 +265,30 @@ public class TadukooTable extends JScrollPane{
 		};
 		// Actually set the dimensions
 		table.setPreferredScrollableViewportSize(new Dimension(realWidth, realHeight));
+		
+		// Set the column defs if we have them
+		if(MapUtil.isNotBlank(columnDefs)){
+			// Make a map of column names to their index
+			Map<String, Integer> columnNamesToIndex = new HashMap<>();
+			if(ListUtil.isNotBlank(keyOrder)){
+				for(int i = 0; i < keyOrder.size(); i++){
+					columnNamesToIndex.put(keyOrder.get(i), i);
+				}
+			}else{
+				List<String> keysOrder = data.get(0).getKeyOrder();
+				for(int i = 0; i < keysOrder.size(); i++){
+					columnNamesToIndex.put(keysOrder.get(i), i);
+				}
+			}
+			
+			// Grab the column model and set cell editors on it
+			TableColumnModel colModel = table.getColumnModel();
+			for(String columnName: columnDefs.keySet()){
+				// TODO: Allow for other types of cell editors
+				colModel.getColumn(columnNamesToIndex.get(columnName))
+						.setCellEditor(new DefaultCellEditor((JComboBox<String>) columnDefs.get(columnName)));
+			}
+		}
 	}
 	
 	/**
@@ -284,6 +331,13 @@ public class TadukooTable extends JScrollPane{
 	 */
 	public int getBuilderHeight(){
 		return builderHeight;
+	}
+	
+	/**
+	 * @return The {@link JComponent components} to use for columns
+	 */
+	public Map<String, JComponent> getColumnDefs(){
+		return columnDefs;
 	}
 	
 	/**
