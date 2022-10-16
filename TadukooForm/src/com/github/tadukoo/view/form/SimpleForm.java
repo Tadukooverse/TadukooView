@@ -13,6 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -25,7 +26,7 @@ import java.util.Set;
  * It uses {@link FormField}s for the fields and buttons and such to be displayed on a single tab.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public interface SimpleForm extends Form{
@@ -42,7 +43,12 @@ public interface SimpleForm extends Form{
 	
 	/** {@inheritDoc} */
 	@Override
-	JPanel asComponent();
+	Component asComponent();
+	
+	/**
+	 * @return The {@link JPanel} used in this {@link SimpleForm}
+	 */
+	JPanel asPanel();
 	
 	/** {@inheritDoc} */
 	@Override
@@ -115,7 +121,7 @@ public interface SimpleForm extends Form{
 	 */
 	default void createComponents() throws Throwable{
 		// Use GridBayLayout for this panel
-		asComponent().setLayout(new GridBagLayout());
+		asPanel().setLayout(new GridBagLayout());
 		
 		// Determine if we're placing labels above or to the left of components
 		boolean topLabels = labelsOnTop();
@@ -167,7 +173,7 @@ public interface SimpleForm extends Form{
 							.graphEnv(graphEnv).fontFolder(fontFolder).fontResourceLoader(fontResourceLoader)
 							.build();
 					label.setHorizontalTextPosition(JLabel.RIGHT);
-					asComponent().add(label, labelCons);
+					asPanel().add(label, labelCons);
 				}
 				case TITLED_BORDER -> component.setBorder(BorderFactory.createTitledBorder(key));
 			}
@@ -178,7 +184,7 @@ public interface SimpleForm extends Form{
 			compCons.gridx = topLabels?colPos:colPos*2+1;
 			compCons.gridheight = rowSpan;
 			compCons.gridwidth = colSpan;
-			asComponent().add(component, compCons);
+			asPanel().add(component, compCons);
 			
 			// Add the component to the map
 			addComponent(key, component);

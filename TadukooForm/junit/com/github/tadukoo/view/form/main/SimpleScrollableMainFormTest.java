@@ -22,10 +22,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SimpleMainFormTest{
+public class SimpleScrollableMainFormTest{
 	private boolean weSetThoseFields = false;
 	
-	private SimpleMainForm simpleForm;
+	private SimpleScrollableMainForm simpleScrollableForm;
 	private FormField<?> field;
 	
 	@BeforeEach
@@ -34,7 +34,7 @@ public class SimpleMainFormTest{
 				.stringFieldType(StringFormField.StringFieldType.NORMAL)
 				.key("Derp").defaultValue("No")
 				.build();
-		simpleForm = new AbstractSimpleMainForm(new HashMap<>()){
+		simpleScrollableForm = new AbstractSimpleScrollableMainForm(new HashMap<>()){
 			
 			@Override
 			public void setDefaultFields(){
@@ -46,7 +46,7 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testConstructor(){
-		Map<String, Object> map = simpleForm.getMap();
+		Map<String, Object> map = simpleScrollableForm.getMap();
 		assertFalse(map.isEmpty());
 		assertTrue(map.containsKey("Derp"));
 		assertEquals("No", map.get("Derp"));
@@ -62,7 +62,7 @@ public class SimpleMainFormTest{
 				return aMap;
 			}
 		};
-		SimpleMainForm simpleForm = new AbstractSimpleMainForm(pojo){
+		simpleScrollableForm = new AbstractSimpleScrollableMainForm(pojo){
 			@Override
 			public void setDefaultFields(){
 				weSetThoseFields = true;
@@ -71,7 +71,7 @@ public class SimpleMainFormTest{
 						.build());
 			}
 		};
-		Map<String, Object> map = simpleForm.getMap();
+		Map<String, Object> map = simpleScrollableForm.getMap();
 		assertFalse(map.isEmpty());
 		assertTrue(map.containsKey("Derp"));
 		assertEquals("No", map.get("Derp"));
@@ -81,20 +81,20 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testHasKeyFalse(){
-		assertFalse(simpleForm.hasKey("Test"));
+		assertFalse(simpleScrollableForm.hasKey("Test"));
 	}
 	
 	@Test
 	public void testHasKeyTrue(){
-		simpleForm.setItem("Derp", 5);
-		assertTrue(simpleForm.hasKey("Derp"));
+		simpleScrollableForm.setItem("Derp", 5);
+		assertTrue(simpleScrollableForm.hasKey("Derp"));
 	}
 	
 	@Test
 	public void testGetKeysPopulated(){
-		simpleForm.setItem("Derp", 5);
-		simpleForm.setItem("Test", "Yes");
-		Set<String> keys = simpleForm.getKeys();
+		simpleScrollableForm.setItem("Derp", 5);
+		simpleScrollableForm.setItem("Test", "Yes");
+		Set<String> keys = simpleScrollableForm.getKeys();
 		assertFalse(keys.isEmpty());
 		assertTrue(keys.contains("Derp"));
 		assertTrue(keys.contains("Test"));
@@ -102,59 +102,59 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testHasItemNotSet(){
-		assertFalse(simpleForm.hasItem("Test"));
+		assertFalse(simpleScrollableForm.hasItem("Test"));
 	}
 	
 	@Test
 	public void testHasItemSetToNull(){
-		simpleForm.setItem("Test", null);
-		assertFalse(simpleForm.hasItem("Test"));
+		simpleScrollableForm.setItem("Test", null);
+		assertFalse(simpleScrollableForm.hasItem("Test"));
 	}
 	
 	@Test
 	public void testHasItemTrue(){
-		simpleForm.setItem("Derp", 5);
-		assertTrue(simpleForm.hasItem("Derp"));
+		simpleScrollableForm.setItem("Derp", 5);
+		assertTrue(simpleScrollableForm.hasItem("Derp"));
 	}
 	
 	@Test
 	public void testGetItemNotSet(){
-		assertNull(simpleForm.getItem("Test"));
+		assertNull(simpleScrollableForm.getItem("Test"));
 	}
 	
 	@Test
 	public void testGetItem(){
-		simpleForm.setItem("Derp", 5);
-		assertEquals(5, simpleForm.getItem("Derp"));
+		simpleScrollableForm.setItem("Derp", 5);
+		assertEquals(5, simpleScrollableForm.getItem("Derp"));
 	}
 	
 	@Test
 	public void testSetItem(){
-		simpleForm.setItem("Derp", 5);
-		assertTrue(simpleForm.hasKey("Derp"));
-		assertTrue(simpleForm.hasItem("Derp"));
-		assertEquals(5, simpleForm.getItem("Derp"));
+		simpleScrollableForm.setItem("Derp", 5);
+		assertTrue(simpleScrollableForm.hasKey("Derp"));
+		assertTrue(simpleScrollableForm.hasItem("Derp"));
+		assertEquals(5, simpleScrollableForm.getItem("Derp"));
 	}
 	
 	@Test
 	public void testRemoveItem(){
-		simpleForm.setItem("Derp", 5);
-		assertTrue(simpleForm.hasKey("Derp"));
-		assertTrue(simpleForm.hasItem("Derp"));
-		assertEquals(5, simpleForm.getItem("Derp"));
+		simpleScrollableForm.setItem("Derp", 5);
+		assertTrue(simpleScrollableForm.hasKey("Derp"));
+		assertTrue(simpleScrollableForm.hasItem("Derp"));
+		assertEquals(5, simpleScrollableForm.getItem("Derp"));
 		
-		simpleForm.removeItem("Derp");
-		assertFalse(simpleForm.hasKey("Derp"));
-		assertFalse(simpleForm.hasItem("Derp"));
-		assertNull(simpleForm.getItem("Derp"));
+		simpleScrollableForm.removeItem("Derp");
+		assertFalse(simpleScrollableForm.hasKey("Derp"));
+		assertFalse(simpleScrollableForm.hasItem("Derp"));
+		assertNull(simpleScrollableForm.getItem("Derp"));
 	}
 	
 	@Test
 	public void testGetMap(){
-		simpleForm.setItem("Derp", 5);
-		simpleForm.setItem("Test", "Yes");
+		simpleScrollableForm.setItem("Derp", 5);
+		simpleScrollableForm.setItem("Test", "Yes");
 		
-		Map<String, Object> map = simpleForm.getMap();
+		Map<String, Object> map = simpleScrollableForm.getMap();
 		assertFalse(map.isEmpty());
 		assertEquals(2, map.keySet().size());
 		assertTrue(map.containsKey("Derp"));
@@ -165,7 +165,7 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testGetFieldMap(){
-		Map<String, FormField<?>> fields = simpleForm.getFieldMap();
+		Map<String, FormField<?>> fields = simpleScrollableForm.getFieldMap();
 		assertEquals(1, fields.size());
 		assertTrue(fields.containsKey("Derp"));
 		assertEquals(field, fields.get("Derp"));
@@ -173,7 +173,7 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testGetComponentMap(){
-		Map<String, JComponent> components = simpleForm.getComponentMap();
+		Map<String, JComponent> components = simpleScrollableForm.getComponentMap();
 		assertEquals(1, components.size());
 		assertTrue(components.containsKey("Derp"));
 		assertTrue(components.get("Derp") instanceof JTextField);
@@ -181,35 +181,35 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testAsComponent(){
-		assertNotNull(simpleForm.asComponent());
+		assertNotNull(simpleScrollableForm.asComponent());
 	}
 	
 	@Test
 	public void testAsPanel(){
-		assertNotNull(simpleForm.asPanel());
+		assertNotNull(simpleScrollableForm.asPanel());
 	}
 	
 	@Test
 	public void testSaveValues(){
-		assertTrue(simpleForm.hasItem("Derp"));
-		assertEquals("No", simpleForm.getItem("Derp"));
-		((JTextField) simpleForm.getComponentByKey("Derp")).setText("Yeppers");
-		simpleForm.saveValues();
-		assertEquals("Yeppers", simpleForm.getItem("Derp"));
+		assertTrue(simpleScrollableForm.hasItem("Derp"));
+		assertEquals("No", simpleScrollableForm.getItem("Derp"));
+		((JTextField) simpleScrollableForm.getComponentByKey("Derp")).setText("Yeppers");
+		simpleScrollableForm.saveValues();
+		assertEquals("Yeppers", simpleScrollableForm.getItem("Derp"));
 	}
 	
 	@Test
 	public void testLabelsOnTop(){
-		assertTrue(simpleForm.labelsOnTop());
+		assertTrue(simpleScrollableForm.labelsOnTop());
 	}
 	
 	@Test
 	public void testAddField(){
-		simpleForm.addField(StringFormField.builder()
+		simpleScrollableForm.addField(StringFormField.builder()
 				.key("Test").defaultValue("Yes")
 				.build());
-		assertTrue(simpleForm.hasItem("Test"));
-		assertEquals("Yes", simpleForm.getItem("Test"));
+		assertTrue(simpleScrollableForm.hasItem("Test"));
+		assertEquals("Yes", simpleScrollableForm.getItem("Test"));
 	}
 	
 	@Test
@@ -219,21 +219,21 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testGetFieldKeys(){
-		Set<String> keys = simpleForm.getFieldKeys();
+		Set<String> keys = simpleScrollableForm.getFieldKeys();
 		assertEquals(1, keys.size());
 		assertEquals("Derp", keys.iterator().next());
 	}
 	
 	@Test
 	public void testGetFieldByKey(){
-		assertEquals(field, simpleForm.getFieldByKey("Derp"));
+		assertEquals(field, simpleScrollableForm.getFieldByKey("Derp"));
 	}
 	
 	@Test
 	public void testAddComponent(){
 		JLabel label = new JLabel("Test");
-		simpleForm.addComponent("Test", label);
-		Map<String, JComponent> components = simpleForm.getComponentMap();
+		simpleScrollableForm.addComponent("Test", label);
+		Map<String, JComponent> components = simpleScrollableForm.getComponentMap();
 		assertEquals(2, components.size());
 		assertTrue(components.containsKey("Test"));
 		assertEquals(label, components.get("Test"));
@@ -241,53 +241,54 @@ public class SimpleMainFormTest{
 	
 	@Test
 	public void testCreateComponentsAndGetComponentByKey(){
-		assertTrue(simpleForm.hasItem("Derp"));
-		assertEquals("No", simpleForm.getItem("Derp"));
-		JComponent comp = simpleForm.getComponentByKey("Derp");
+		assertTrue(simpleScrollableForm.hasItem("Derp"));
+		assertEquals("No", simpleScrollableForm.getItem("Derp"));
+		JComponent comp = simpleScrollableForm.getComponentByKey("Derp");
 		assertTrue(comp instanceof JTextField);
 		assertEquals("No", ((JTextField) comp).getText());
 	}
 	
 	@Test
 	public void testGetComponentKeys(){
-		Set<String> keys = simpleForm.getComponentKeys();
+		Set<String> keys = simpleScrollableForm.getComponentKeys();
 		assertEquals(1, keys.size());
 		assertEquals("Derp", keys.iterator().next());
 	}
 	
 	@Test
 	public void testAsFrame(){
-		assertEquals(simpleForm, simpleForm.asFrame());
+		assertEquals(simpleScrollableForm, simpleScrollableForm.asFrame());
 	}
 	
 	@Test
 	public void testDefaultCloseOperation(){
-		assertEquals(CloseOperation.DISPOSE_ON_CLOSE, simpleForm.defaultCloseOperation());
+		assertEquals(CloseOperation.DISPOSE_ON_CLOSE, simpleScrollableForm.defaultCloseOperation());
 	}
 	
 	@Test
 	public void testIconPath(){
-		assertNull(simpleForm.iconPath());
+		assertNull(simpleScrollableForm.iconPath());
 	}
 	
 	@Test
 	public void testFramePreferredSize(){
-		assertNull(simpleForm.framePreferredSize());
+		assertNull(simpleScrollableForm.framePreferredSize());
 	}
 	
 	@Test
 	public void testConfigureFrameSettingsCloseOperation(){
-		assertEquals(simpleForm.asFrame().getDefaultCloseOperation(), simpleForm.defaultCloseOperation().getValue());
+		assertEquals(simpleScrollableForm.asFrame().getDefaultCloseOperation(),
+				simpleScrollableForm.defaultCloseOperation().getValue());
 	}
 	
 	@Test
 	public void testConfigureFrameSettingsIconPath(){
-		assertNull(simpleForm.asFrame().getIconImage());
+		assertNull(simpleScrollableForm.asFrame().getIconImage());
 	}
 	
 	@Test
 	public void testConfigureFrameSettingsIconPathSet() throws Throwable{
-		simpleForm = new AbstractSimpleMainForm(new HashMap<>()){
+		simpleScrollableForm = new AbstractSimpleScrollableMainForm(new HashMap<>()){
 			@Override
 			public String iconPath(){
 				return "/img/meteor.png";
@@ -297,18 +298,18 @@ public class SimpleMainFormTest{
 				// Do nothing
 			}
 		};
-		assertNotNull(simpleForm.asFrame().getIconImage());
+		assertNotNull(simpleScrollableForm.asFrame().getIconImage());
 	}
 	
 	@Test
 	public void testConfigureFrameSettingsFramePreferredSize(){
-		assertFalse(simpleForm.asComponent().isPreferredSizeSet());
+		assertFalse(simpleScrollableForm.asComponent().isPreferredSizeSet());
 	}
 	
 	@Test
 	public void testConfigureFrameSettingsFramePreferredSizeSet() throws Throwable{
 		Dimension size = new Dimension(50, 50);
-		simpleForm = new AbstractSimpleMainForm(new HashMap<>()){
+		simpleScrollableForm = new AbstractSimpleScrollableMainForm(new HashMap<>()){
 			@Override
 			public Dimension framePreferredSize(){
 				return size;
@@ -318,13 +319,18 @@ public class SimpleMainFormTest{
 				// Do nothing
 			}
 		};
-		assertTrue(simpleForm.asComponent().isPreferredSizeSet());
-		assertEquals(size, simpleForm.asComponent().getPreferredSize());
+		assertTrue(simpleScrollableForm.asComponent().isPreferredSizeSet());
+		assertEquals(size, simpleScrollableForm.asComponent().getPreferredSize());
 	}
 	
 	@Test
 	public void testLaunch(){
-		simpleForm.launch();
-		assertTrue(simpleForm.asFrame().isVisible());
+		simpleScrollableForm.launch();
+		assertTrue(simpleScrollableForm.asFrame().isVisible());
+	}
+	
+	@Test
+	public void testAsScrollPane(){
+		assertNotNull(simpleScrollableForm.asScrollPane());
 	}
 }

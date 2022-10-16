@@ -3,6 +3,7 @@ package com.github.tadukoo.view.form;
 import com.github.tadukoo.util.pojo.AbstractMappedPojo;
 import com.github.tadukoo.util.pojo.MappedPojo;
 import com.github.tadukoo.view.form.field.FormField;
+import com.github.tadukoo.view.form.field.LabelType;
 import com.github.tadukoo.view.form.field.StringFormField;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -182,6 +184,11 @@ public class SimpleFormTest{
 	}
 	
 	@Test
+	public void testAsPanel(){
+		assertEquals(simpleForm, simpleForm.asPanel());
+	}
+	
+	@Test
 	public void testSaveValues(){
 		assertTrue(simpleForm.hasItem("Derp"));
 		assertEquals("No", simpleForm.getItem("Derp"));
@@ -233,6 +240,74 @@ public class SimpleFormTest{
 	
 	@Test
 	public void testCreateComponentsAndGetComponentByKey(){
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals("No", simpleForm.getItem("Derp"));
+		JComponent comp = simpleForm.getComponentByKey("Derp");
+		assertTrue(comp instanceof JTextField);
+		assertEquals("No", ((JTextField) comp).getText());
+	}
+	
+	@Test
+	public void testCreateComponentsAndGetComponentByKeyTopLabelsFalse() throws Throwable{
+		simpleForm = new AbstractSimpleForm(new HashMap<>()){
+			
+			@Override
+			public boolean labelsOnTop(){
+				return false;
+			}
+			
+			@Override
+			public void setDefaultFields(){
+				weSetThoseFields = true;
+				addField(field);
+			}
+		};
+		
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals("No", simpleForm.getItem("Derp"));
+		JComponent comp = simpleForm.getComponentByKey("Derp");
+		assertTrue(comp instanceof JTextField);
+		assertEquals("No", ((JTextField) comp).getText());
+	}
+	
+	@Test
+	public void testCreateComponentsTitledBorder() throws Throwable{
+		field = StringFormField.builder()
+				.stringFieldType(StringFormField.StringFieldType.NORMAL)
+				.key("Derp").defaultValue("No")
+				.labelType(LabelType.TITLED_BORDER)
+				.build();
+		simpleForm = new AbstractSimpleForm(new HashMap<>()){
+			
+			@Override
+			public void setDefaultFields(){
+				weSetThoseFields = true;
+				addField(field);
+			}
+		};
+		assertTrue(simpleForm.hasItem("Derp"));
+		assertEquals("No", simpleForm.getItem("Derp"));
+		JComponent comp = simpleForm.getComponentByKey("Derp");
+		assertTrue(comp instanceof JTextField);
+		assertEquals("No", ((JTextField) comp).getText());
+		assertTrue(comp.getBorder() instanceof TitledBorder);
+	}
+	
+	@Test
+	public void testCreateComponentsNoLabel() throws Throwable{
+		field = StringFormField.builder()
+				.stringFieldType(StringFormField.StringFieldType.NORMAL)
+				.key("Derp").defaultValue("No")
+				.labelType(LabelType.NONE)
+				.build();
+		simpleForm = new AbstractSimpleForm(new HashMap<>()){
+			
+			@Override
+			public void setDefaultFields(){
+				weSetThoseFields = true;
+				addField(field);
+			}
+		};
 		assertTrue(simpleForm.hasItem("Derp"));
 		assertEquals("No", simpleForm.getItem("Derp"));
 		JComponent comp = simpleForm.getComponentByKey("Derp");
