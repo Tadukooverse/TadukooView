@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
@@ -332,5 +333,31 @@ public class SimpleScrollableMainFormTest{
 	@Test
 	public void testAsScrollPane(){
 		assertNotNull(simpleScrollableForm.asScrollPane());
+	}
+	
+	@Test
+	public void testGetOriginalForm(){
+		assertEquals(simpleScrollableForm.asScrollPane(), simpleScrollableForm.getOriginalForm());
+	}
+	
+	@Test
+	public void testSetOriginalForm(){
+		DummyForm form = new DummyForm();
+		Container original = simpleScrollableForm.getOriginalForm();
+		simpleScrollableForm.switchForm(form);
+		assertEquals(form.asComponent(), simpleScrollableForm.asFrame().getContentPane());
+		assertEquals(original, simpleScrollableForm.getOriginalForm());
+		simpleScrollableForm.switchToOriginalForm();
+		assertEquals(simpleScrollableForm.getOriginalForm(), simpleScrollableForm.asFrame().getContentPane());
+		assertEquals(original, simpleScrollableForm.getOriginalForm());
+	}
+	
+	@Test
+	public void testSwitchForm(){
+		DummyForm form = new DummyForm();
+		Container original = simpleScrollableForm.getOriginalForm();
+		simpleScrollableForm.switchForm(form);
+		assertEquals(form.asComponent(), simpleScrollableForm.asFrame().getContentPane());
+		assertEquals(original, simpleScrollableForm.getOriginalForm());
 	}
 }

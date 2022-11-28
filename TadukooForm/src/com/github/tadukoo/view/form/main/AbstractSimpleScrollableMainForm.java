@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import java.awt.Component;
+import java.awt.Container;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +19,8 @@ import java.util.Map;
  * @version Alpha v.0.4
  */
 public abstract class AbstractSimpleScrollableMainForm extends JFrame implements SimpleScrollableMainForm{
+	/** The original {@link JScrollPane} in this form */
+	private final JScrollPane originalPane;
 	/** The inner {@link JScrollPane} used in this form */
 	private final JScrollPane scrollPane;
 	/** The map of actual values on this form */
@@ -36,7 +38,8 @@ public abstract class AbstractSimpleScrollableMainForm extends JFrame implements
 	 * @throws Throwable If anything goes wrong (in setting default fields or creating components)
 	 */
 	protected AbstractSimpleScrollableMainForm(Map<String, Object> defaultValues) throws Throwable{
-		scrollPane = new JScrollPane(new JPanel());
+		originalPane = new JScrollPane(new JPanel());
+		scrollPane = originalPane;
 		valueMap = defaultValues;
 		fields = new HashMap<>();
 		components = new HashMap<>();
@@ -55,7 +58,8 @@ public abstract class AbstractSimpleScrollableMainForm extends JFrame implements
 	 * @throws Throwable If anything goes wrong (in setting default fields or creating components)
 	 */
 	protected AbstractSimpleScrollableMainForm(MappedPojo pojo) throws Throwable{
-		scrollPane = new JScrollPane(new JPanel());
+		originalPane = new JScrollPane(new JPanel());
+		scrollPane = originalPane;
 		valueMap = pojo.getMap();
 		fields = new HashMap<>();
 		components = new HashMap<>();
@@ -106,5 +110,11 @@ public abstract class AbstractSimpleScrollableMainForm extends JFrame implements
 	@Override
 	public JScrollPane asScrollPane(){
 		return scrollPane;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public Container getOriginalForm(){
+		return originalPane;
 	}
 }

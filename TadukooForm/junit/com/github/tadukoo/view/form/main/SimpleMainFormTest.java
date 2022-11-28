@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
@@ -326,5 +327,31 @@ public class SimpleMainFormTest{
 	public void testLaunch(){
 		simpleForm.launch();
 		assertTrue(simpleForm.asFrame().isVisible());
+	}
+	
+	@Test
+	public void testGetOriginalForm(){
+		assertEquals(simpleForm.asPanel(), simpleForm.getOriginalForm());
+	}
+	
+	@Test
+	public void testSetOriginalForm(){
+		DummyForm form = new DummyForm();
+		Container original = simpleForm.getOriginalForm();
+		simpleForm.switchForm(form);
+		assertEquals(form.asComponent(), simpleForm.asFrame().getContentPane());
+		assertEquals(original, simpleForm.getOriginalForm());
+		simpleForm.switchToOriginalForm();
+		assertEquals(simpleForm.getOriginalForm(), simpleForm.asFrame().getContentPane());
+		assertEquals(original, simpleForm.getOriginalForm());
+	}
+	
+	@Test
+	public void testSwitchForm(){
+		DummyForm form = new DummyForm();
+		Container original = simpleForm.getOriginalForm();
+		simpleForm.switchForm(form);
+		assertEquals(form.asComponent(), simpleForm.asFrame().getContentPane());
+		assertEquals(original, simpleForm.getOriginalForm());
 	}
 }

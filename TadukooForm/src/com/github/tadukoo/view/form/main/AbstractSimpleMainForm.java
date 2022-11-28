@@ -6,6 +6,7 @@ import com.github.tadukoo.view.form.field.FormField;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.Container;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,8 @@ import java.util.Map;
  * @since Alpha v.0.3.3
  */
 public abstract class AbstractSimpleMainForm extends JFrame implements SimpleMainForm{
+	/** The original {@link JPanel} in this form */
+	private final JPanel originalPanel;
 	/** The inner {@link JPanel} used in this form */
 	private final JPanel panel;
 	/** The map of actual values on this form */
@@ -35,7 +38,8 @@ public abstract class AbstractSimpleMainForm extends JFrame implements SimpleMai
 	 * @throws Throwable If anything goes wrong (in setting default fields or creating components)
 	 */
 	protected AbstractSimpleMainForm(Map<String, Object> defaultValues) throws Throwable{
-		panel = new JPanel();
+		originalPanel = new JPanel();
+		panel = originalPanel;
 		valueMap = defaultValues;
 		fields = new HashMap<>();
 		components = new HashMap<>();
@@ -54,7 +58,8 @@ public abstract class AbstractSimpleMainForm extends JFrame implements SimpleMai
 	 * @throws Throwable If anything goes wrong (in setting default fields or creating components)
 	 */
 	protected AbstractSimpleMainForm(MappedPojo pojo) throws Throwable{
-		panel = new JPanel();
+		originalPanel = new JPanel();
+		panel = originalPanel;
 		valueMap = pojo.getMap();
 		fields = new HashMap<>();
 		components = new HashMap<>();
@@ -99,5 +104,11 @@ public abstract class AbstractSimpleMainForm extends JFrame implements SimpleMai
 	@Override
 	public JFrame asFrame(){
 		return this;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public Container getOriginalForm(){
+		return originalPanel;
 	}
 }

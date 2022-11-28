@@ -5,6 +5,7 @@ import com.github.tadukoo.view.constants.CloseOperation;
 import com.github.tadukoo.view.form.Form;
 
 import javax.swing.JFrame;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.net.URL;
@@ -17,6 +18,11 @@ import java.net.URL;
  * @version Alpha v.0.3.3
  */
 public interface MainForm extends Form{
+	
+	/**
+	 * @return The original {@link Container} used on this {@link MainForm}
+	 */
+	Container getOriginalForm();
 	
 	/**
 	 * @return This form as a {@link JFrame}
@@ -76,5 +82,31 @@ public interface MainForm extends Form{
 	 */
 	default void launch(){
 		asFrame().setVisible(true);
+	}
+	
+	/**
+	 * Switches back to the original {@link Form} that was used
+	 */
+	default void switchToOriginalForm(){
+		asFrame().setContentPane(getOriginalForm());
+		redraw();
+	}
+	
+	/**
+	 * Switches the content pane to the given {@link Form}
+	 *
+	 * @param form The {@link Form} to use as the new content pane
+	 */
+	default void switchForm(Form form){
+		asFrame().setContentPane(form.asComponent());
+		redraw();
+	}
+	
+	/**
+	 * Redraws the objects on the frame
+	 */
+	default void redraw(){
+		asFrame().repaint();
+		asFrame().revalidate();
 	}
 }

@@ -18,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.util.Collection;
 import java.util.HashMap;
@@ -395,5 +396,31 @@ public class TabbedMainFormTest{
 	public void testLaunch(){
 		tabbedForm.launch();
 		assertTrue(tabbedForm.asFrame().isVisible());
+	}
+	
+	@Test
+	public void testGetOriginalForm(){
+		assertEquals(tabbedForm.asComponent(), tabbedForm.getOriginalForm());
+	}
+	
+	@Test
+	public void testSetOriginalForm(){
+		DummyForm form = new DummyForm();
+		Container original = tabbedForm.getOriginalForm();
+		tabbedForm.switchForm(form);
+		assertEquals(form.asComponent(), tabbedForm.asFrame().getContentPane());
+		assertEquals(original, tabbedForm.getOriginalForm());
+		tabbedForm.switchToOriginalForm();
+		assertEquals(tabbedForm.getOriginalForm(), tabbedForm.asFrame().getContentPane());
+		assertEquals(original, tabbedForm.getOriginalForm());
+	}
+	
+	@Test
+	public void testSwitchForm(){
+		DummyForm form = new DummyForm();
+		Container original = tabbedForm.getOriginalForm();
+		tabbedForm.switchForm(form);
+		assertEquals(form.asComponent(), tabbedForm.asFrame().getContentPane());
+		assertEquals(original, tabbedForm.getOriginalForm());
 	}
 }

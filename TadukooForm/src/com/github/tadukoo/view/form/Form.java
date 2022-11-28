@@ -3,6 +3,7 @@ package com.github.tadukoo.view.form;
 import com.github.tadukoo.util.pojo.MappedPojo;
 
 import java.awt.Component;
+import java.awt.Container;
 
 /**
  * Form represents a form used in a program that the user can fill out and interact with. This could be a simple form
@@ -14,9 +15,9 @@ import java.awt.Component;
 public interface Form extends MappedPojo{
 	
 	/**
-	 * @return This Form as a {@link Component}
+	 * @return This Form as a {@link Container}
 	 */
-	Component asComponent();
+	Container asComponent();
 	
 	/**
 	 * This method can be called by subclasses to update the values present in the form from the Component values

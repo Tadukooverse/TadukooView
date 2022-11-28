@@ -13,7 +13,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -40,10 +39,6 @@ public interface SimpleForm extends Form{
 	 * @return The Map of {@link JComponent}s by their keys
 	 */
 	Map<String, JComponent> getComponentMap();
-	
-	/** {@inheritDoc} */
-	@Override
-	Component asComponent();
 	
 	/**
 	 * @return The {@link JPanel} used in this {@link SimpleForm}

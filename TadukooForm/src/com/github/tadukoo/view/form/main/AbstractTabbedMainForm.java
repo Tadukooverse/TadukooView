@@ -5,6 +5,7 @@ import com.github.tadukoo.view.form.Form;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import java.awt.Container;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +17,8 @@ import java.util.Map;
  * @version Alpha v.0.3.3
  */
 public abstract class AbstractTabbedMainForm extends JFrame implements TabbedMainForm{
+	/** The original {@link JTabbedPane} in this form */
+	private final JTabbedPane originalPane;
 	/** The inner {@link JTabbedPane} used in this form */
 	private final JTabbedPane tabbedPane;
 	/** The map of actual values on this form */
@@ -31,7 +34,8 @@ public abstract class AbstractTabbedMainForm extends JFrame implements TabbedMai
 	 * @throws Throwable If anything goes wrong (in {@link #setDefaultTabs()})
 	 */
 	protected AbstractTabbedMainForm(Map<String, Object> defaultValues) throws Throwable{
-		tabbedPane = new JTabbedPane();
+		originalPane = new JTabbedPane();
+		tabbedPane = originalPane;
 		valueMap = defaultValues;
 		tabs = new HashMap<>();
 		
@@ -49,7 +53,8 @@ public abstract class AbstractTabbedMainForm extends JFrame implements TabbedMai
 	 * @throws Throwable If anything goes wrong (in {@link #setDefaultTabs()})
 	 */
 	protected AbstractTabbedMainForm(MappedPojo pojo) throws Throwable{
-		tabbedPane = new JTabbedPane();
+		originalPane = new JTabbedPane();
+		tabbedPane = originalPane;
 		valueMap = pojo.getMap();
 		tabs = new HashMap<>();
 		
@@ -81,5 +86,11 @@ public abstract class AbstractTabbedMainForm extends JFrame implements TabbedMai
 	@Override
 	public JFrame asFrame(){
 		return this;
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public Container getOriginalForm(){
+		return originalPane;
 	}
 }
