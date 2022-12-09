@@ -3,6 +3,7 @@ package com.github.tadukoo.view.form.field;
 import com.github.tadukoo.util.LoggerUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
 import com.github.tadukoo.view.border.ShapedLineBorder;
+import com.github.tadukoo.view.components.TadukooLabel;
 import com.github.tadukoo.view.font.FontFamilies;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.paint.SizableColor;
@@ -18,6 +19,7 @@ import javax.swing.border.Border;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -129,6 +131,21 @@ public class StringFormFieldTest{
 	@Test
 	public void testDefaultColumns(){
 		assertEquals(-1, field.getColumns());
+	}
+	
+	@Test
+	public void testDefaultStringBackgroundPaint(){
+		assertNull(field.getStringBackgroundPaint());
+	}
+	
+	@Test
+	public void testDefaultStringForegroundPaint(){
+		assertNull(field.getStringForegroundPaint());
+	}
+	
+	@Test
+	public void testDefaultStringDisabledForegroundPaint(){
+		assertNull(field.getStringDisabledForegroundPaint());
 	}
 	
 	@Test
@@ -265,9 +282,31 @@ public class StringFormFieldTest{
 	}
 	
 	@Test
+	public void testSetStringBackgroundPaint(){
+		SizableColor red = new SizableColor(Color.RED);
+		field = StringFormField.builder().stringBackgroundPaint(red).build();
+		assertEquals(red, field.getStringBackgroundPaint());
+	}
+	
+	@Test
+	public void testSetStringForegroundPaint(){
+		SizableColor blue = new SizableColor(Color.BLUE);
+		field = StringFormField.builder().stringForegroundPaint(blue).build();
+		assertEquals(blue, field.getStringForegroundPaint());
+	}
+	
+	@Test
+	public void testSetStringDisabledForegroundPaint(){
+		SizableColor black = new SizableColor(Color.BLACK);
+		field = StringFormField.builder().stringDisabledForegroundPaint(black).build();
+		assertEquals(black, field.getStringDisabledForegroundPaint());
+	}
+	
+	@Test
 	public void testSettings() throws IOException{
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
+		SizableColor black = new SizableColor(Color.BLACK);
 		Border labelBorder = ShapedLineBorder.builder().build();
 		EasyLogger logger = new EasyLogger(LoggerUtil.createFileLogger("target/garbo/test.log", Level.OFF));
 		FontResourceLoader fontResourceLoader = new FontResourceLoader(false, null,
@@ -280,6 +319,7 @@ public class StringFormFieldTest{
 				.logFontResourceLoaderWarnings(true).logger(logger).graphEnv(null).fontFolder("testing/")
 				.fontResourceLoader(fontResourceLoader)
 				.stringFieldType(StringFormField.StringFieldType.PASSWORD)
+				.stringBackgroundPaint(red).stringForegroundPaint(blue).stringDisabledForegroundPaint(black)
 				.editable(false).columns(27).build();
 		assertEquals("Test", field.getKey());
 		assertEquals("Yes", field.getDefaultValue());
@@ -303,10 +343,13 @@ public class StringFormFieldTest{
 		assertEquals(StringFormField.StringFieldType.PASSWORD, field.getStringFieldType());
 		assertFalse(field.isEditable());
 		assertEquals(27, field.getColumns());
+		assertEquals(red, field.getStringBackgroundPaint());
+		assertEquals(blue, field.getStringForegroundPaint());
+		assertEquals(black, field.getStringDisabledForegroundPaint());
 	}
 	
 	@Test
-	public void testGetComponentNormal(){
+	public void testGetComponentNormal() throws IOException, FontFormatException{
 		field = StringFormField.builder().defaultValue("Derp")
 				.stringFieldType(StringFormField.StringFieldType.NORMAL).build();
 		JComponent component = field.getComponent();
@@ -315,16 +358,61 @@ public class StringFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentTitle(){
+	public void testGetComponentTitle() throws IOException, FontFormatException{
 		field = StringFormField.builder().defaultValue("Test")
 				.stringFieldType(StringFormField.StringFieldType.TITLE).build();
 		JComponent component = field.getComponent();
-		assertTrue(component instanceof JLabel);
-		assertEquals("Test", ((JLabel) component).getText());
+		assertTrue(component instanceof TadukooLabel);
+		assertEquals("Test", ((TadukooLabel) component).getText());
 	}
 	
 	@Test
-	public void testGetComponentPassword(){
+	public void testGetComponentTitleSetBackgroundPaint() throws IOException, FontFormatException{
+		SizableColor red = new SizableColor(Color.RED);
+		field = StringFormField.builder().defaultValue("Derp")
+				.stringFieldType(StringFormField.StringFieldType.TITLE)
+				.stringBackgroundPaint(red)
+				.build();
+		assertEquals(red, ((TadukooLabel) field.getComponent()).getBackgroundPaint());
+	}
+	
+	@Test
+	public void testGetComponentTitleSetForegroundPaint() throws IOException, FontFormatException{
+		SizableColor blue = new SizableColor(Color.BLUE);
+		field = StringFormField.builder().defaultValue("Derp")
+				.stringFieldType(StringFormField.StringFieldType.TITLE)
+				.stringForegroundPaint(blue)
+				.build();
+		assertEquals(blue, ((TadukooLabel) field.getComponent()).getForegroundPaint());
+	}
+	
+	@Test
+	public void testGetComponentTitleSetDisabledForegroundPaint() throws IOException, FontFormatException{
+		SizableColor black = new SizableColor(Color.BLACK);
+		field = StringFormField.builder().defaultValue("Derp")
+				.stringFieldType(StringFormField.StringFieldType.TITLE)
+				.stringDisabledForegroundPaint(black)
+				.build();
+		assertEquals(black, ((TadukooLabel) field.getComponent()).getDisabledForegroundPaint());
+	}
+	
+	@Test
+	public void testGetComponentTitleSetAll() throws IOException, FontFormatException{
+		SizableColor red = new SizableColor(Color.RED);
+		SizableColor blue = new SizableColor(Color.BLUE);
+		SizableColor black = new SizableColor(Color.BLACK);
+		field = StringFormField.builder().defaultValue("Derp")
+				.stringFieldType(StringFormField.StringFieldType.TITLE)
+				.stringBackgroundPaint(red).stringForegroundPaint(blue).stringDisabledForegroundPaint(black)
+				.build();
+		TadukooLabel label = ((TadukooLabel) field.getComponent());
+		assertEquals(red, label.getBackgroundPaint());
+		assertEquals(blue, label.getForegroundPaint());
+		assertEquals(black, label.getDisabledForegroundPaint());
+	}
+	
+	@Test
+	public void testGetComponentPassword() throws IOException, FontFormatException{
 		field = StringFormField.builder().defaultValue("Testy")
 				.stringFieldType(StringFormField.StringFieldType.PASSWORD).build();
 		JComponent component = field.getComponent();
@@ -333,12 +421,12 @@ public class StringFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentDefaultColumns(){
+	public void testGetComponentDefaultColumns() throws IOException, FontFormatException{
 		assertEquals(25, ((JTextField) field.getComponent()).getColumns());
 	}
 	
 	@Test
-	public void testGetComponentSetColumns(){
+	public void testGetComponentSetColumns() throws IOException, FontFormatException{
 		field = StringFormField.builder().columns(19).build();
 		assertEquals(19, ((JTextField) field.getComponent()).getColumns());
 	}

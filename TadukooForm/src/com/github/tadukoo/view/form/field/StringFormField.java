@@ -2,6 +2,7 @@ package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.StringUtil;
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.components.TadukooLabel;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.SimpleForm;
@@ -13,14 +14,16 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
+import java.io.IOException;
 
 /**
  * String Form Field is a {@link FormField} that uses a String. This could be an input prompt or a title
  * (See {@link StringFieldType})
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class StringFormField extends FormField<String>{
@@ -122,6 +125,21 @@ public class StringFormField extends FormField<String>{
 	 *         <td>Number of columns used to determine the width of the field</td>
 	 *         <td>Defaults to -1 (to use the defaultValue for determining size)</td>
 	 *     </tr>
+	 *     <tr>
+	 *         <td>stringBackgroundPaint</td>
+	 *         <td>The background {@link SizablePaint paint} to use for the String field</td>
+	 *         <td>Defaults to {@code null} (to use the default Look &amp; Feel setting)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>stringForegroundPaint</td>
+	 *         <td>The foreground {@link SizablePaint paint} to use for the String field</td>
+	 *         <td>Defaults to {@code null} (to use the default Look &amp; Feel setting)</td>
+	 *     </tr>
+	 *     <tr>
+	 *         <td>stringDisabledForegroundPaint</td>
+	 *         <td>The disabled foreground {@link SizablePaint paint} to use for the String field</td>
+	 *         <td>Defaults to {@code null} (to use the default Look &amp; Feel setting)</td>
+	 *     </tr>
 	 * </table>
 	 * This builder also provides methods and parameters for {@link FontResourceLoader font resource loading}:
 	 * <table>
@@ -164,7 +182,7 @@ public class StringFormField extends FormField<String>{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2
 	 */
 	public static class StringFormFieldBuilder extends FormFieldBuilder<String>{
@@ -174,8 +192,14 @@ public class StringFormField extends FormField<String>{
 		private boolean editable = true;
 		/** Number of columns used to determine the width of the field */
 		private int columns = -1;
+		/** The {@link SizablePaint paint} to use for the background of the String field */
+		private SizablePaint stringBackgroundPaint = null;
+		/** The {@link SizablePaint paint} to use for the foreground of the String field */
+		private SizablePaint stringForegroundPaint = null;
+		/** The {@link SizablePaint paint} to use for the disabled foreground of the String field */
+		private SizablePaint stringDisabledForegroundPaint = null;
 		
-		/** Can't create StringFormFieldBuilder outside of StringFormField */
+		/** Can't create StringFormFieldBuilder outside StringFormField */
 		private StringFormFieldBuilder(){
 			super();
 		}
@@ -346,6 +370,34 @@ public class StringFormField extends FormField<String>{
 			return this;
 		}
 		
+		/**
+		 * @param stringBackgroundPaint The {@link SizablePaint paint} to use for the background of the String field
+		 * @return this, to continue building
+		 */
+		public StringFormFieldBuilder stringBackgroundPaint(SizablePaint stringBackgroundPaint){
+			this.stringBackgroundPaint = stringBackgroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param stringForegroundPaint The {@link SizablePaint paint} to use for the foreground of the String field
+		 * @return this, to continue building
+		 */
+		public StringFormFieldBuilder stringForegroundPaint(SizablePaint stringForegroundPaint){
+			this.stringForegroundPaint = stringForegroundPaint;
+			return this;
+		}
+		
+		/**
+		 * @param stringDisabledForegroundPaint The {@link SizablePaint paint} to use for the
+		 * disabled foreground of the String field
+		 * @return this, to continue building
+		 */
+		public StringFormFieldBuilder stringDisabledForegroundPaint(SizablePaint stringDisabledForegroundPaint){
+			this.stringDisabledForegroundPaint = stringDisabledForegroundPaint;
+			return this;
+		}
+		
 		/** {@inheritDoc} */
 		@Override
 		public StringFormField build(){
@@ -356,7 +408,9 @@ public class StringFormField extends FormField<String>{
 					rowPos, colPos, rowSpan, colSpan,
 					logFontResourceLoaderWarnings, logger, graphEnv,
 					fontFolder, fontResourceLoader,
-					stringFieldType, editable, columns);
+					stringFieldType, editable, columns,
+					stringBackgroundPaint, stringForegroundPaint,
+					stringDisabledForegroundPaint);
 		}
 	}
 	
@@ -366,6 +420,12 @@ public class StringFormField extends FormField<String>{
 	private final boolean editable;
 	/** Number of columns used to determine the width of this field */
 	private final int columns;
+	/** The {@link SizablePaint paint} to use for the background of the String field */
+	private final SizablePaint stringBackgroundPaint;
+	/** The {@link SizablePaint paint} to use for the foreground of the String field */
+	private final SizablePaint stringForegroundPaint;
+	/** The {@link SizablePaint paint} to use for the disabled foreground of the String field */
+	private final SizablePaint stringDisabledForegroundPaint;
 	
 	/**
 	 * Creates a new StringFormField with the given parameters
@@ -396,6 +456,9 @@ public class StringFormField extends FormField<String>{
 	 * @param stringFieldType The {@link StringFieldType type} of String field
 	 * @param editable Whether this field can be edited or not
 	 * @param columns Number of columns used to determine the width of this field
+	 * @param stringBackgroundPaint The {@link SizablePaint paint} to use for the background of the String field
+	 * @param stringForegroundPaint The {@link SizablePaint paint} to use for the foreground of the String field
+	 * @param stringDisabledForegroundPaint The {@link SizablePaint paint} to use for the disabled foreground of the String field
 	 */
 	private StringFormField(String key, String defaultValue,
 	                        LabelType labelType, SizablePaint labelForegroundPaint, SizablePaint labelBackgroundPaint,
@@ -404,7 +467,9 @@ public class StringFormField extends FormField<String>{
 	                        int rowPos, int colPos, int rowSpan, int colSpan,
 	                        boolean logFontResourceLoaderWarnings, EasyLogger logger, GraphicsEnvironment graphEnv,
 	                        String fontFolder, FontResourceLoader fontResourceLoader,
-	                        StringFieldType stringFieldType, boolean editable, int columns){
+	                        StringFieldType stringFieldType, boolean editable, int columns,
+	                        SizablePaint stringBackgroundPaint, SizablePaint stringForegroundPaint,
+	                        SizablePaint stringDisabledForegroundPaint){
 		super(FieldType.STRING, key, defaultValue,
 				labelType, labelForegroundPaint, labelBackgroundPaint,
 				labelFontFamily, labelFontStyle, labelFontSize,
@@ -415,6 +480,9 @@ public class StringFormField extends FormField<String>{
 		this.stringFieldType = stringFieldType;
 		this.editable = editable;
 		this.columns = columns;
+		this.stringBackgroundPaint = stringBackgroundPaint;
+		this.stringForegroundPaint = stringForegroundPaint;
+		this.stringDisabledForegroundPaint = stringDisabledForegroundPaint;
 	}
 	
 	/**
@@ -445,16 +513,42 @@ public class StringFormField extends FormField<String>{
 		return columns;
 	}
 	
+	/**
+	 * @return The {@link SizablePaint paint} to use for the background of the String field
+	 */
+	public SizablePaint getStringBackgroundPaint(){
+		return stringBackgroundPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint paint} to use for the foreground of the String field
+	 */
+	public SizablePaint getStringForegroundPaint(){
+		return stringForegroundPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint paint} to use for the disabled foreground of the String field
+	 */
+	public SizablePaint getStringDisabledForegroundPaint(){
+		return stringDisabledForegroundPaint;
+	}
+	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent(){
+	public JComponent getComponent() throws IOException, FontFormatException{
 		String value = getDefaultValue();
 		
 		// Create the appropriate text field type based on the String Field Type
 		JTextField textField = null;
 		switch(stringFieldType){
 			case TITLE -> {
-				return new JLabel(value);
+				return TadukooLabel.builder()
+						.text(value)
+						.backgroundPaint(stringBackgroundPaint)
+						.foregroundPaint(stringForegroundPaint)
+						.disabledForegroundPaint(stringDisabledForegroundPaint)
+						.build();
 			}
 			case NORMAL -> textField = new JTextField();
 			case PASSWORD -> textField = new JPasswordField();
