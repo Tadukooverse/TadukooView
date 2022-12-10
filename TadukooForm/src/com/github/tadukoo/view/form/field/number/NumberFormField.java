@@ -20,7 +20,7 @@ import java.awt.GraphicsEnvironment;
  * Abstract {@link FormField} used for {@link Number}s using {@link JSpinner}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2.1
  *
  * @param <Type> The type of {@link Number} being stored in the field (used for default, min, max, and step values)
@@ -155,7 +155,7 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2.1
 	 *
 	 * @param <Type> The type of {@link Number} being stored in the field (used for default value)
@@ -289,13 +289,13 @@ public abstract class NumberFormField<Type extends Number & Comparable<?>> exten
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent(){
+	public JComponent getJustComponent(){
 		return new JSpinner(new SpinnerNumberModel(getDefaultValue(), minValue, maxValue, stepSize));
 	}
 	
 	/** {@inheritDoc} */
 	@Override
-	public Type getValue(JComponent component){
+	public Type getValueFromJustComponent(JComponent component){
 		if(component instanceof JSpinner){
 			return convertToType((Number) ((JSpinner) component).getValue());
 		}

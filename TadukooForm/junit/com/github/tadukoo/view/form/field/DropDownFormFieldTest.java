@@ -291,51 +291,51 @@ public class DropDownFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent(){
+	public void testGetJustComponent(){
 		field = DropDownFormField.builder().build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JComboBox);
 	}
 	
 	@Test
-	public void testGetComponentDefaultValue(){
+	public void testGetJustComponentDefaultValue(){
 		field = DropDownFormField.builder().defaultValue("Test").options(new String[]{"Test"}).build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JComboBox);
 		JComboBox<?> comboBox = (JComboBox<?>) component;
 		assertEquals("Test", comboBox.getSelectedItem());
 	}
 	
 	@Test
-	public void testGetComponentOptions(){
+	public void testGetJustComponentOptions(){
 		field = DropDownFormField.builder().options(new String[]{"Derp", "Test"}).build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JComboBox);
 		JComboBox<?> comboBox = (JComboBox<?>) component;
 		assertEquals(2, comboBox.getItemCount());
 	}
 	
 	@Test
-	public void testGetComponentAllSettings(){
+	public void testGetJustComponentAllSettings(){
 		field = DropDownFormField.builder().defaultValue("Test").options(new String[]{"Derp", "Test"}).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JComboBox);
 		assertEquals("Test", ((JComboBox<?>) component).getSelectedItem());
 		assertEquals(2, ((JComboBox<?>) component).getItemCount());
 	}
 	
 	@Test
-	public void testGetValueBadComponent(){
-		assertNull(field.getValue(new JLabel("Derp")));
+	public void testGetValueFromJustComponentBadComponent(){
+		assertNull(field.getValueFromJustComponent(new JLabel("Derp")));
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		JComboBox<String> box = new JComboBox<>(new String[]{"Test", "Derp"});
 		box.setSelectedItem("Derp");
-		assertEquals("Derp", field.getValue(box));
+		assertEquals("Derp", field.getValueFromJustComponent(box));
 	}
 }

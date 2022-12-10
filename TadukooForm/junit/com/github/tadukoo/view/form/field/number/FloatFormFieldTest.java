@@ -304,8 +304,9 @@ public class FloatFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		assertEquals(Float.valueOf(65),
-				field.getValue(new JSpinner(new SpinnerNumberModel(65.0f, null, null, 1.0f))));
+				field.getValueFromJustComponent(new JSpinner(
+						new SpinnerNumberModel(65.0f, null, null, 1.0f))));
 	}
 }

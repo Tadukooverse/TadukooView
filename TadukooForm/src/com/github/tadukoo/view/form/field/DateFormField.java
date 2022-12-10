@@ -17,7 +17,7 @@ import java.util.Date;
  * A Date Form Field is a {@link FormField} used to store Dates.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2.1
  */
 public class DateFormField extends FormField<Date>{
@@ -144,7 +144,7 @@ public class DateFormField extends FormField<Date>{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2.1
 	 */
 	public static class DateFormFieldBuilder extends FormFieldBuilder<Date>{
@@ -405,13 +405,13 @@ public class DateFormField extends FormField<Date>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent() throws Throwable{
+	public JComponent getJustComponent() throws Throwable{
 		return new DateForm(getDefaultValue(), minYear, maxYear);
 	}
 	
 	/** {@inheritDoc} */
 	@Override
-	public Date getValue(JComponent component){
+	public Date getValueFromJustComponent(JComponent component){
 		if(component instanceof DateForm){
 			return ((DateForm) component).getDate();
 		}

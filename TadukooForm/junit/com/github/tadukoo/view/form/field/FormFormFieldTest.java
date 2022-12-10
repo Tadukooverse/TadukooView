@@ -286,28 +286,28 @@ public class FormFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentNoForm(){
-		JComponent component = field.getComponent();
+	public void testGetJustComponentNoForm(){
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JLabel);
 		assertEquals("No value", ((JLabel) component).getText());
 	}
 	
 	@Test
-	public void testGetComponentForm(){
+	public void testGetJustComponentForm(){
 		field = FormFormField.builder().defaultValue(form).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof AbstractSimpleForm);
 		assertEquals(form, component);
 	}
 	
 	@Test
-	public void testGetValueNotForm(){
-		assertNull(field.getValue(new JLabel("Test")));
+	public void testGetValueFromJustComponentNotForm(){
+		assertNull(field.getValueFromJustComponent(new JLabel("Test")));
 	}
 	
 	@Test
-	public void testGetValueForm(){
-		assertEquals(form, field.getValue(form));
+	public void testGetValueFromJustComponentForm(){
+		assertEquals(form, field.getValueFromJustComponent(form));
 		assertTrue(savedValues);
 	}
 }

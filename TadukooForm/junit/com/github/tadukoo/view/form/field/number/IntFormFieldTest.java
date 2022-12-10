@@ -304,8 +304,9 @@ public class IntFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		assertEquals(Integer.valueOf(65),
-				field.getValue(new JSpinner(new SpinnerNumberModel(65, null, null, 1))));
+				field.getValueFromJustComponent(new JSpinner(
+						new SpinnerNumberModel(65, null, null, 1))));
 	}
 }

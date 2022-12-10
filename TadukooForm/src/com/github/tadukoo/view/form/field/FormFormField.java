@@ -17,7 +17,7 @@ import java.awt.GraphicsEnvironment;
  * Form Form Field is a {@link FormField} used to have a {@link AbstractSimpleForm Form} inside of a form.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class FormFormField extends FormField<AbstractSimpleForm>{
@@ -134,7 +134,7 @@ public class FormFormField extends FormField<AbstractSimpleForm>{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2
 	 */
 	public static class FormFormFieldBuilder extends FormFieldBuilder<AbstractSimpleForm>{
@@ -345,7 +345,7 @@ public class FormFormField extends FormField<AbstractSimpleForm>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent(){
+	public JComponent getJustComponent(){
 		AbstractSimpleForm form = getDefaultValue();
 		
 		return form != null?form:new JLabel("No value");
@@ -353,7 +353,7 @@ public class FormFormField extends FormField<AbstractSimpleForm>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public AbstractSimpleForm getValue(JComponent component){
+	public AbstractSimpleForm getValueFromJustComponent(JComponent component){
 		if(component instanceof AbstractSimpleForm form){
 			form.saveValues();
 			return form;

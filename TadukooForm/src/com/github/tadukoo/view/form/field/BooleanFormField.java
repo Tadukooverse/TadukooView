@@ -17,7 +17,7 @@ import java.awt.GraphicsEnvironment;
  * Boolean Form Field is a {@link FormField} used to show a boolean value.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class BooleanFormField extends FormField<Boolean>{
@@ -139,7 +139,7 @@ public class BooleanFormField extends FormField<Boolean>{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2
 	 */
 	public static class BooleanFormFieldBuilder extends FormFieldBuilder<Boolean>{
@@ -379,7 +379,7 @@ public class BooleanFormField extends FormField<Boolean>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent(){
+	public JComponent getJustComponent(){
 		JCheckBox checkbox = new JCheckBox(getKey(), getDefaultValue());
 		checkbox.setEnabled(editable);
 		return checkbox;
@@ -387,7 +387,7 @@ public class BooleanFormField extends FormField<Boolean>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public Boolean getValue(JComponent component){
+	public Boolean getValueFromJustComponent(JComponent component){
 		if(component instanceof JCheckBox){
 			return ((JCheckBox) component).isSelected();
 		}else{

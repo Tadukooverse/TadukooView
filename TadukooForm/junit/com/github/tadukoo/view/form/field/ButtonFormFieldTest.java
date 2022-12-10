@@ -354,18 +354,18 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent() throws IOException, FontFormatException{
+	public void testGetJustComponent() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().key("Test Key").build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		assertEquals("Test Key", ((TadukooButton) component).getText());
 	}
 	
 	@Test
-	public void testGetComponentActionListener() throws IOException, FontFormatException{
+	public void testGetJustComponentActionListener() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().key("Test")
 				.actionListener(testAction).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -373,11 +373,11 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonForegroundPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonForegroundPaint() throws IOException, FontFormatException{
 		SizableColor red = new SizableColor(Color.RED);
 		field = ButtonFormField.builder().key("Test")
 				.buttonForegroundPaint(red).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -385,11 +385,11 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonBackgroundPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonBackgroundPaint() throws IOException, FontFormatException{
 		SizableColor blue = new SizableColor(Color.BLUE);
 		field = ButtonFormField.builder().key("Test")
 				.buttonBackgroundPaint(blue).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -397,11 +397,11 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonSelectPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonSelectPaint() throws IOException, FontFormatException{
 		SizableColor black = new SizableColor(Color.BLACK);
 		field = ButtonFormField.builder().key("Test")
 				.buttonSelectPaint(black).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -409,11 +409,11 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonFocusPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonFocusPaint() throws IOException, FontFormatException{
 		SizableColor yellow = new SizableColor(Color.YELLOW);
 		field = ButtonFormField.builder().key("Test")
 				.buttonFocusPaint(yellow).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -421,11 +421,11 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonDisabledTextPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonDisabledTextPaint() throws IOException, FontFormatException{
 		SizableColor gray = new SizableColor(Color.GRAY);
 		field = ButtonFormField.builder().key("Test")
 				.buttonDisabledTextPaint(gray).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -433,10 +433,10 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonFont() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonFont() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().key("Test")
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -447,11 +447,11 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonBorder() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonBorder() throws IOException, FontFormatException{
 		Border border = ShapedLineBorder.builder().build();
 		field = ButtonFormField.builder().key("Test")
 				.buttonBorder(border).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -459,10 +459,10 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentButtonShape() throws IOException, FontFormatException{
+	public void testGetJustComponentButtonShape() throws IOException, FontFormatException{
 		field = ButtonFormField.builder().key("Test")
 				.buttonShape(Shapes.CIRCLE.getShapeInfo()).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -470,7 +470,7 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentAllSettings() throws IOException, FontFormatException{
+	public void testGetJustComponentAllSettings() throws IOException, FontFormatException{
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
 		SizableColor black = new SizableColor(Color.BLACK);
@@ -484,7 +484,7 @@ public class ButtonFormFieldTest{
 				.buttonFont(FontFamilies.DIALOG.getFamily(), Font.BOLD, 12)
 				.buttonBorder(border).buttonShape(Shapes.CIRCLE.getShapeInfo())
 				.build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooButton);
 		TadukooButton button = (TadukooButton) component;
 		assertEquals("Test", button.getText());
@@ -503,7 +503,7 @@ public class ButtonFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
-		assertNull(field.getValue(new JLabel("Derp")));
+	public void testGetValueFromJustComponent(){
+		assertNull(field.getValueFromJustComponent(new JLabel("Derp")));
 	}
 }

@@ -15,7 +15,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -48,12 +50,12 @@ public class FormFieldTest{
 		}
 		
 		@Override
-		public JComponent getComponent(){
+		public JComponent getJustComponent(){
 			return label;
 		}
 		
 		@Override
-		public String getValue(JComponent component){
+		public String getValueFromJustComponent(JComponent component){
 			return label.getText();
 		}
 	}
@@ -336,12 +338,62 @@ public class FormFieldTest{
 	 */
 	
 	@Test
-	public void testGetComponent() throws Throwable{
-		assertEquals(label, field.getComponent());
+	public void testGetJustComponent() throws Throwable{
+		assertEquals(label, field.getJustComponent());
 	}
 	
 	@Test
-	public void testGetValue(){
-		assertEquals("Derp", field.getValue(label));
+	public void testAddLabelToComponentNone() throws Throwable{
+		field = new TestFormFieldBuilder()
+				.labelType(LabelType.NONE)
+				.build();
+		JLabel label = new JLabel("Test");
+		assertEquals(label, field.addLabelToComponent(label, false));
+	}
+	
+	@Test
+	public void testAddLabelToComponentTitledBorder() throws Throwable{
+		field = new TestFormFieldBuilder()
+				.labelType(LabelType.TITLED_BORDER)
+				.build();
+		JLabel label = (JLabel) field.addLabelToComponent(new JLabel("Test"), false);
+		assertTrue(label.getBorder() instanceof TitledBorder);
+	}
+	
+	@Test
+	public void testAddLabelToComponentLabel() throws Throwable{
+		field = new TestFormFieldBuilder()
+				.labelType(LabelType.LABEL)
+				.build();
+		JComponent component = field.addLabelToComponent(new JLabel("Derp"), false);
+		assertTrue(component instanceof JPanel);
+		JPanel panel = (JPanel) component;
+		assertTrue(panel.getComponent(0) instanceof JLabel);
+		assertTrue(panel.getComponent(1) instanceof JLabel);
+	}
+	
+	@Test
+	public void testAddLabelToComponentLabelOnTop() throws Throwable{
+		field = new TestFormFieldBuilder()
+				.labelType(LabelType.LABEL)
+				.build();
+		JComponent component = field.addLabelToComponent(new JLabel("Derp"), true);
+		assertTrue(component instanceof JPanel);
+		JPanel panel = (JPanel) component;
+		assertTrue(panel.getComponent(0) instanceof JLabel);
+		assertTrue(panel.getComponent(1) instanceof JLabel);
+	}
+	
+	@Test
+	public void testGetValueFromJustComponent(){
+		assertEquals("Derp", field.getValueFromJustComponent(label));
+	}
+	
+	@Test
+	public void testExtractJustComponentLabel() throws Throwable{
+		field = new TestFormFieldBuilder()
+				.labelType(LabelType.LABEL)
+				.build();
+		assertTrue(field.extractJustComponent(field.getComponent(false)) instanceof JLabel);
 	}
 }

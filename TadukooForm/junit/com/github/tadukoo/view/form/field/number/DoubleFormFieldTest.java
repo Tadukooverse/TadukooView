@@ -304,8 +304,9 @@ public class DoubleFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		assertEquals(Double.valueOf(65),
-				field.getValue(new JSpinner(new SpinnerNumberModel(65.0, null, null, 1.0))));
+				field.getValueFromJustComponent(new JSpinner(
+						new SpinnerNumberModel(65.0, null, null, 1.0))));
 	}
 }

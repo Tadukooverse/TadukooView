@@ -272,35 +272,35 @@ public class BooleanFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent(){
+	public void testGetJustComponent(){
 		field = BooleanFormField.builder().key("Test").build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JCheckBox);
 		assertEquals("Test", ((JCheckBox) component).getText());
 	}
 	
 	@Test
-	public void testGetComponentDefaultValue(){
+	public void testGetJustComponentDefaultValue(){
 		field = BooleanFormField.builder().key("Test").defaultValue(true).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JCheckBox);
 		assertEquals("Test", ((JCheckBox) component).getText());
 		assertTrue(((JCheckBox) component).isSelected());
 	}
 	
 	@Test
-	public void testGetComponentNotEditable(){
+	public void testGetJustComponentNotEditable(){
 		field = BooleanFormField.builder().key("Test").editable(false).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JCheckBox);
 		assertEquals("Test", ((JCheckBox) component).getText());
 		assertFalse(component.isEnabled());
 	}
 	
 	@Test
-	public void testGetComponentAllSettings(){
+	public void testGetJustComponentAllSettings(){
 		field = BooleanFormField.builder().key("Test").defaultValue(true).editable(false).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JCheckBox);
 		assertEquals("Test", ((JCheckBox) component).getText());
 		assertTrue(((JCheckBox) component).isSelected());
@@ -313,7 +313,7 @@ public class BooleanFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
-		assertTrue(field.getValue(new JCheckBox("Testing", true)));
+	public void testGetValueFromJustComponent(){
+		assertTrue(field.getValueFromJustComponent(new JCheckBox("Testing", true)));
 	}
 }

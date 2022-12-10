@@ -20,7 +20,7 @@ import java.io.IOException;
  * Button Form Field is a {@link FormField} that is just a button
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class ButtonFormField extends FormField<String>{
@@ -183,7 +183,7 @@ public class ButtonFormField extends FormField<String>{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2
 	 */
 	public static class ButtonFormFieldBuilder extends FormFieldBuilder<String>{
@@ -642,7 +642,7 @@ public class ButtonFormField extends FormField<String>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent() throws IOException, FontFormatException{
+	public JComponent getJustComponent() throws IOException, FontFormatException{
 		return TadukooButton.builder()
 				.text(getKey())
 				.actionListener(actionListener)
@@ -657,7 +657,7 @@ public class ButtonFormField extends FormField<String>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public String getValue(JComponent component){
+	public String getValueFromJustComponent(JComponent component){
 		return null;
 	}
 }

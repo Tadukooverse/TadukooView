@@ -1,22 +1,11 @@
 package com.github.tadukoo.view.form;
 
-import com.github.tadukoo.util.logger.EasyLogger;
-import com.github.tadukoo.view.components.TadukooLabel;
-import com.github.tadukoo.view.font.FontFamily;
-import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.field.FormField;
-import com.github.tadukoo.view.paint.SizablePaint;
-import com.github.tadukoo.view.shapes.ShapeInfo;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import java.awt.GraphicsEnvironment;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.util.Map;
 import java.util.Set;
 
@@ -118,67 +107,17 @@ public interface SimpleForm extends Form{
 		// Use GridBayLayout for this panel
 		asPanel().setLayout(new GridBagLayout());
 		
-		// Determine if we're placing labels above or to the left of components
-		boolean topLabels = labelsOnTop();
-		
 		for(String key: getFieldKeys()){
 			// Grab the field
 			FormField<?> field = getFieldByKey(key);
-			
-			// Grab label customizations from the field
-			SizablePaint labelForegroundPaint = field.getLabelForegroundPaint();
-			SizablePaint labelBackgroundPaint = field.getLabelBackgroundPaint();
-			FontFamily labelFontFamily = field.getLabelFontFamily();
-			ShapeInfo labelShape = field.getLabelShape();
-			Border labelBorder = field.getLabelBorder();
-			int labelFontStyle = field.getLabelFontStyle();
-			int labelFontSize = field.getLabelFontSize();
-			
-			// Grab font resource loading info from the field
-			boolean logFontResourceLoaderWarnings = field.logFontResourceLoaderWarnings();
-			EasyLogger logger = field.getLogger();
-			GraphicsEnvironment graphEnv = field.getGraphEnv();
-			String fontFolder = field.getFontFolder();
-			FontResourceLoader fontResourceLoader = field.getFontResourceLoader();
-			
-			// Grab grid information from the field
-			int rowPos = field.getRowPos();
-			int colPos = field.getColPos();
-			int rowSpan = field.getRowSpan();
-			int colSpan = field.getColSpan();
-			
-			JComponent component = field.getComponent();
-			
-			// Add a Label if the Field includes it
-			switch(field.getLabelType()){
-				case LABEL -> {
-					GridBagConstraints labelCons = new GridBagConstraints();
-					labelCons.gridy = topLabels?rowPos*2:rowPos;
-					labelCons.gridx = topLabels?colPos:colPos*2;
-					labelCons.gridheight = rowSpan;
-					labelCons.gridwidth = colSpan;
-					labelCons.anchor = topLabels?GridBagConstraints.SOUTH:GridBagConstraints.EAST;
-					labelCons.insets = topLabels?new Insets(5, 0, 5, 0):new Insets(0, 5, 0, 5);
-					TadukooLabel label = TadukooLabel.builder()
-							.text(key)
-							.foregroundPaint(labelForegroundPaint).backgroundPaint(labelBackgroundPaint)
-							.font(labelFontFamily, labelFontStyle, labelFontSize)
-							.shapeInfo(labelShape).border(labelBorder)
-							.logFontResourceLoaderWarnings(logFontResourceLoaderWarnings).logger(logger)
-							.graphEnv(graphEnv).fontFolder(fontFolder).fontResourceLoader(fontResourceLoader)
-							.build();
-					label.setHorizontalTextPosition(JLabel.RIGHT);
-					asPanel().add(label, labelCons);
-				}
-				case TITLED_BORDER -> component.setBorder(BorderFactory.createTitledBorder(key));
-			}
+			JComponent component = field.getComponent(labelsOnTop());
 			
 			// Add the Component and its constraints
 			GridBagConstraints compCons = new GridBagConstraints();
-			compCons.gridy = topLabels?rowPos*2+1:rowPos;
-			compCons.gridx = topLabels?colPos:colPos*2+1;
-			compCons.gridheight = rowSpan;
-			compCons.gridwidth = colSpan;
+			compCons.gridy = field.getRowPos();
+			compCons.gridx = field.getColPos();
+			compCons.gridheight = field.getRowSpan();
+			compCons.gridwidth = field.getColSpan();
 			asPanel().add(component, compCons);
 			
 			// Add the component to the map

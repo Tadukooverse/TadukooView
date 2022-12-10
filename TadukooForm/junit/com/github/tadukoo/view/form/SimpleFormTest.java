@@ -30,6 +30,7 @@ public class SimpleFormTest{
 	@BeforeEach
 	public void setup() throws Throwable{
 		field = StringFormField.builder()
+				.labelType(LabelType.NONE)
 				.stringFieldType(StringFormField.StringFieldType.NORMAL)
 				.key("Derp").defaultValue("No")
 				.build();

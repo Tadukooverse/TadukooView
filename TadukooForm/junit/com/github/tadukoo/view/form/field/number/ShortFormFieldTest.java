@@ -304,8 +304,9 @@ public class ShortFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		assertEquals(Short.valueOf((short) 65),
-				field.getValue(new JSpinner(new SpinnerNumberModel((short) 65, null, null, (short) 1))));
+				field.getValueFromJustComponent(new JSpinner(
+						new SpinnerNumberModel((short) 65, null, null, (short) 1))));
 	}
 }

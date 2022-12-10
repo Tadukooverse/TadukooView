@@ -536,7 +536,7 @@ public class StringFormField extends FormField<String>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent() throws IOException, FontFormatException{
+	public JComponent getJustComponent() throws IOException, FontFormatException{
 		String value = getDefaultValue();
 		
 		// Create the appropriate text field type based on the String Field Type
@@ -574,7 +574,7 @@ public class StringFormField extends FormField<String>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public String getValue(JComponent component){
+	public String getValueFromJustComponent(JComponent component){
 		if(component instanceof JLabel){
 			return ((JLabel) component).getText();
 		}else if(component instanceof JTextField){

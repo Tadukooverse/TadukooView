@@ -322,20 +322,20 @@ public class TableFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent(){
+	public void testGetJustComponent(){
 		field = TableFormField.builder().defaultValue(table).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooTable);
 		assertEquals(0, ((TadukooTable) component).getTable().getRowCount());
 	}
 	
 	@Test
-	public void testGetValueBadComponent(){
-		assertNull(field.getValue(new JLabel("Test")));
+	public void testGetValueFromJustComponentBadComponent(){
+		assertNull(field.getValueFromJustComponent(new JLabel("Test")));
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		TadukooTable table2 = TadukooTable.builder().keyOrder(ListUtil.createList("Derp", "Test")).build();
 		OrderedMappedPojo pojo = new AbstractOrderedMappedPojo(){
 			@Override
@@ -347,7 +347,7 @@ public class TableFormFieldTest{
 		pojo.setItem("Test", "Yep");
 		table2.addRow(pojo);
 		
-		List<OrderedMappedPojo> result = field.getValue(table2);
+		List<OrderedMappedPojo> result = field.getValueFromJustComponent(table2);
 		assertEquals(1, result.size());
 		OrderedMappedPojo resultPojo = result.get(0);
 		assertEquals(5, resultPojo.getItem("Derp"));

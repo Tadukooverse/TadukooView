@@ -304,8 +304,9 @@ public class LongFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		assertEquals(Long.valueOf(65),
-				field.getValue(new JSpinner(new SpinnerNumberModel(65L, null, null, 1L))));
+				field.getValueFromJustComponent(new JSpinner(
+						new SpinnerNumberModel(65L, null, null, 1L))));
 	}
 }

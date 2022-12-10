@@ -349,55 +349,55 @@ public class StringFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentNormal() throws IOException, FontFormatException{
+	public void testGetJustComponentNormal() throws IOException, FontFormatException{
 		field = StringFormField.builder().defaultValue("Derp")
 				.stringFieldType(StringFormField.StringFieldType.NORMAL).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JTextField);
 		assertEquals("Derp", ((JTextField) component).getText());
 	}
 	
 	@Test
-	public void testGetComponentTitle() throws IOException, FontFormatException{
+	public void testGetJustComponentTitle() throws IOException, FontFormatException{
 		field = StringFormField.builder().defaultValue("Test")
 				.stringFieldType(StringFormField.StringFieldType.TITLE).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof TadukooLabel);
 		assertEquals("Test", ((TadukooLabel) component).getText());
 	}
 	
 	@Test
-	public void testGetComponentTitleSetBackgroundPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentTitleSetBackgroundPaint() throws IOException, FontFormatException{
 		SizableColor red = new SizableColor(Color.RED);
 		field = StringFormField.builder().defaultValue("Derp")
 				.stringFieldType(StringFormField.StringFieldType.TITLE)
 				.stringBackgroundPaint(red)
 				.build();
-		assertEquals(red, ((TadukooLabel) field.getComponent()).getBackgroundPaint());
+		assertEquals(red, ((TadukooLabel) field.getJustComponent()).getBackgroundPaint());
 	}
 	
 	@Test
-	public void testGetComponentTitleSetForegroundPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentTitleSetForegroundPaint() throws IOException, FontFormatException{
 		SizableColor blue = new SizableColor(Color.BLUE);
 		field = StringFormField.builder().defaultValue("Derp")
 				.stringFieldType(StringFormField.StringFieldType.TITLE)
 				.stringForegroundPaint(blue)
 				.build();
-		assertEquals(blue, ((TadukooLabel) field.getComponent()).getForegroundPaint());
+		assertEquals(blue, ((TadukooLabel) field.getJustComponent()).getForegroundPaint());
 	}
 	
 	@Test
-	public void testGetComponentTitleSetDisabledForegroundPaint() throws IOException, FontFormatException{
+	public void testGetJustComponentTitleSetDisabledForegroundPaint() throws IOException, FontFormatException{
 		SizableColor black = new SizableColor(Color.BLACK);
 		field = StringFormField.builder().defaultValue("Derp")
 				.stringFieldType(StringFormField.StringFieldType.TITLE)
 				.stringDisabledForegroundPaint(black)
 				.build();
-		assertEquals(black, ((TadukooLabel) field.getComponent()).getDisabledForegroundPaint());
+		assertEquals(black, ((TadukooLabel) field.getJustComponent()).getDisabledForegroundPaint());
 	}
 	
 	@Test
-	public void testGetComponentTitleSetAll() throws IOException, FontFormatException{
+	public void testGetJustComponentTitleSetAll() throws IOException, FontFormatException{
 		SizableColor red = new SizableColor(Color.RED);
 		SizableColor blue = new SizableColor(Color.BLUE);
 		SizableColor black = new SizableColor(Color.BLACK);
@@ -405,49 +405,49 @@ public class StringFormFieldTest{
 				.stringFieldType(StringFormField.StringFieldType.TITLE)
 				.stringBackgroundPaint(red).stringForegroundPaint(blue).stringDisabledForegroundPaint(black)
 				.build();
-		TadukooLabel label = ((TadukooLabel) field.getComponent());
+		TadukooLabel label = ((TadukooLabel) field.getJustComponent());
 		assertEquals(red, label.getBackgroundPaint());
 		assertEquals(blue, label.getForegroundPaint());
 		assertEquals(black, label.getDisabledForegroundPaint());
 	}
 	
 	@Test
-	public void testGetComponentPassword() throws IOException, FontFormatException{
+	public void testGetJustComponentPassword() throws IOException, FontFormatException{
 		field = StringFormField.builder().defaultValue("Testy")
 				.stringFieldType(StringFormField.StringFieldType.PASSWORD).build();
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JPasswordField);
 		assertArrayEquals(new char[]{'T', 'e', 's', 't', 'y'}, ((JPasswordField) component).getPassword());
 	}
 	
 	@Test
-	public void testGetComponentDefaultColumns() throws IOException, FontFormatException{
-		assertEquals(25, ((JTextField) field.getComponent()).getColumns());
+	public void testGetJustComponentDefaultColumns() throws IOException, FontFormatException{
+		assertEquals(25, ((JTextField) field.getJustComponent()).getColumns());
 	}
 	
 	@Test
-	public void testGetComponentSetColumns() throws IOException, FontFormatException{
+	public void testGetJustComponentSetColumns() throws IOException, FontFormatException{
 		field = StringFormField.builder().columns(19).build();
-		assertEquals(19, ((JTextField) field.getComponent()).getColumns());
+		assertEquals(19, ((JTextField) field.getJustComponent()).getColumns());
 	}
 	
 	@Test
-	public void testGetValueNormal(){
-		assertEquals("Testy", field.getValue(new JTextField("Testy")));
+	public void testGetValueFromJustComponentNormal(){
+		assertEquals("Testy", field.getValueFromJustComponent(new JTextField("Testy")));
 	}
 	
 	@Test
-	public void testGetValueTitle(){
-		assertEquals("Yep", field.getValue(new JLabel("Yep")));
+	public void testGetValueFromJustComponentTitle(){
+		assertEquals("Yep", field.getValueFromJustComponent(new JLabel("Yep")));
 	}
 	
 	@Test
-	public void testGetValuePassword(){
-		assertEquals("A Password", field.getValue(new JPasswordField("A Password")));
+	public void testGetValueFromJustComponentPassword(){
+		assertEquals("A Password", field.getValueFromJustComponent(new JPasswordField("A Password")));
 	}
 	
 	@Test
-	public void testGetValueRandomComponent(){
-		assertNull(field.getValue(new JButton("Testing")));
+	public void testGetValueFromJustComponentRandomComponent(){
+		assertNull(field.getValueFromJustComponent(new JButton("Testing")));
 	}
 }

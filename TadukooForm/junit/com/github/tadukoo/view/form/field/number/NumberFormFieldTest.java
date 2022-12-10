@@ -83,11 +83,11 @@ public class NumberFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent() throws Throwable{
+	public void testGetJustComponent() throws Throwable{
 		field = (NumberFormField<Integer>) new TestFormFieldBuilder().minValue(20).maxValue(105)
 				.stepSize(54).defaultValue(42).build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof JSpinner);
 		SpinnerModel model = ((JSpinner) component).getModel();
 		assertTrue(model instanceof SpinnerNumberModel);
@@ -98,14 +98,14 @@ public class NumberFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue(){
+	public void testGetValueFromJustComponent(){
 		assertEquals(Integer.valueOf(120),
-				field.getValue(new JSpinner(
+				field.getValueFromJustComponent(new JSpinner(
 						new SpinnerNumberModel(120, null, null, 54))));
 	}
 	
 	@Test
-	public void testGetValueNotSpinner(){
-		assertNull(field.getValue(new JLabel("Test")));
+	public void testGetValueFromJustComponentNotSpinner(){
+		assertNull(field.getValueFromJustComponent(new JLabel("Test")));
 	}
 }

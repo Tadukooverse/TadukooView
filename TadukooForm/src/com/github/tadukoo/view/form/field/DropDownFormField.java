@@ -16,7 +16,7 @@ import java.awt.GraphicsEnvironment;
  * Drop Down Form Field is a {@link FormField} used for drop-down menus.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class DropDownFormField extends FormField<String>{
@@ -143,7 +143,7 @@ public class DropDownFormField extends FormField<String>{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2
 	 */
 	public static class DropDownFormFieldBuilder extends FormFieldBuilder<String>{
@@ -404,7 +404,7 @@ public class DropDownFormField extends FormField<String>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent(){
+	public JComponent getJustComponent(){
 		JComboBox<String> comboBox = new JComboBox<>(options);
 		comboBox.setSelectedItem(getDefaultValue());
 		comboBox.setEditable(editable);
@@ -413,7 +413,7 @@ public class DropDownFormField extends FormField<String>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public String getValue(JComponent component){
+	public String getValueFromJustComponent(JComponent component){
 		if(component instanceof JComboBox){
 			return (String) ((JComboBox<?>) component).getSelectedItem();
 		}else{

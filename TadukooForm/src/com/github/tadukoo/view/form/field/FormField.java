@@ -1,21 +1,28 @@
 package com.github.tadukoo.view.form.field;
 
 import com.github.tadukoo.util.logger.EasyLogger;
+import com.github.tadukoo.view.components.TadukooLabel;
 import com.github.tadukoo.view.font.FontFamily;
 import com.github.tadukoo.view.font.FontResourceLoader;
 import com.github.tadukoo.view.form.SimpleForm;
 import com.github.tadukoo.view.paint.SizablePaint;
 import com.github.tadukoo.view.shapes.ShapeInfo;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 /**
  * Form Fields are fields used on {@link SimpleForm Forms}.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  *
  * @param <Type> The type of value being stored in the field (used for default value)
@@ -135,7 +142,7 @@ public abstract class FormField<Type>{
 	 * </table>
 	 *
 	 * @author Logan Ferree (Tadukoo)
-	 * @version Alpha v.0.3
+	 * @version Alpha v.0.4
 	 * @since Alpha v.0.2
 	 *
 	 * @param <Type> The type of value being stored in the field (used for default value)
@@ -681,19 +688,110 @@ public abstract class FormField<Type>{
 	 */
 	
 	/**
-	 * Creates the {@link JComponent} to be used for this field.
+	 * Creates the {@link JComponent} to be used for this field, including the label for it
 	 *
+	 * @param labelOnTop Whether the label is on top or not
 	 * @return A newly created {@link JComponent} to use on the form
 	 * @throws Throwable If anything goes wrong setting up the Component
 	 */
-	public abstract JComponent getComponent() throws Throwable;
+	public JComponent getComponent(boolean labelOnTop) throws Throwable{
+		return addLabelToComponent(getJustComponent(), labelOnTop);
+	}
+	
+	/**
+	 * Creates just the {@link JComponent} to be used for this field, without the label.
+	 *
+	 * @return The newly created {@link JComponent} to use on the form
+	 * @throws Throwable If anything goes wrong setting up the Component
+	 */
+	public abstract JComponent getJustComponent() throws Throwable;
+	
+	/**
+	 * Adds the label to the given component using the set label info on the form field.
+	 *
+	 * @param component The {@link JComponent} to add the label to
+	 * @param labelOnTop Whether the label is on top or not
+	 * @return The component with the label included
+	 * @throws Throwable If anything goes wrong setting up the label
+	 */
+	public JComponent addLabelToComponent(JComponent component, boolean labelOnTop) throws Throwable{
+		return switch(labelType){
+			case NONE -> component;
+			case TITLED_BORDER -> {
+				component.setBorder(BorderFactory.createTitledBorder(key));
+				yield component;
+			}
+			case LABEL -> {
+				JPanel panel = new JPanel();
+				
+				// Setup the label constraints
+				panel.setLayout(new GridBagLayout());
+				GridBagConstraints labelCons = new GridBagConstraints();
+				labelCons.gridy = 0;
+				labelCons.gridx = 0;
+				labelCons.gridheight = 1;
+				labelCons.gridwidth = 1;
+				labelCons.anchor = labelOnTop?GridBagConstraints.SOUTH:GridBagConstraints.EAST;
+				labelCons.insets = labelOnTop?new Insets(5, 0, 5, 0)
+						:new Insets(0, 5, 0, 5);
+				TadukooLabel label = TadukooLabel.builder()
+						.text(key)
+						.foregroundPaint(labelForegroundPaint).backgroundPaint(labelBackgroundPaint)
+						.font(labelFontFamily, labelFontStyle, labelFontSize)
+						.shapeInfo(labelShape).border(labelBorder)
+						.logFontResourceLoaderWarnings(logFontResourceLoaderWarnings).logger(logger)
+						.graphEnv(graphEnv).fontFolder(fontFolder).fontResourceLoader(fontResourceLoader)
+						.build();
+				label.setHorizontalTextPosition(JLabel.RIGHT);
+				panel.add(label, labelCons);
+				
+				// Setup the component constraints
+				GridBagConstraints compCons = new GridBagConstraints();
+				compCons.gridy = labelOnTop?1:0;
+				compCons.gridx = labelOnTop?0:1;
+				compCons.gridheight = 1;
+				compCons.gridwidth = 1;
+				panel.add(component, compCons);
+				
+				yield panel;
+			}
+		};
+	}
 	
 	/**
 	 * Takes in the {@link JComponent} for this field and grabs the data off of it, returning it in the proper
-	 * format for the field to be repopulated on the form.
+	 * format for the field to be repopulated on the form. This method takes the label into consideration.
 	 *
 	 * @param component The {@link JComponent} associated with this field
 	 * @return The data extracted from the {@link JComponent}
 	 */
-	public abstract Type getValue(JComponent component);
+	public Type getValue(JComponent component){
+		return getValueFromJustComponent(extractJustComponent(component));
+	}
+	
+	/**
+	 * Takes in a component that includes the label and returns the component in a form it can be used
+	 * to extract the value from (which may involve removing the label from it).
+	 *
+	 * @param component The {@link JComponent} associated with this field to use for extraction
+	 * @return The {@link JComponent} that can have its value extracted more easily (perhaps without the label)
+	 */
+	public JComponent extractJustComponent(JComponent component){
+		if(labelType == LabelType.LABEL){
+			JPanel panel = (JPanel) component;
+			return (JComponent) panel.getComponent(1);
+		}else{
+			return component;
+		}
+	}
+	
+	/**
+	 * Takes in the {@link JComponent} for this field and grabs the data off of it, returning it in the proper
+	 * format for the field to be repopulated on the form. This method does not take the label into consideration
+	 * and assume there either is no label, or it won't impact this operation.
+	 *
+	 * @param component The {@link JComponent} associated with this field
+	 * @return The data extracted from the {@link JComponent}
+	 */
+	public abstract Type getValueFromJustComponent(JComponent component);
 }

@@ -296,19 +296,19 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponent() throws Throwable{
+	public void testGetJustComponent() throws Throwable{
 		field = DateFormField.builder().build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof DateForm);
 	}
 	
 	@Test
-	public void testGetComponentDefaultValue() throws Throwable{
+	public void testGetJustComponentDefaultValue() throws Throwable{
 		Date date = DateUtil.createDate(Month.JULY, 4, 2000);
 		field = DateFormField.builder().defaultValue(date).build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof DateForm);
 		DateForm dateForm = (DateForm) component;
 		assertEquals(date, dateForm.getDate());
@@ -318,31 +318,31 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
-	public void testGetComponentMinYear() throws Throwable{
+	public void testGetJustComponentMinYear() throws Throwable{
 		field = DateFormField.builder().minYear(120).build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof DateForm);
 		DateForm dateForm = (DateForm) component;
 		assertEquals(120, dateForm.getMinYear());
 	}
 	
 	@Test
-	public void testGetComponentMaxYear() throws Throwable{
+	public void testGetJustComponentMaxYear() throws Throwable{
 		field = DateFormField.builder().maxYear(1920).build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof DateForm);
 		DateForm dateForm = (DateForm) component;
 		assertEquals(1920, dateForm.getMaxYear());
 	}
 	
 	@Test
-	public void testGetComponentAllSettings() throws Throwable{
+	public void testGetJustComponentAllSettings() throws Throwable{
 		Date date = DateUtil.createDate(Month.JULY, 4, 1776);
 		field = DateFormField.builder().defaultValue(date).minYear(120).maxYear(1920).build();
 		
-		JComponent component = field.getComponent();
+		JComponent component = field.getJustComponent();
 		assertTrue(component instanceof DateForm);
 		DateForm dateForm = (DateForm) component;
 		assertEquals(date, dateForm.getDate());
@@ -354,14 +354,14 @@ public class DateFormFieldTest{
 	}
 	
 	@Test
-	public void testGetValue() throws Throwable{
+	public void testGetValueFromJustComponent() throws Throwable{
 		Date date = DateUtil.createDate(Month.JULY, 4, 1776);
-		Date otherDate = field.getValue(new DateForm(date, 120, 1920));
+		Date otherDate = field.getValueFromJustComponent(new DateForm(date, 120, 1920));
 		assertEquals(date, otherDate);
 	}
 	
 	@Test
-	public void testGetValueNotDateForm(){
-		assertNull(field.getValue(new JLabel("Testing Stuff")));
+	public void testGetValueFromJustComponentNotDateForm(){
+		assertNull(field.getValueFromJustComponent(new JLabel("Testing Stuff")));
 	}
 }

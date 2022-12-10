@@ -330,7 +330,7 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 		 * @throws Throwable If anything goes wrong in grabbing the component off the {@link FormField}
 		 */
 		public TableFormFieldBuilder columnDef(String columnName, FormField<?> formField) throws Throwable{
-			this.columnDefs.put(columnName, formField.getComponent());
+			this.columnDefs.put(columnName, formField.getJustComponent());
 			return this;
 		}
 		
@@ -413,7 +413,7 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public JComponent getComponent(){
+	public JComponent getJustComponent(){
 		return TadukooTable.builder()
 				.data(getDefaultValue())
 				.columnDefs(columnDefs)
@@ -422,7 +422,7 @@ public class TableFormField extends FormField<List<OrderedMappedPojo>>{
 	
 	/** {@inheritDoc} */
 	@Override
-	public List<OrderedMappedPojo> getValue(JComponent component){
+	public List<OrderedMappedPojo> getValueFromJustComponent(JComponent component){
 		if(component instanceof TadukooTable){
 			List<OrderedMappedPojo> data = getDefaultValue();
 			return ((TadukooTable) component).updatePojos(data);
