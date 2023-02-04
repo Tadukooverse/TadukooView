@@ -16,7 +16,6 @@
 	<modules>
 		<module>TadukooView</module>
 		<module>TadukooComponents</module>
-		<module>TadukooForm</module>
 		<module>TadukooLookAndFeel</module>
 	</modules>
 	<properties>
