@@ -7,7 +7,14 @@ import javax.swing.border.AbstractBorder;
  * to specify a Border, but don't actually want one (i.e. null doesn't mean no border for some reason).
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.3
+ * @version Alpha v.0.4
+ * @since Alpha v.0.3
  */
 public class NoBorder extends AbstractBorder{
+	
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj){
+		return obj instanceof NoBorder;
+	}
 }

@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Paint;
+import java.util.Objects;
 
 /**
  * Shaped Etched Border mimics the functionality of a {@link javax.swing.border.EtchedBorder EtchedBorder}, but uses the
@@ -19,7 +20,7 @@ import java.awt.Paint;
  * it can have its own {@link ShapeInfo} if desired.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class ShapedEtchedBorder extends AbstractBorder{
@@ -106,6 +107,7 @@ public class ShapedEtchedBorder extends AbstractBorder{
 			return new ShapedEtchedBorder(shapeInfo, etchType, highlightPaint, shadowPaint);
 		}
 	}
+	
 	/** The {@link ShapeInfo} to use on the Border (may be null to use the component's shape) */
 	private final ShapeInfo shapeInfo;
 	/** The {@link EtchType type of etching} (RAISED or LOWERED) */
@@ -136,6 +138,34 @@ public class ShapedEtchedBorder extends AbstractBorder{
 	 */
 	public static ShapedEtchedBorderBuilder builder(){
 		return new ShapedEtchedBorderBuilder();
+	}
+	
+	/**
+	 * @return The {@link ShapeInfo} to use on the Border (may be null to use the component's shape)
+	 */
+	public ShapeInfo getShapeInfo(){
+		return shapeInfo;
+	}
+	
+	/**
+	 * @return The {@link EtchType type of etching} (RAISED or LOWERED)
+	 */
+	public EtchType getEtchType(){
+		return etchType;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} for the highlight
+	 */
+	public SizablePaint getHighlightPaint(){
+		return highlightPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} for the shadow
+	 */
+	public SizablePaint getShadowPaint(){
+		return shadowPaint;
 	}
 	
 	/** {@inheritDoc} */
@@ -213,5 +243,17 @@ public class ShapedEtchedBorder extends AbstractBorder{
 	 */
 	private Paint getShadowPaint(Component c, Dimension size){
 		return shadowPaint != null?shadowPaint.getPaint(size):c.getBackground().darker();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof ShapedEtchedBorder border){
+			return Objects.equals(shapeInfo, border.shapeInfo) && Objects.equals(etchType, border.etchType) &&
+					Objects.equals(highlightPaint, border.highlightPaint) &&
+					Objects.equals(shadowPaint, border.shadowPaint);
+		}else{
+			return false;
+		}
 	}
 }

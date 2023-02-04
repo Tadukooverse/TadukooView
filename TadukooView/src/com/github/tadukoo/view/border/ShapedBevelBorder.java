@@ -12,6 +12,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Paint;
+import java.util.Objects;
 
 /**
  * Shaped Etched Border mimics the functionality of a {@link javax.swing.border.BevelBorder BevelBorder}, but uses the
@@ -19,7 +20,7 @@ import java.awt.Paint;
  * it can have its own {@link ShapeInfo} if desired.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class ShapedBevelBorder extends AbstractBorder{
@@ -173,6 +174,48 @@ public class ShapedBevelBorder extends AbstractBorder{
 	 */
 	public static ShapedBevelBorderBuilder builder(){
 		return new ShapedBevelBorderBuilder();
+	}
+	
+	/**
+	 * @return The {@link ShapeInfo} to use on the Border (may be null to use the component's shape)
+	 */
+	public ShapeInfo getShapeInfo(){
+		return shapeInfo;
+	}
+	
+	/**
+	 * @return The {@link BevelType type of bevel} (RAISED or LOWERED)
+	 */
+	public BevelType getBevelType(){
+		return bevelType;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} for the inner highlight
+	 */
+	public SizablePaint getHighlightInnerPaint(){
+		return highlightInnerPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} for the outer highlight
+	 */
+	public SizablePaint getHighlightOuterPaint(){
+		return highlightOuterPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} for the inner shadow
+	 */
+	public SizablePaint getShadowInnerPaint(){
+		return shadowInnerPaint;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} for the outer shadow
+	 */
+	public SizablePaint getShadowOuterPaint(){
+		return shadowOuterPaint;
 	}
 	
 	/** {@inheritDoc} */
@@ -331,5 +374,19 @@ public class ShapedBevelBorder extends AbstractBorder{
 	 */
 	private Paint getShadowOuterPaint(Component c, Dimension size){
 		return shadowOuterPaint != null?shadowOuterPaint.getPaint(size):c.getBackground().darker().darker();
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof ShapedBevelBorder border){
+			return Objects.equals(shapeInfo, border.shapeInfo) && Objects.equals(bevelType, border.bevelType) &&
+					Objects.equals(highlightInnerPaint, border.highlightInnerPaint) &&
+					Objects.equals(highlightOuterPaint, border.highlightOuterPaint) &&
+					Objects.equals(shadowInnerPaint, border.shadowInnerPaint) &&
+					Objects.equals(shadowOuterPaint, border.shadowOuterPaint);
+		}else{
+			return false;
+		}
 	}
 }

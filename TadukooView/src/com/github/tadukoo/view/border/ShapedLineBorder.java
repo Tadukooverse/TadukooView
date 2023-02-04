@@ -16,6 +16,7 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Shape;
 import java.awt.geom.Path2D;
+import java.util.Objects;
 
 /**
  * Shaped Line Border mimics the functionality of a {@link javax.swing.border.LineBorder LineBorder}, but uses the
@@ -23,7 +24,7 @@ import java.awt.geom.Path2D;
  * it can have its own {@link ShapeInfo} if desired.
  *
  * @author Logan Ferree (Tadukoo)
- * @version Alpha v.0.2.1
+ * @version Alpha v.0.4
  * @since Alpha v.0.2
  */
 public class ShapedLineBorder extends AbstractBorder{
@@ -114,6 +115,27 @@ public class ShapedLineBorder extends AbstractBorder{
 		return new ShapedLineBorderBuilder();
 	}
 	
+	/**
+	 * @return The {@link ShapeInfo} to use on this Border (may be null to use the component's shape)
+	 */
+	public ShapeInfo getShapeInfo(){
+		return shapeInfo;
+	}
+	
+	/**
+	 * @return The {@link SizablePaint} to use on this Border
+	 */
+	public SizablePaint getPaint(){
+		return paint;
+	}
+	
+	/**
+	 * @return The thickness of the line
+	 */
+	public int getThickness(){
+		return thickness;
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	public Insets getBorderInsets(Component c){
@@ -156,6 +178,17 @@ public class ShapedLineBorder extends AbstractBorder{
 			path.append(outer, false);
 			path.append(inner, false);
 			g2d.fill(path);
+		}
+	}
+	
+	/** {@inheritDoc} */
+	@Override
+	public boolean equals(Object obj){
+		if(obj instanceof ShapedLineBorder border){
+			return Objects.equals(shapeInfo, border.shapeInfo) && Objects.equals(paint, border.paint) &&
+					thickness == border.thickness;
+		}else{
+			return false;
 		}
 	}
 }
